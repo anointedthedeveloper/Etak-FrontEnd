@@ -42,14 +42,14 @@ export default function Navbar() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'bg-white shadow-sm border-b border-gray-100' : 'bg-transparent'
+          scrolled ? 'bg-white/90 shadow-sm border-b border-gray-100 backdrop-blur-md' : 'bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-18 py-3">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
-              <img src="/logo.png" alt="Etak Travels & Tours Expert Limited" className="h-14 w-14 sm:h-16 sm:w-16 rounded-xl object-contain bg-white/10 p-1" />
+              <img src="/logo.png" alt="Etak Travels & Tours Expert Limited" className="h-16 w-16 sm:h-20 sm:w-20 object-contain rounded-full ring-2 ring-white/20 shadow-sm" />
               <div className="hidden sm:block">
                 <div className={`font-display font-bold text-base leading-tight transition-colors ${scrolled ? 'text-[#101B46]' : 'text-white'}`}>
                   Etak Travels
@@ -61,21 +61,26 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-1.5 rounded-full p-1.5">
               {navLinks.map(link => (
                 <NavLink
                   key={link.to}
                   to={link.to}
                   end={link.to === '/'}
                   className={({ isActive }) =>
-                    `px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150 ${
+                    `group relative px-3.5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 ${
                       isActive
-                        ? scrolled ? 'text-[#08A9E0] bg-[#EAF8FD]' : 'text-white bg-white/20'
-                        : scrolled ? 'text-[#172033] hover:text-[#08A9E0] hover:bg-gray-50' : 'text-white/90 hover:text-white hover:bg-white/10'
+                        ? scrolled ? 'text-[#08A9E0] bg-[#EAF8FD] shadow-sm' : 'text-white bg-white/12 shadow-sm'
+                        : scrolled ? 'text-[#172033] hover:text-[#08A9E0] hover:bg-gray-50' : 'text-white/85 hover:text-white hover:bg-white/10'
                     }`
                   }
                 >
-                  {link.label}
+                  {({ isActive }) => (
+                    <span className="relative z-10 flex items-center gap-1.5">
+                      {link.label}
+                      <span className={`h-1.5 w-1.5 rounded-full transition-all duration-200 ${isActive ? 'opacity-100 bg-current' : 'opacity-0 group-hover:opacity-100 bg-current'}`} />
+                    </span>
+                  )}
                 </NavLink>
               ))}
             </nav>
@@ -86,15 +91,15 @@ export default function Navbar() {
                 <div className="relative">
                   <button
                     onClick={() => setUserMenuOpen(v => !v)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
                       scrolled ? 'text-[#172033] hover:bg-gray-50' : 'text-white hover:bg-white/10'
                     }`}
                   >
-                    <div className="w-7 h-7 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-xs font-bold shadow-sm">
                       {user?.firstName?.[0]}{user?.lastName?.[0]}
                     </div>
                     <span>{user?.firstName}</span>
-                    <ChevronDown size={14} />
+                    <ChevronDown size={14} className={`transition-transform duration-200 ${userMenuOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {userMenuOpen && (
                     <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
@@ -114,12 +119,12 @@ export default function Navbar() {
               ) : (
                 <>
                   <Link to="/login">
-                    <button className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${scrolled ? 'text-[#172033] hover:bg-gray-50' : 'text-white hover:bg-white/10'}`}>
+                    <button className={`px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${scrolled ? 'text-[#172033] hover:bg-gray-50' : 'text-white hover:bg-white/10'}`}>
                       Sign In
                     </button>
                   </Link>
                   <Link to="/contact">
-                    <Button size="sm" variant={scrolled ? 'primary' : 'white'}>Plan Your Trip</Button>
+                    <Button size="sm" variant={scrolled ? 'primary' : 'white'} className="shadow-sm hover:translate-y-[-1px]">Plan Your Trip</Button>
                   </Link>
                 </>
               )}
@@ -128,7 +133,9 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileOpen(v => !v)}
-              className={`lg:hidden p-2 rounded-lg transition-colors ${scrolled ? 'text-[#172033] hover:bg-gray-100' : 'text-white hover:bg-white/10'}`}
+              className={`lg:hidden p-2.5 rounded-xl border transition-all duration-200 ${
+                scrolled ? 'text-[#172033] border-gray-200 bg-white/80 hover:bg-gray-50' : 'text-white border-white/20 bg-white/5 hover:bg-white/10 backdrop-blur-sm'
+              }`}
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -141,11 +148,11 @@ export default function Navbar() {
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       >
-        <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
-        <div className={`absolute top-0 right-0 h-full w-80 max-w-full bg-white shadow-2xl transition-transform duration-300 ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="absolute inset-0 bg-black/55 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
+        <div className={`absolute top-0 right-0 h-full w-[88%] max-w-sm bg-white shadow-2xl transition-transform duration-300 ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="flex items-center justify-between p-5 border-b border-gray-100">
             <Link to="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2">
-              <img src="/logo.png" alt="Etak Travels" className="h-12 w-12 rounded-lg object-contain bg-white/10 p-1" />
+              <img src="/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain rounded-full" />
               <span className="font-display font-bold text-[#101B46]">Etak Travels</span>
             </Link>
             <button onClick={() => setMobileOpen(false)} className="p-2 rounded-lg hover:bg-gray-100 text-[#667085]">
@@ -153,7 +160,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          <nav className="p-5 flex flex-col gap-1">
+          <nav className="p-4 flex flex-col gap-2">
             {navLinks.map(link => (
               <NavLink
                 key={link.to}
@@ -161,12 +168,17 @@ export default function Navbar() {
                 end={link.to === '/'}
                 onClick={() => setMobileOpen(false)}
                 className={({ isActive }) =>
-                  `px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                    isActive ? 'bg-[#EAF8FD] text-[#08A9E0]' : 'text-[#172033] hover:bg-gray-50'
+                  `flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    isActive ? 'bg-[#EAF8FD] text-[#08A9E0] shadow-sm' : 'text-[#172033] hover:bg-gray-50'
                   }`
                 }
               >
-                {link.label}
+                {({ isActive }) => (
+                  <>
+                    <span>{link.label}</span>
+                    <span className={`h-2 w-2 rounded-full ${isActive ? 'bg-[#08A9E0]' : 'bg-transparent'}`} />
+                  </>
+                )}
               </NavLink>
             ))}
           </nav>
@@ -174,8 +186,8 @@ export default function Navbar() {
           <div className="p-5 border-t border-gray-100 flex flex-col gap-3">
             {isAuthenticated ? (
               <>
-                <div className="flex items-center gap-3 p-3 bg-[#EAF8FD] rounded-lg">
-                  <div className="w-9 h-9 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-sm font-bold">
+                <div className="flex items-center gap-3 p-3 bg-[#EAF8FD] rounded-xl">
+                  <div className="w-10 h-10 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-sm font-bold shadow-sm">
                     {user?.firstName?.[0]}{user?.lastName?.[0]}
                   </div>
                   <div>

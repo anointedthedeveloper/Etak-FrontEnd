@@ -116,12 +116,24 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Map placeholder */}
-              <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden h-52 flex items-center justify-center">
-                <div className="text-center p-6">
-                  <MapPin size={32} className="text-[#08A9E0] mx-auto mb-2 opacity-40" />
-                  <p className="text-sm text-[#667085]">Map integration coming soon</p>
-                  <p className="text-xs text-[#667085] mt-1">Piwoyi, Abuja, FCT, Nigeria</p>
+              <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                <iframe
+                  title="Etak Travels location map"
+                  src="https://www.google.com/maps?q=Piwoyi%20Abuja%20FCT%20Nigeria&output=embed"
+                  className="w-full h-52 border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+                <div className="p-4 border-t border-gray-100">
+                  <p className="text-sm font-medium text-[#101B46]">Piwoyi, Abuja, FCT, Nigeria</p>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Piwoyi%20Abuja%20FCT%20Nigeria"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-2 inline-block text-sm text-[#08A9E0] hover:underline"
+                  >
+                    Open in Google Maps
+                  </a>
                 </div>
               </div>
             </div>

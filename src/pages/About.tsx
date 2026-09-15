@@ -30,7 +30,7 @@ export default function About() {
               <ImageSlot
                 src="/logo.png"
                 alt="Etak Travels brand mark"
-                className="w-full h-full object-contain bg-[#F8FAFC] p-8"
+                className="w-full h-full object-contain p-4"
                 label="Brand artwork"
               />
             </div>

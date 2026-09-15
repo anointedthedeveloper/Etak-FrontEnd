@@ -27,7 +27,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <img src="/logo.png" alt="Etak Travels" className="h-10 w-10 rounded-xl object-contain bg-white/10 p-1" />
+              <img src="/logo.png" alt="Etak Travels" className="h-12 w-12 sm:h-14 sm:w-14 object-contain rounded-full" />
               <div>
                 <div className="font-display font-bold text-white text-base leading-tight">Etak Travels</div>
                 <div className="text-blue-300 text-xs">& Tours Expert Limited</div>
