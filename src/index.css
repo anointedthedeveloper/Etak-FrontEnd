@@ -12,6 +12,10 @@
 
   --font-display: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* Custom breakpoints */
+  --breakpoint-xs: 480px;    /* large mobile */
+  --breakpoint-3xl: 1920px;  /* 24–27 inch monitors */
 }
 
 * {
