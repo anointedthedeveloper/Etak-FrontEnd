@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { useEffect } from 'react'
 import Layout from './components/layout/Layout'
 import DashboardLayout from './components/layout/DashboardLayout'
 import { AuthProvider } from './context/AuthContext'
@@ -32,6 +33,17 @@ import { useScrollToTop } from './hooks/useScrollToTop'
 function AppRoutes() {
   const loading = useRouteLoader()
   useScrollToTop()
+
+  // Request geolocation permission early so auto-detect works instantly later
+  useEffect(() => {
+    if ('permissions' in navigator) {
+      navigator.permissions.query({ name: 'geolocation' }).then(result => {
+        if (result.state === 'prompt') {
+          navigator.geolocation.getCurrentPosition(() => {}, () => {}, { timeout: 1 })
+        }
+      }).catch(() => {})
+    }
+  }, [])
 
   return (
     <>

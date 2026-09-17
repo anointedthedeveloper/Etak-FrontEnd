@@ -94,7 +94,7 @@ export default function Hero() {
 
           {/* ── RIGHT — Inquiry panel ── */}
           <div className="pb-6 lg:pt-6">
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-100">
               {/* Tabs */}
               <div className="grid grid-cols-4 border-b border-gray-100">
                 {tabs.map(({ id, label, icon: Icon }) => (
