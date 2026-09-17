@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Clock, MapPin, Users, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react'
 import { tours, tourCategories } from '../data/tours'
-import { ImageSlot, Badge, SectionHeader } from '../components/ui/index'
+import { ImageSlot, SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 
 export default function Tours() {
@@ -15,18 +15,18 @@ export default function Tours() {
     <>
       {/* Header */}
       <div className="bg-gradient-to-br from-[#101B46] to-[#45419A] pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
           <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">Tours & Packages</span>
           <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">Curated Travel Experiences</h1>
           <p className="text-blue-200 text-lg max-w-2xl mx-auto">
-            Carefully planned tour packages for individuals, families, and groups. Sample itineraries to inspire your next journey.
+            Carefully planned tour packages for individuals, families, and groups — tailored to your journey.
           </p>
         </div>
       </div>
 
       {/* Filters */}
       <div className="bg-white border-b border-gray-100 sticky top-[72px] z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex gap-2 overflow-x-auto">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 py-3 flex gap-2 overflow-x-auto">
           {tourCategories.map(cat => (
             <button
               key={cat.id}
@@ -41,18 +41,10 @@ export default function Tours() {
         </div>
       </div>
 
-      {/* Sample data notice */}
-      <div className="bg-[#EAF8FD] border-b border-[#08A9E0]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center">
-          <p className="text-sm text-[#667085]">
-            <span className="font-medium text-[#08A9E0]">Sample packages:</span> These are illustrative itineraries. Contact Etak to discuss actual availability, pricing, and custom arrangements.
-          </p>
-        </div>
-      </div>
 
       {/* Tours list */}
       <section className="py-16 bg-[#F8FAFC]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <div className="flex flex-col gap-6">
             {filtered.map(tour => (
               <div key={tour.id} id={tour.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
@@ -63,13 +55,8 @@ export default function Tours() {
                       src={tour.image}
                       alt={tour.title}
                       className="w-full h-full object-cover"
-                      label={`${tour.title} — image coming soon`}
+                      label={tour.title}
                     />
-                    {tour.placeholder && (
-                      <div className="absolute top-3 left-3">
-                        <Badge variant="orange">Sample Package</Badge>
-                      </div>
-                    )}
                   </div>
 
                   {/* Content */}
@@ -152,7 +139,7 @@ export default function Tours() {
 
       {/* Custom tour CTA */}
       <section className="py-16 bg-white border-t border-gray-100">
-        <div className="max-w-3xl mx-auto px-4 text-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
           <SectionHeader
             eyebrow="Custom Tours"
             title="Need a Custom Itinerary?"

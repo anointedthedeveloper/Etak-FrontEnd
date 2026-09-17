@@ -1,6 +1,6 @@
 export default function PrivacyPolicy() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6 lg:px-8">
+    <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 py-24">
       <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm sm:p-10">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#08A9E0]">Privacy Policy</p>
         <h1 className="font-display text-4xl font-bold text-[#101B46]">Your information is treated with care.</h1>

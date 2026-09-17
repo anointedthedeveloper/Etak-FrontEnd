@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plane, Building2, Map, HelpCircle, ArrowRight, ChevronDown } from 'lucide-react'
+import { Plane, Building2, Map, HelpCircle, ChevronDown } from 'lucide-react'
 import { Button } from '../ui/Button'
 import FlightInquiryForm from '../forms/FlightInquiryForm'
 import HotelInquiryForm from '../forms/HotelInquiryForm'
@@ -33,14 +33,11 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
+      <div className="relative z-10 flex-1 flex flex-col justify-center w-full px-6 sm:px-10 lg:px-16 xl:px-24 pt-28 pb-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left — Headline */}
           <div>
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
-              <span className="w-2 h-2 rounded-full bg-[#08A9E0] animate-pulse" />
-              <span className="text-white/90 text-sm font-medium">Abuja's Trusted Travel Partner</span>
-            </div>
+            <p className="text-[#08A9E0] text-sm font-semibold uppercase tracking-widest mb-4">Your Journey Starts Here</p>
 
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
               Your Reliable{' '}
@@ -53,10 +50,10 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <Button size="lg" variant="primary" onClick={() => navigate('/contact')}>
-                Plan Your Trip <ArrowRight size={18} />
+              <Button size="lg" variant="primary" className="w-44" onClick={() => navigate('/contact')}>
+                Plan Your Trip
               </Button>
-              <Button size="lg" variant="white" onClick={() => navigate('/services')}>
+              <Button size="lg" variant="white" className="w-44" onClick={() => navigate('/services')}>
                 Explore Services
               </Button>
             </div>

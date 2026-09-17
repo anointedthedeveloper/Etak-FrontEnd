@@ -56,7 +56,7 @@ export default function Contact() {
     <>
       {/* Header */}
       <div className="bg-gradient-to-br from-[#101B46] to-[#45419A] pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
           <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">Contact Us</span>
           <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">Let's Plan Your Journey</h1>
           <p className="text-blue-200 text-lg max-w-2xl mx-auto">
@@ -66,7 +66,7 @@ export default function Contact() {
       </div>
 
       <section className="py-20 bg-[#F8FAFC]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <div className="grid lg:grid-cols-3 gap-10">
             {/* Contact info */}
             <div className="flex flex-col gap-6">

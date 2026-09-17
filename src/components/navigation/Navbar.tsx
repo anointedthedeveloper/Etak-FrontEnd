@@ -45,7 +45,7 @@ export default function Navbar() {
           scrolled ? 'bg-white/90 shadow-sm border-b border-gray-100 backdrop-blur-md' : 'bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <div className="flex items-center justify-between h-18 py-3">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
@@ -126,12 +126,16 @@ export default function Navbar() {
               ) : (
                 <>
                   <Link to="/login">
-                    <button className={`px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${scrolled ? 'text-[#172033] hover:bg-gray-50' : 'text-white hover:bg-white/10'}`}>
+                    <button className={`h-9 px-4 text-sm font-semibold rounded-lg border-2 transition-colors duration-150 cursor-pointer
+                      ${scrolled
+                        ? 'border-[#101B46] text-[#101B46] hover:bg-[#101B46] hover:text-white'
+                        : 'border-white text-white hover:bg-white hover:text-[#101B46]'
+                      }`}>
                       Sign In
                     </button>
                   </Link>
                   <Link to="/contact">
-                    <Button size="sm" variant={scrolled ? 'primary' : 'white'} className="shadow-sm hover:translate-y-[-1px]">Plan Your Trip</Button>
+                    <Button size="sm" variant={scrolled ? 'primary' : 'white'}>Plan Your Trip</Button>
                   </Link>
                 </>
               )}

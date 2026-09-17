@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { tours } from '../../data/tours'
-import { SectionHeader, ImageSlot, Badge } from '../ui/index'
+import { SectionHeader, ImageSlot } from '../ui/index'
 import { Button } from '../ui/Button'
 import { Clock, MapPin, ArrowRight } from 'lucide-react'
 
@@ -9,12 +9,12 @@ export default function FeaturedPackages() {
 
   return (
     <section className="py-20 bg-[#F8FAFC]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
           <SectionHeader
             eyebrow="Travel Packages"
             title="Curated Journeys, Carefully Planned"
-            subtitle="Sample packages to inspire your next trip. Contact us to discuss a custom itinerary."
+            subtitle="Carefully planned packages for individuals, families, and groups. Contact us to discuss your itinerary."
           />
           <Link to="/tours" className="shrink-0">
             <Button variant="outline" size="sm">All Packages <ArrowRight size={14} /></Button>
@@ -29,13 +29,8 @@ export default function FeaturedPackages() {
                   src={tour.image}
                   alt={tour.title}
                   className="w-full h-full object-cover"
-                  label={`${tour.title} — image coming soon`}
+                  label={tour.title}
                 />
-                {tour.placeholder && (
-                  <div className="absolute top-3 left-3">
-                    <Badge variant="orange">Sample Package</Badge>
-                  </div>
-                )}
               </div>
 
               <div className="p-5 flex flex-col flex-1">

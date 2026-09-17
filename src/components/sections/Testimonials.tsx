@@ -29,19 +29,13 @@ const sampleTestimonials = [
 export default function Testimonials() {
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         <SectionHeader
           eyebrow="Client Feedback"
           title="What Our Clients Say"
           subtitle="Real experiences from travellers who have trusted Etak with their journeys."
           centered
         />
-
-        <div className="bg-[#EAF8FD] border border-[#08A9E0]/20 rounded-xl p-4 mb-8 text-center">
-          <p className="text-sm text-[#667085]">
-            <span className="font-medium text-[#08A9E0]">Note:</span> The testimonials below are sample content. They will be replaced with verified client feedback when provided by Etak Travels & Tours Expert Limited.
-          </p>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {sampleTestimonials.map(t => (

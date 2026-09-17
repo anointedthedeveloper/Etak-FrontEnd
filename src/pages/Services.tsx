@@ -17,7 +17,7 @@ export default function Services() {
     <>
       {/* Page header */}
       <div className="bg-gradient-to-br from-[#101B46] to-[#45419A] pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
           <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">Our Services</span>
           <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">
             Complete Travel Management
@@ -30,7 +30,7 @@ export default function Services() {
 
       {/* Services grid */}
       <section className="py-20 bg-[#F8FAFC]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map(service => {
               const Icon = iconMap[service.icon] ?? Plane
@@ -105,7 +105,7 @@ export default function Services() {
 
       {/* CTA */}
       <section className="py-16 bg-[#101B46]">
-        <div className="max-w-3xl mx-auto px-4 text-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
           <h2 className="font-display text-3xl font-bold text-white mb-4">Not Sure Which Service You Need?</h2>
           <p className="text-blue-200 mb-8">Contact our team and we'll help you figure out the best travel arrangement for your situation.</p>
           <Link to="/contact">

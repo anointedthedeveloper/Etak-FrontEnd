@@ -16,9 +16,11 @@ import TermsOfService from './pages/TermsOfService'
 import { ProtectedRoute } from './routes/ProtectedRoute'
 import PageLoader from './components/ui/PageLoader'
 import { useRouteLoader } from './hooks/useRouteLoader'
+import { useScrollToTop } from './hooks/useScrollToTop'
 
 function AppRoutes() {
   const loading = useRouteLoader()
+  useScrollToTop()
 
   return (
     <>

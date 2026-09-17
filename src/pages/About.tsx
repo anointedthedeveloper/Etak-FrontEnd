@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CheckCircle2, Target, Eye, Heart } from 'lucide-react'
+import { CheckCircle2, Target, Eye, Heart, ChevronDown } from 'lucide-react'
 import { ImageSlot, SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 
@@ -11,11 +12,13 @@ const values = [
 ]
 
 export default function About() {
+  const [expanded, setExpanded] = useState<string | null>(null)
+
   return (
     <>
       {/* Header */}
       <div className="bg-gradient-to-br from-[#101B46] to-[#45419A] pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">About Us</span>
@@ -40,7 +43,7 @@ export default function About() {
 
       {/* Company intro */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div>
               <SectionHeader eyebrow="Who We Are" title="Your Reliable Travel Bridge to the World" />
@@ -93,7 +96,7 @@ export default function About() {
 
       {/* Core values */}
       <section className="py-20 bg-[#F8FAFC]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <SectionHeader eyebrow="Core Values" title="What We Stand For" centered />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map(({ icon: Icon, title, desc }) => (
@@ -111,7 +114,7 @@ export default function About() {
 
       {/* Company credentials */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <SectionHeader eyebrow="Company Information" title="Verified Company Details" centered />
           <div className="max-w-2xl mx-auto">
             <div className="bg-[#F8FAFC] rounded-2xl border border-gray-100 overflow-hidden">
@@ -134,32 +137,82 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-20 bg-[#F8FAFC]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeader eyebrow="Membership & Credentials" title="Accreditations and certification slots" centered />
-          <div className="grid gap-6 md:grid-cols-3">
+      <section className="py-24 bg-[#F8FAFC]">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+          <SectionHeader eyebrow="Membership & Credentials" title="Our Accreditations" centered />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-10">
             {[
-              'IATA Membership',
-              'NANTA Membership',
-              'Industry Certifications',
-            ].map((item) => (
-              <div key={item} className="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center shadow-sm">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#EAF8FD] text-[#08A9E0]">
-                  <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M12 3l7 4v5c0 4.418-3.134 8.5-7 9-3.866-.5-7-4.582-7-9V7l7-4z" />
-                  </svg>
+              {
+                img: '/CAC.png',
+                name: 'CAC Registration',
+                detail: 'RC 898792',
+                desc: 'Registered with the Corporate Affairs Commission of Nigeria as a legitimate business entity.',
+                extra: 'The Corporate Affairs Commission (CAC) is the government body responsible for the regulation and supervision of the formation, incorporation, registration, management and winding up of companies in Nigeria. Etak Travels & Tours Expert Limited is duly registered under RC 898792.',
+              },
+              {
+                img: '/IATA.png',
+                name: 'IATA Membership',
+                detail: 'International Air Transport Association',
+                desc: 'Affiliated with the global body governing airline ticketing and travel agency standards worldwide.',
+                extra: 'The International Air Transport Association (IATA) is the trade association for the world\'s airlines, representing some 300 airlines. IATA accreditation is a mark of quality and professionalism recognised globally across the aviation and travel industry.',
+              },
+              {
+                img: '/FIRS.png',
+                name: 'FIRS Registration',
+                detail: 'Federal Inland Revenue Service',
+                desc: 'Registered with the Federal Inland Revenue Service in compliance with Nigerian tax regulations.',
+                extra: 'The Federal Inland Revenue Service (FIRS) is the agency of the Nigerian federal government responsible for assessing, collecting and accounting for tax and other revenues. Etak Travels is fully registered and tax-compliant.',
+              },
+            ].map(({ img, name, detail, desc, extra }) => {
+              const open = expanded === name
+              return (
+                <div
+                  key={name}
+                  className={`rounded-2xl border bg-white shadow-sm flex flex-col overflow-hidden transition-all duration-300 ${open ? 'border-[#08A9E0] shadow-md' : 'border-gray-200 hover:border-[#08A9E0]/40 hover:shadow-md'}`}
+                >
+                  {/* Image — click to expand */}
+                  <button
+                    onClick={() => setExpanded(open ? null : name)}
+                    className="w-full cursor-zoom-in focus:outline-none"
+                    aria-label={`${open ? 'Collapse' : 'Expand'} ${name} image`}
+                  >
+                    <div className={`w-full flex items-center justify-center bg-white transition-all duration-300 overflow-hidden ${open ? 'p-8 sm:p-12' : 'p-8 h-52'}`}>
+                      <img
+                        src={img}
+                        alt={name}
+                        className={`object-contain transition-all duration-300 ${open ? 'w-full max-w-sm' : 'max-h-36 max-w-[200px]'}`}
+                      />
+                    </div>
+                  </button>
+
+                  {/* Text */}
+                  <div className="px-8 pb-6 text-center flex flex-col gap-2 flex-1">
+                    <h3 className="font-display text-2xl font-bold text-[#101B46]">{name}</h3>
+                    <p className="text-sm font-semibold text-[#08A9E0] uppercase tracking-wide">{detail}</p>
+                    <p className="text-base text-[#667085] leading-relaxed">{desc}</p>
+                    {open && (
+                      <p className="text-sm text-[#667085] leading-relaxed border-t border-gray-100 pt-4 mt-2">{extra}</p>
+                    )}
+                  </div>
+
+                  {/* Toggle */}
+                  <button
+                    onClick={() => setExpanded(open ? null : name)}
+                    className="flex items-center justify-center gap-2 py-4 border-t border-gray-100 text-sm font-medium text-[#08A9E0] hover:bg-[#EAF8FD] transition-colors cursor-pointer"
+                  >
+                    {open ? 'Show less' : 'View certificate'}
+                    <ChevronDown size={16} className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+                  </button>
                 </div>
-                <h3 className="font-display text-xl font-bold text-[#101B46]">{item}</h3>
-                <p className="mt-3 text-sm text-[#667085]">Verification slot reserved for official credentials once approved by the company.</p>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-16 bg-[#101B46]">
-        <div className="max-w-3xl mx-auto px-4 text-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
           <h2 className="font-display text-3xl font-bold text-white mb-4">Ready to Travel with Etak?</h2>
           <p className="text-blue-200 mb-8">Get in touch with our team and let us help you plan your next journey.</p>
           <div className="flex flex-wrap gap-4 justify-center">

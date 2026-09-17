@@ -24,7 +24,7 @@ export default function Dashboard() {
 
   return (
     <div className="bg-[#F8FAFC] min-h-screen pt-28 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#08A9E0]">Dashboard</p>

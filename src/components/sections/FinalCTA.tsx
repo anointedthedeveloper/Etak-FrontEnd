@@ -6,7 +6,7 @@ import { ImageSlot } from '../ui/index'
 export default function FinalCTA() {
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#101B46] to-[#45419A] min-h-80">
           {/* Background image slot */}
           <div className="absolute inset-0 opacity-20">

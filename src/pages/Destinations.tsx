@@ -20,7 +20,7 @@ export default function Destinations() {
     <>
       {/* Header */}
       <div className="bg-gradient-to-br from-[#101B46] to-[#45419A] pt-32 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
           <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">Destinations</span>
           <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">Explore the World with Etak</h1>
           <p className="text-blue-200 text-lg max-w-2xl mx-auto mb-8">
@@ -43,7 +43,7 @@ export default function Destinations() {
 
       {/* Filters */}
       <div className="bg-white border-b border-gray-100 sticky top-[72px] z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
           {destinationCategories.map(cat => (
             <button
               key={cat.id}
@@ -60,7 +60,7 @@ export default function Destinations() {
 
       {/* Destinations grid */}
       <section className="py-16 bg-[#F8FAFC]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           {filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-[#667085] text-lg">No destinations found for your search.</p>
@@ -132,7 +132,7 @@ export default function Destinations() {
 
       {/* CTA */}
       <section className="py-16 bg-white border-t border-gray-100">
-        <div className="max-w-3xl mx-auto px-4 text-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
           <h2 className="font-display text-3xl font-bold text-[#101B46] mb-4">Don't See Your Destination?</h2>
           <p className="text-[#667085] mb-8">We arrange travel to destinations worldwide. Contact us and we'll help plan your journey wherever you need to go.</p>
           <Link to="/contact">

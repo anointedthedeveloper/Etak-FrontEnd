@@ -11,7 +11,7 @@ const steps = [
 export default function TravelProcess() {
   return (
     <section className="py-20 bg-[#101B46]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         <SectionHeader
           eyebrow="How It Works"
           title="Your Journey, Step by Step"
