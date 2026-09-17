@@ -36,7 +36,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <img src="/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain" />
+              <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain" />
               <div>
                 <div className="font-display font-bold text-[#101B46] text-base leading-tight">Etak Travels</div>
                 <div className="text-[#667085] text-xs">& Tours Expert Limited</div>
@@ -107,8 +107,8 @@ export default function Footer() {
               </li>
               <li className="flex gap-3 items-center">
                 <Mail size={16} className="text-[#08A9E0] shrink-0" />
-                <a href="mailto:etaktravels15@gmail.com" className="text-[#667085] hover:text-[#08A9E0] text-sm transition-colors">
-                  etaktravels15@gmail.com
+                <a href="mailto:info@etakstravel.com" className="text-[#667085] hover:text-[#08A9E0] text-sm transition-colors">
+                  info@etakstravel.com
                 </a>
               </li>
               <li className="flex gap-3 items-center">

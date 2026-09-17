@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/layout/Layout'
 import DashboardLayout from './components/layout/DashboardLayout'
 import { AuthProvider } from './context/AuthContext'
@@ -23,6 +23,7 @@ import DashboardProfile from './pages/dashboard/DashboardProfile'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
 import { ProtectedRoute } from './routes/ProtectedRoute'
+import NotFound from './pages/NotFound'
 import PageLoader from './components/ui/PageLoader'
 import { useRouteLoader } from './hooks/useRouteLoader'
 import { useScrollToTop } from './hooks/useScrollToTop'
@@ -71,7 +72,7 @@ function AppRoutes() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password"  element={<ResetPassword />} />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   )

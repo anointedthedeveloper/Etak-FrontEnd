@@ -76,7 +76,7 @@ export default function Signup() {
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
-            <img src="/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain rounded-full" />
+            <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain rounded-full" />
           </Link>
           <h1 className="font-display text-3xl font-bold text-white mb-1">Create Your Account</h1>
           <p className="text-blue-200 text-sm">Join Etak Travels and manage your journeys in one place</p>

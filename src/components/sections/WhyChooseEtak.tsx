@@ -42,7 +42,7 @@ export default function WhyChooseEtak() {
           <div className="relative mt-6 lg:mt-0">
             <div className="rounded-2xl overflow-hidden aspect-[4/5]">
               <img
-                src="https://images.unsplash.com/photo-1488085061387-422e29b40080?w=800&auto=format&fit=crop"
+                src="/images/sections/why-travel.jpg"
                 alt="Travel planning"
                 className="w-full h-full object-cover"
               />

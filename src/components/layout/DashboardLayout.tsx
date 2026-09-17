@@ -30,7 +30,7 @@ function SidebarContent({
       {/* Logo */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
         <Link to="/" className="flex items-center gap-2" onClick={mobile ? onClose : undefined}>
-          <img src="/logo.png" alt="Etak Travels" className="h-10 w-10 object-contain" />
+          <img src="/brand/logo.png" alt="Etak Travels" className="h-10 w-10 object-contain" />
           <div>
             <div className="font-display font-bold text-[#101B46] text-sm leading-tight">Etak Travels</div>
             <div className="text-[#667085] text-xs">RC 898792</div>

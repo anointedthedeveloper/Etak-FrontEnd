@@ -83,7 +83,7 @@ export default function Dashboard() {
             {/* plane image on the right */}
             <div className="absolute right-0 top-0 h-full w-48 lg:w-64 xl:w-72 hidden md:block pointer-events-none overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?w=600&auto=format&fit=crop&crop=center"
+                src="/images/sections/dash-hero-plane.jpg"
                 alt=""
                 aria-hidden="true"
                 className="w-full h-full object-cover object-center"
@@ -252,7 +252,7 @@ export default function Dashboard() {
           {/* Travel CTA card */}
           <div className="relative rounded-2xl overflow-hidden h-48">
             <img
-              src="https://images.unsplash.com/photo-1488085061387-422e29b40080?w=600&auto=format&fit=crop"
+              src="/images/sections/dash-cta-travel.jpg"
               alt="Travel"
               className="absolute inset-0 w-full h-full object-cover"
             />

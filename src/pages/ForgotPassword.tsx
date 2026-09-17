@@ -36,7 +36,7 @@ export default function ForgotPassword() {
       <div className="mx-auto max-w-md">
         <div className="mb-8 text-center">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
-            <img src="/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain rounded-full" />
+            <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain rounded-full" />
           </Link>
           <h1 className="font-display text-3xl font-bold text-white">Reset Your Password</h1>
           <p className="text-blue-200 text-sm">We’ll help you get back into your Etak account.</p>

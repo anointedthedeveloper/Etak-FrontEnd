@@ -7,7 +7,7 @@ export const services = [
     icon: 'Plane',
     benefits: ['Best available routes', 'Multiple airline options', 'Business & economy class', 'Group bookings', 'Itinerary management'],
     travelerTypes: ['Business travellers', 'Leisure travellers', 'Families', 'Groups'],
-    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&auto=format&fit=crop',
+    image: '/images/services/flight.jpg',
   },
   {
     id: 'hotel-reservations',
@@ -17,7 +17,7 @@ export const services = [
     icon: 'Building2',
     benefits: ['Wide property selection', 'Budget to luxury options', 'City & resort hotels', 'Confirmed reservations', 'Special requests handled'],
     travelerTypes: ['Business travellers', 'Leisure travellers', 'Couples', 'Families'],
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format&fit=crop',
+    image: '/images/services/hotel.jpg',
   },
   {
     id: 'tour-packages',
@@ -27,7 +27,7 @@ export const services = [
     icon: 'Map',
     benefits: ['All-inclusive planning', 'Guided experiences', 'Group & private tours', 'Flexible itineraries', 'Local expertise'],
     travelerTypes: ['Families', 'Couples', 'Groups', 'Solo travellers'],
-    image: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&auto=format&fit=crop',
+    image: '/images/services/tours.jpg',
   },
   {
     id: 'travel-consulting',
@@ -37,7 +37,7 @@ export const services = [
     icon: 'MessageSquare',
     benefits: ['Personalised advice', 'Destination guidance', 'Documentation support', 'Cost-conscious planning', 'Pre-travel briefing'],
     travelerTypes: ['First-time travellers', 'Business travellers', 'Families', 'Students'],
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop',
+    image: '/images/services/consulting.jpg',
   },
   {
     id: 'visa-assistance',
@@ -48,7 +48,7 @@ export const services = [
     benefits: ['Dubai visa support', 'Document checklist', 'Application guidance', 'Processing timeline advice', 'Follow-up support'],
     travelerTypes: ['All travellers', 'Business travellers', 'Tourists', 'Families'],
     // Passport + travel documents
-    image: 'https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?w=800&auto=format&fit=crop',
+    image: '/images/services/visa.jpg',
   },
   {
     id: 'travel-insurance',
@@ -58,7 +58,7 @@ export const services = [
     icon: 'Shield',
     benefits: ['Medical emergency cover', 'Trip disruption protection', 'Destination-specific advice', 'Coverage guidance', 'Peace of mind'],
     travelerTypes: ['All travellers', 'Elderly travellers', 'Families', 'Long-haul travellers'],
-    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop',
+    image: '/images/services/insurance.jpg',
   },
   {
     id: 'airport-logistics',
@@ -68,7 +68,7 @@ export const services = [
     icon: 'Navigation',
     benefits: ['Airport transfers', 'Meet & greet coordination', 'Departure guidance', 'Arrival support', 'Stress-free travel day'],
     travelerTypes: ['Business travellers', 'VIP travellers', 'Families', 'First-time travellers'],
-    image: 'https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=800&auto=format&fit=crop',
+    image: '/images/services/airport.jpg',
   },
   {
     id: 'pre-post-travel',
@@ -78,7 +78,7 @@ export const services = [
     icon: 'HeadphonesIcon',
     benefits: ['Pre-travel briefing', 'Document review', 'Travel day support', 'Post-travel follow-up', 'Ongoing relationship'],
     travelerTypes: ['All travellers', 'Business travellers', 'Families'],
-    image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&auto=format&fit=crop',
+    image: '/images/services/support.jpg',
   },
   {
     id: 'holiday-packages',
@@ -88,7 +88,7 @@ export const services = [
     icon: 'Sunset',
     benefits: ['Complete holiday planning', 'Popular destinations', 'Family-friendly options', 'Couple getaways', 'Value-focused packages'],
     travelerTypes: ['Families', 'Couples', 'Individuals', 'Groups'],
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop',
+    image: '/images/services/holiday.jpg',
   },
   {
     id: 'corporate-travel',
@@ -98,6 +98,6 @@ export const services = [
     icon: 'Briefcase',
     benefits: ['Team travel management', 'Conference logistics', 'Corporate rates', 'Multi-destination itineraries', 'Dedicated support'],
     travelerTypes: ['Businesses', 'Corporate teams', 'Conference delegates', 'Government delegations'],
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&auto=format&fit=crop',
+    image: '/images/services/corporate.jpg',
   },
 ]

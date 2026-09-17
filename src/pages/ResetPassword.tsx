@@ -59,7 +59,7 @@ export default function ResetPassword() {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link to="/">
-            <img src="/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain mx-auto mb-4" />
+            <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain mx-auto mb-4" />
           </Link>
           <h1 className="font-display text-3xl font-bold text-white">Set New Password</h1>
           <p className="text-blue-200 text-sm mt-1">Choose a strong password for your account.</p>

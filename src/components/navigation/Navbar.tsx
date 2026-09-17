@@ -41,7 +41,7 @@ export default function Navbar() {
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
-              <img src="/logo.png" alt="Etak Travels" className="h-12 w-12 sm:h-14 sm:w-14 object-contain" />
+              <img src="/brand/logo.png" alt="Etak Travels" className="h-12 w-12 sm:h-14 sm:w-14 object-contain" />
               <div className="hidden sm:block leading-tight">
                 <div className="font-display font-bold text-[#101B46] text-sm">Etak Travels</div>
                 <div className="text-[#667085] text-xs">& Tours Expert Limited</div>
@@ -155,7 +155,7 @@ export default function Navbar() {
         <div className={`absolute top-0 right-0 h-full w-[82%] max-w-xs bg-white shadow-2xl transition-transform duration-300 flex flex-col ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="flex items-center justify-between p-4 border-b border-gray-100 shrink-0">
             <Link to="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2">
-              <img src="/logo.png" alt="Etak Travels" className="h-10 w-10 object-contain" />
+              <img src="/brand/logo.png" alt="Etak Travels" className="h-10 w-10 object-contain" />
               <span className="font-display font-bold text-[#101B46] text-sm">Etak Travels</span>
             </Link>
             <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-full hover:bg-gray-100 text-[#667085]">

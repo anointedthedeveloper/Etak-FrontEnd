@@ -19,7 +19,7 @@ export default function About() {
       {/* Header */}
       <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&auto=format&fit=crop"
+          src="/images/headers/about.jpg"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center opacity-25"
@@ -121,7 +121,7 @@ export default function About() {
                 { label: 'Business Type', value: 'Travel Management Company' },
                 { label: 'Location', value: 'Abuja, FCT, Nigeria' },
                 { label: 'Office Address', value: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Along Umaru Musa Yar\'Adua (Airport Road), Piwoyi, Abuja, FCT, Nigeria' },
-                { label: 'Email', value: 'etaktravels15@gmail.com' },
+                { label: 'Email', value: 'info@etakstravel.com' },
                 { label: 'Phone', value: '+234 803 206 2242 / +234 817 358 8783' },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4 px-6 py-4 border-b border-gray-100 last:border-0">
@@ -140,21 +140,21 @@ export default function About() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-10">
             {[
               {
-                img: '/CAC.png',
+                img: '/credentials/CAC.png',
                 name: 'CAC Registration',
                 detail: 'RC 898792',
                 desc: 'Registered with the Corporate Affairs Commission of Nigeria as a legitimate business entity.',
                 extra: 'The Corporate Affairs Commission (CAC) is the government body responsible for the regulation and supervision of the formation, incorporation, registration, management and winding up of companies in Nigeria. Etak Travels & Tours Expert Limited is duly registered under RC 898792.',
               },
               {
-                img: '/IATA.png',
+                img: '/credentials/IATA.png',
                 name: 'IATA Membership',
                 detail: 'International Air Transport Association',
                 desc: 'Affiliated with the global body governing airline ticketing and travel agency standards worldwide.',
                 extra: 'The International Air Transport Association (IATA) is the trade association for the world\'s airlines, representing some 300 airlines. IATA accreditation is a mark of quality and professionalism recognised globally across the aviation and travel industry.',
               },
               {
-                img: '/FIRS.png',
+                img: '/credentials/FIRS.png',
                 name: 'FIRS Registration',
                 detail: 'Federal Inland Revenue Service',
                 desc: 'Registered with the Federal Inland Revenue Service in compliance with Nigerian tax regulations.',

@@ -30,7 +30,7 @@ export default function Hero() {
       {/* ── Background image ── */}
       <div className="absolute inset-0 pointer-events-none select-none">
         <img
-          src="/hero.png"
+          src="/brand/hero.png"
           alt=""
           aria-hidden="true"
           className="absolute right-0 top-0 h-full w-full object-cover object-right"

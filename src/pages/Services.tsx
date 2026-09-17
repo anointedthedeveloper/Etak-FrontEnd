@@ -17,7 +17,7 @@ export default function Services() {
       {/* Page header */}
       <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&auto=format&fit=crop"
+          src="/images/headers/flights.jpg"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover object-center opacity-30"

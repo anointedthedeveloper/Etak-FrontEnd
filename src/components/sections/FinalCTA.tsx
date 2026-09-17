@@ -9,7 +9,7 @@ export default function FinalCTA() {
         <div className="relative rounded-3xl overflow-hidden min-h-72 sm:min-h-80">
           {/* Real background image */}
           <img
-            src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&auto=format&fit=crop"
+            src="/images/sections/cta-bg.jpg"
             alt=""
             aria-hidden="true"
             className="absolute inset-0 w-full h-full object-cover object-center"

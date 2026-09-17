@@ -10,7 +10,7 @@ export const destinations = [
       'Dubai is one of the most visited cities in the world, offering a blend of ultramodern architecture, luxury shopping, and vibrant cultural experiences. A top destination for both business and leisure travellers from Nigeria.',
     highlights: ['Burj Khalifa', 'Dubai Mall', 'Desert Safari', 'Palm Jumeirah', 'Gold Souk'],
     travelTips: 'Visa required for Nigerian passport holders. Etak provides Dubai visa assistance.',
-    image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=900&auto=format&fit=crop',
+    image: '/images/tours/dubai.jpg',
     featured: true,
   },
   {
@@ -24,7 +24,7 @@ export const destinations = [
       'London remains one of the most important destinations for Nigerian travellers — for business, education, medical travel, and leisure. A city of extraordinary depth and global connectivity.',
     highlights: ['Buckingham Palace', 'The British Museum', 'West End Theatre', 'Oxford Street', 'Tower Bridge'],
     travelTips: 'UK visa required. Early application recommended.',
-    image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&auto=format&fit=crop',
+    image: '/images/tours/london.jpg',
     featured: true,
   },
   {
@@ -38,7 +38,7 @@ export const destinations = [
       'Istanbul is a city of extraordinary contrasts — ancient mosques beside modern galleries, bustling bazaars beside waterfront restaurants. An increasingly popular destination for Nigerian travellers seeking culture and value.',
     highlights: ['Hagia Sophia', 'Grand Bazaar', 'Bosphorus Cruise', 'Topkapi Palace', 'Galata Tower'],
     travelTips: 'E-visa available for Nigerian passport holders.',
-    image: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=900&auto=format&fit=crop',
+    image: '/images/tours/istanbul.jpg',
     featured: true,
   },
   {
@@ -52,7 +52,7 @@ export const destinations = [
       'Accra is a dynamic West African capital with a growing business scene, beautiful beaches, and rich cultural heritage. A short flight from Abuja and a popular destination for Nigerian business and leisure travellers.',
     highlights: ['Labadi Beach', 'Kwame Nkrumah Memorial', 'Makola Market', 'Osu Castle', 'National Museum'],
     travelTips: 'No visa required for Nigerian passport holders.',
-    image: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=900&auto=format&fit=crop',
+    image: '/images/tours/accra.jpg',
     featured: false,
   },
   {
@@ -66,7 +66,7 @@ export const destinations = [
       'Johannesburg is South Africa\'s economic powerhouse and a major hub for business travel across the continent. The city offers world-class infrastructure, diverse dining, and easy access to safari destinations.',
     highlights: ['Apartheid Museum', 'Sandton City', 'Soweto', 'Gold Reef City', 'Cradle of Humankind'],
     travelTips: 'Visa required for Nigerian passport holders.',
-    image: 'https://images.unsplash.com/photo-1577948000111-9c970dfe3743?w=900&auto=format&fit=crop',
+    image: '/images/destinations/johannesburg.jpg',
     featured: false,
   },
   {
@@ -80,7 +80,7 @@ export const destinations = [
       'Paris is one of the world\'s most iconic travel destinations — renowned for its art, cuisine, fashion, and architecture. A dream destination for leisure travellers and a major European business hub.',
     highlights: ['Eiffel Tower', 'The Louvre', 'Champs-Élysées', 'Versailles', 'Montmartre'],
     travelTips: 'Schengen visa required for Nigerian passport holders.',
-    image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=900&auto=format&fit=crop',
+    image: '/images/destinations/paris.jpg',
     featured: false,
   },
   {
@@ -94,7 +94,7 @@ export const destinations = [
       'New York City is a global centre for business, culture, education, and entertainment. A major destination for Nigerian travellers seeking business opportunities, academic pursuits, and world-class experiences.',
     highlights: ['Times Square', 'Central Park', 'Statue of Liberty', 'Broadway', 'Metropolitan Museum'],
     travelTips: 'US visa required. Apply well in advance.',
-    image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=900&auto=format&fit=crop',
+    image: '/images/destinations/new-york.jpg',
     featured: false,
   },
   {
@@ -108,7 +108,7 @@ export const destinations = [
       'Nairobi is East Africa\'s most cosmopolitan city and a gateway to some of the world\'s most spectacular wildlife destinations. A growing hub for business travel and an excellent base for safari experiences.',
     highlights: ['Nairobi National Park', 'Karen Blixen Museum', 'Maasai Market', 'Giraffe Centre', 'Bomas of Kenya'],
     travelTips: 'E-visa available for Nigerian passport holders.',
-    image: 'https://images.unsplash.com/photo-1611348524140-53c9a25263d6?w=900&auto=format&fit=crop',
+    image: '/images/destinations/nairobi.jpg',
     featured: false,
   },
 ]
