@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation, Headphones, Sunset, Briefcase, ArrowRight, CheckCircle2 } from 'lucide-react'
 import { services } from '../data/services'
-import { ImageSlot } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 
 const iconMap: Record<string, React.ElementType> = {
@@ -16,22 +15,29 @@ export default function Services() {
   return (
     <>
       {/* Page header */}
-      <div className="bg-gradient-to-br from-[#101B46] to-[#45419A] pt-32 pb-16">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">Our Services</span>
-          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">
+      <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1400&auto=format&fit=crop"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/80 to-[#45419A]/70" />
+        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
+          <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">Our Services</span>
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
             Complete Travel Management
           </h1>
-          <p className="text-blue-200 text-lg max-w-2xl mx-auto">
+          <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto">
             From your first inquiry to your safe return, Etak Travels provides professional support at every stage of your journey.
           </p>
         </div>
       </div>
 
       {/* Services grid */}
-      <section className="py-20 bg-[#F8FAFC]">
+      <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {services.map(service => {
               const Icon = iconMap[service.icon] ?? Plane
               return (
@@ -40,12 +46,12 @@ export default function Services() {
                   id={service.id}
                   className="bg-white rounded-2xl border border-gray-100 hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col"
                 >
-                  <div className="h-44 relative">
-                    <ImageSlot
+                  <div className="h-52 relative overflow-hidden">
+                    <img
                       src={service.image}
                       alt={service.title}
                       className="w-full h-full object-cover"
-                      label={`${service.title} — image coming soon`}
+                      loading="lazy"
                     />
                     <div className="absolute top-4 left-4">
                       <div className="w-11 h-11 rounded-xl bg-[#101B46] flex items-center justify-center shadow-lg">
@@ -104,10 +110,10 @@ export default function Services() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-[#101B46]">
+      <section className="py-12 sm:py-16 bg-[#101B46]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <h2 className="font-display text-3xl font-bold text-white mb-4">Not Sure Which Service You Need?</h2>
-          <p className="text-blue-200 mb-8">Contact our team and we'll help you figure out the best travel arrangement for your situation.</p>
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-4">Not Sure Which Service You Need?</h2>
+          <p className="text-blue-200 text-sm sm:text-base mb-6 sm:mb-8">Contact our team and we'll help you figure out the best travel arrangement for your situation.</p>
           <Link to="/contact">
             <Button size="lg" variant="primary">Talk to Our Team</Button>
           </Link>

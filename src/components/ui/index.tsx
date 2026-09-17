@@ -64,15 +64,15 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ eyebrow, title, subtitle, centered = false, light = false }: SectionHeaderProps) {
   return (
-    <div className={`${centered ? 'text-center' : ''} mb-12`}>
+    <div className={`${centered ? 'text-center' : ''} mb-8 sm:mb-12`}>
       {eyebrow && (
-        <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">{eyebrow}</span>
+        <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">{eyebrow}</span>
       )}
-      <h2 className={`font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight ${light ? 'text-white' : 'text-[#101B46]'}`}>
+      <h2 className={`font-display text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight ${light ? 'text-white' : 'text-[#101B46]'}`}>
         {title}
       </h2>
       {subtitle && (
-        <p className={`mt-4 text-lg leading-relaxed max-w-2xl ${centered ? 'mx-auto' : ''} ${light ? 'text-blue-100' : 'text-[#667085]'}`}>
+        <p className={`mt-3 sm:mt-4 text-base sm:text-lg leading-relaxed max-w-2xl ${centered ? 'mx-auto' : ''} ${light ? 'text-blue-100' : 'text-[#667085]'}`}>
           {subtitle}
         </p>
       )}

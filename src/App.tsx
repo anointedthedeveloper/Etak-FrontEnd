@@ -11,6 +11,7 @@ import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 import Dashboard from './pages/Dashboard'
 import DashboardInquiries from './pages/dashboard/DashboardInquiries'
 import DashboardBookings from './pages/dashboard/DashboardBookings'
@@ -68,6 +69,7 @@ function AppRoutes() {
         <Route path="/login"           element={<Login />} />
         <Route path="/signup"          element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password"  element={<ResetPassword />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

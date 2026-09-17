@@ -55,17 +55,24 @@ export default function Contact() {
   return (
     <>
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#101B46] to-[#45419A] pt-32 pb-16">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">Contact Us</span>
-          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">Let's Plan Your Journey</h1>
-          <p className="text-blue-200 text-lg max-w-2xl mx-auto">
+      <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=1400&auto=format&fit=crop"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-25"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/85 to-[#45419A]/75" />
+        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
+          <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">Contact Us</span>
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Let's Plan Your Journey</h1>
+          <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto">
             Reach out to our team with your travel inquiry and we'll get back to you with a personalised plan.
           </p>
         </div>
       </div>
 
-      <section className="py-20 bg-[#F8FAFC]">
+      <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <div className="grid lg:grid-cols-3 gap-10">
             {/* Contact info */}
@@ -152,9 +159,6 @@ export default function Contact() {
                   <p className="text-[#667085] text-sm max-w-sm">
                     Thank you for reaching out. Our team will review your inquiry and get back to you within 24 hours.
                   </p>
-                  <p className="text-xs text-[#667085] mt-3 bg-[#EAF8FD] px-4 py-2 rounded-lg">
-                    Note: This is a frontend demonstration. Your message has been recorded locally.
-                  </p>
                   <button onClick={() => setStatus('idle')} className="mt-6 text-[#08A9E0] font-medium text-sm hover:underline">
                     Send another message
                   </button>
@@ -218,9 +222,6 @@ export default function Contact() {
                   <Button type="submit" variant="primary" size="lg" loading={status === 'loading'} className="w-full sm:w-auto">
                     Send Inquiry
                   </Button>
-                  <p className="text-xs text-[#667085]">
-                    This form submits a travel inquiry. Our team will respond within 24 hours during business days.
-                  </p>
                 </form>
               )}
             </div>

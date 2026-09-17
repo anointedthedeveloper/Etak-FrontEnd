@@ -68,8 +68,8 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="p-5 xl:p-6 min-h-full bg-[#F8FAFC]">
-      <div className="grid xl:grid-cols-[1fr_296px] gap-5 items-start">
+    <div className="p-4 sm:p-5 xl:p-6 min-h-full bg-[#F8FAFC]">
+      <div className="grid lg:grid-cols-[1fr_280px] xl:grid-cols-[1fr_296px] gap-5 items-start">
 
         {/* ─── LEFT ─── */}
         <div className="space-y-5 min-w-0">
@@ -81,7 +81,7 @@ export default function Dashboard() {
               style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")" }}
             />
             {/* plane image on the right */}
-            <div className="absolute right-0 top-0 h-full w-72 hidden sm:block pointer-events-none overflow-hidden">
+            <div className="absolute right-0 top-0 h-full w-48 lg:w-64 xl:w-72 hidden md:block pointer-events-none overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1570710891163-6d3b5c47248b?w=600&auto=format&fit=crop&crop=center"
                 alt=""
@@ -111,7 +111,7 @@ export default function Dashboard() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {stats.map(({ label, value, icon: Icon, bg, fg }) => (
               <div key={label} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
                 <div className="flex items-center gap-2.5 mb-4">
@@ -190,7 +190,7 @@ export default function Dashboard() {
         </div>
 
         {/* ─── RIGHT SIDEBAR ─── */}
-        <div className="space-y-4">
+        <div className="space-y-4 lg:sticky lg:top-0">
 
           {/* Request new service button */}
           <Link to="/contact">

@@ -10,7 +10,7 @@ const steps = [
 
 export default function TravelProcess() {
   return (
-    <section className="py-20 bg-[#101B46]">
+    <section className="py-14 sm:py-20 bg-[#101B46]">
       <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         <SectionHeader
           eyebrow="How It Works"

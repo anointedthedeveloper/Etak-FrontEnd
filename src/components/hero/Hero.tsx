@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plane, Building2, Map, HelpCircle, ChevronDown } from 'lucide-react'
+import { Plane, Building2, Map, HelpCircle, ArrowRight, MapPin, Phone } from 'lucide-react'
 import { Button } from '../ui/Button'
 import FlightInquiryForm from '../forms/FlightInquiryForm'
 import HotelInquiryForm from '../forms/HotelInquiryForm'
@@ -8,10 +8,17 @@ import TourInquiryForm from '../forms/TourInquiryForm'
 import AssistanceInquiryForm from '../forms/AssistanceInquiryForm'
 
 const tabs = [
-  { id: 'flights', label: 'Flights', icon: Plane },
-  { id: 'hotels', label: 'Hotels', icon: Building2 },
-  { id: 'tours', label: 'Tours', icon: Map },
+  { id: 'flights',    label: 'Flights',           icon: Plane },
+  { id: 'hotels',     label: 'Hotels',            icon: Building2 },
+  { id: 'tours',      label: 'Tours',             icon: Map },
   { id: 'assistance', label: 'Travel Assistance', icon: HelpCircle },
+]
+
+const serviceIcons = [
+  { icon: Plane,      label: 'Flight Bookings',    sub: 'Best fares, global destinations' },
+  { icon: Building2,  label: 'Hotel Reservations', sub: 'Top hotels, great rates' },
+  { icon: Map,        label: 'Tour Packages',       sub: 'Explore new destinations' },
+  { icon: HelpCircle, label: 'Travel Assistance',   sub: 'Support before, during & after' },
 ]
 
 export default function Hero() {
@@ -19,100 +26,146 @@ export default function Hero() {
   const navigate = useNavigate()
 
   return (
-    <section className="relative min-h-screen flex flex-col">
-      {/* Background */}
-      <div className="absolute inset-0">
+    <section className="relative flex flex-col overflow-hidden bg-white">
+
+      {/* ── Background image ── */}
+      <div className="absolute inset-0 pointer-events-none select-none">
         <img
           src="/hero.png"
           alt=""
-          className="w-full h-full object-cover object-center"
           aria-hidden="true"
+          className="absolute right-0 top-0 h-full w-full object-cover object-right"
         />
-        {/* Subtle dark overlay — keep the image visible */}
-        <div className="absolute inset-0 bg-[#101B46]/50" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center w-full px-6 sm:px-10 lg:px-16 xl:px-24 pt-28 pb-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left — Headline */}
-          <div>
-            <p className="text-[#08A9E0] text-sm font-semibold uppercase tracking-widest mb-4">Your Journey Starts Here</p>
+      {/* ── Main content ── */}
+      <div className="relative z-10 w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 pt-20 sm:pt-24 lg:pt-28 pb-0">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 xl:gap-14 items-start">
 
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+          {/* ── LEFT ── */}
+          <div className="pt-4 sm:pt-8 pb-4">
+            <p className="text-[#08A9E0] text-xs font-bold uppercase tracking-widest mb-3">
+              Your Journey Starts Here
+            </p>
+
+            <h1 className="font-display font-bold text-[#101B46] leading-tight mb-4
+                           text-3xl sm:text-4xl md:text-5xl xl:text-6xl">
               Your Reliable{' '}
               <span className="text-[#08A9E0]">Travel Bridge</span>{' '}
               to the World
             </h1>
 
-            <p className="text-blue-100 text-lg leading-relaxed mb-8 max-w-lg">
+            <p className="text-[#667085] leading-relaxed mb-6 max-w-lg
+                          text-sm sm:text-base lg:text-lg">
               From flight reservations and hotel stays to carefully planned tours, we make every journey easier to arrange — for business, leisure, education, and beyond.
             </p>
 
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" variant="primary" className="w-44" onClick={() => navigate('/contact')}>
-                Plan Your Trip
-              </Button>
-              <Button size="lg" variant="white" className="w-44" onClick={() => navigate('/services')}>
-                Explore Services
-              </Button>
-            </div>
-
-            {/* Trust indicators */}
-            <div className="flex flex-wrap gap-6 mt-10">
-              {[
-                { label: 'CAC Registered', sub: 'RC 898792' },
-                { label: 'Based in Abuja', sub: 'FCT, Nigeria' },
-                { label: 'Full Travel Management', sub: 'End-to-end support' },
-              ].map(item => (
-                <div key={item.label} className="flex flex-col">
-                  <span className="text-white font-semibold text-sm">{item.label}</span>
-                  <span className="text-blue-300 text-xs">{item.sub}</span>
+            {/* Service icon strip — 2-col on mobile, 4-col from sm */}
+            <div className="grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-3 mb-6 sm:mb-8">
+              {serviceIcons.map(({ icon: Icon, label, sub }) => (
+                <div
+                  key={label}
+                  className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-3 rounded-xl bg-white/90 border border-gray-100 shadow-sm"
+                >
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                    <Icon size={16} className="text-[#08A9E0]" />
+                  </div>
+                  <span className="text-xs font-semibold text-[#172033] leading-tight">{label}</span>
+                  <span className="text-xs text-[#667085] leading-tight hidden sm:block">{sub}</span>
                 </div>
               ))}
             </div>
+
+            {/* CTA buttons */}
+            <div className="flex flex-wrap gap-3">
+              <Button
+                size="lg"
+                variant="primary"
+                onClick={() => navigate('/contact')}
+                className="flex-1 sm:flex-none gap-2"
+              >
+                Plan Your Trip <ArrowRight size={15} />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => navigate('/services')}
+                className="flex-1 sm:flex-none gap-2"
+              >
+                <Building2 size={15} /> Explore Services
+              </Button>
+            </div>
           </div>
 
-          {/* Right — Inquiry Panel */}
-          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-            {/* Tabs */}
-            <div className="grid grid-cols-4 border-b border-gray-100">
-              {tabs.map(tab => {
-                const Icon = tab.icon
-                return (
+          {/* ── RIGHT — Inquiry panel ── */}
+          <div className="pb-6 lg:pt-6">
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+              {/* Tabs */}
+              <div className="grid grid-cols-4 border-b border-gray-100">
+                {tabs.map(({ id, label, icon: Icon }) => (
                   <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex flex-col items-center gap-1 py-3 px-2 text-xs font-medium transition-colors duration-150 cursor-pointer ${
-                      activeTab === tab.id
-                        ? 'text-[#08A9E0] border-b-2 border-[#08A9E0] bg-[#EAF8FD]'
+                    key={id}
+                    onClick={() => setActiveTab(id)}
+                    className={`flex flex-col items-center gap-1 py-3 sm:py-3.5 px-1 text-xs font-medium transition-all duration-150 cursor-pointer ${
+                      activeTab === id
+                        ? 'bg-[#08A9E0] text-white'
                         : 'text-[#667085] hover:text-[#172033] hover:bg-gray-50'
                     }`}
                   >
-                    <Icon size={16} />
-                    <span className="hidden sm:block">{tab.label}</span>
+                    <Icon size={15} />
+                    <span className="hidden xs:block sm:block leading-tight text-center">{label}</span>
                   </button>
-                )
-              })}
+                ))}
+              </div>
+
+              <div className="p-4 sm:p-5">
+                {activeTab === 'flights'    && <FlightInquiryForm compact />}
+                {activeTab === 'hotels'     && <HotelInquiryForm compact />}
+                {activeTab === 'tours'      && <TourInquiryForm compact />}
+                {activeTab === 'assistance' && <AssistanceInquiryForm compact />}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* ── Bottom trust bar ── */}
+      <div id="trust" className="relative z-10 bg-white border-t border-gray-100 mt-2">
+        <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 py-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+
+            {/* Trust items */}
+            <div className="flex items-center gap-5 sm:gap-8 lg:gap-12 overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto">
+              {[
+                { icon: MapPin,    title: 'CAC Registered',        sub: 'RC 898792' },
+                { icon: Building2, title: 'Based in Abuja',         sub: 'FCT, Nigeria' },
+                { icon: Phone,     title: 'Full Travel Management', sub: 'End-to-end support' },
+              ].map(({ icon: Icon, title, sub }) => (
+                <div key={title} className="flex items-center gap-2.5 shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                    <Icon size={16} className="text-[#08A9E0]" />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm font-bold text-[#101B46] whitespace-nowrap">{title}</p>
+                    <p className="text-xs text-[#667085]">{sub}</p>
+                  </div>
+                </div>
+              ))}
             </div>
 
-            <div className="p-5">
-              {activeTab === 'flights' && <FlightInquiryForm compact />}
-              {activeTab === 'hotels' && <HotelInquiryForm compact />}
-              {activeTab === 'tours' && <TourInquiryForm compact />}
-              {activeTab === 'assistance' && <AssistanceInquiryForm compact />}
+            {/* Cursive "Explore the World" */}
+            <div className="hidden md:flex items-center gap-2 shrink-0">
+              <span className="font-script text-[#08A9E0] text-2xl xl:text-3xl leading-none">
+                Explore the World
+              </span>
+              <Plane size={18} className="text-[#08A9E0] -rotate-12" />
             </div>
+
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="relative z-10 flex justify-center pb-8">
-        <a href="#trust" className="flex flex-col items-center gap-1 text-white/50 hover:text-white/80 transition-colors">
-          <span className="text-xs">Scroll to explore</span>
-          <ChevronDown size={18} className="animate-bounce" />
-        </a>
-      </div>
     </section>
   )
 }

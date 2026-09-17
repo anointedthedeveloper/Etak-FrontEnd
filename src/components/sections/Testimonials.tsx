@@ -28,7 +28,7 @@ const sampleTestimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-14 sm:py-20 bg-white">
       <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         <SectionHeader
           eyebrow="Client Feedback"

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { supabase } from '../lib/supabase'
 import { authService, type User } from '../services/auth'
+import CompleteProfileModal from '../components/ui/CompleteProfileModal'
 
 interface AuthContextType {
   user: User | null
@@ -15,32 +16,55 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
+function mapSession(supabaseUser: import('@supabase/supabase-js').User): User {
+  const meta = supabaseUser.user_metadata ?? {}
+  let firstName = meta.first_name ?? ''
+  let lastName  = meta.last_name  ?? ''
+  if (!firstName && !lastName) {
+    const fullName = (meta.full_name ?? meta.name ?? '').trim()
+    if (fullName) {
+      const parts = fullName.split(' ')
+      firstName = parts[0] ?? ''
+      lastName  = parts.slice(1).join(' ') ?? ''
+    } else {
+      const emailLocal = (supabaseUser.email ?? '').split('@')[0]
+      const parts = emailLocal.replace(/[._-]+/g, ' ').split(' ')
+      firstName = parts[0] ? parts[0].charAt(0).toUpperCase() + parts[0].slice(1) : ''
+      lastName  = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : ''
+    }
+  }
+  return {
+    id: supabaseUser.id,
+    firstName,
+    lastName,
+    email: supabaseUser.email ?? '',
+    phone: meta.phone ?? '',
+    createdAt: supabaseUser.created_at,
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser]               = useState<User | null>(null)
+  const [isLoading, setIsLoading]     = useState(true)
+  const [needsProfile, setNeedsProfile] = useState(false)
 
   useEffect(() => {
-    // Load existing session on mount
     authService.getSession().then(u => {
       setUser(u)
       setIsLoading(false)
     })
 
-    // Keep in sync with Supabase auth state changes
-    // (login, logout, token refresh, magic link, OAuth, etc.)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        const meta = session.user.user_metadata ?? {}
-        setUser({
-          id: session.user.id,
-          firstName: meta.first_name ?? '',
-          lastName: meta.last_name ?? '',
-          email: session.user.email ?? '',
-          phone: meta.phone ?? '',
-          createdAt: session.user.created_at,
-        })
+        const mapped = mapSession(session.user)
+        setUser(mapped)
+        // Show profile completion modal if phone is missing (typical for OAuth users)
+        if (!mapped.phone) {
+          setNeedsProfile(true)
+        }
       } else {
         setUser(null)
+        setNeedsProfile(false)
       }
       setIsLoading(false)
     })
@@ -61,6 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     await authService.logout()
     setUser(null)
+    setNeedsProfile(false)
   }
 
   const updateProfile = async (data: Partial<User>) => {
@@ -73,9 +98,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await authService.signInWithGoogle()
   }
 
+  const handleProfileComplete = (data: { firstName: string; lastName: string; phone: string }) => {
+    setUser(u => u ? { ...u, ...data } : u)
+    setNeedsProfile(false)
+  }
+
   return (
     <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, logout, updateProfile, signInWithGoogle }}>
       {children}
+      {/* Profile completion modal — shown after OAuth login if phone is missing */}
+      {needsProfile && user && (
+        <CompleteProfileModal
+          email={user.email}
+          initialFirstName={user.firstName}
+          initialLastName={user.lastName}
+          onComplete={handleProfileComplete}
+        />
+      )}
     </AuthContext.Provider>
   )
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CheckCircle2, Target, Eye, Heart, ChevronDown } from 'lucide-react'
-import { ImageSlot, SectionHeader } from '../components/ui/index'
+import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 
 const values = [
@@ -17,34 +17,31 @@ export default function About() {
   return (
     <>
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#101B46] to-[#45419A] pt-32 pb-16">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">About Us</span>
-              <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">
-                Etak Travels & Tours Expert Limited
-              </h1>
-              <p className="text-blue-200 text-lg leading-relaxed">
-                A professional travel management company based in Abuja, Nigeria — providing reliable travel solutions for business, education, leisure, and international travel.
-              </p>
-            </div>
-            <div className="rounded-2xl overflow-hidden aspect-video border border-white/10 bg-white/5">
-              <ImageSlot
-                src="/logo.png"
-                alt="Etak Travels brand mark"
-                className="w-full h-full object-contain p-4"
-                label="Brand artwork"
-              />
-            </div>
+      <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1400&auto=format&fit=crop"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-25"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/85 to-[#45419A]/75" />
+        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+          <div className="max-w-2xl">
+            <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">About Us</span>
+            <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+              Etak Travels & Tours Expert Limited
+            </h1>
+            <p className="text-blue-200 text-base sm:text-lg leading-relaxed">
+              A professional travel management company based in Abuja, Nigeria — providing reliable travel solutions for business, education, leisure, and international travel.
+            </p>
           </div>
         </div>
       </div>
 
       {/* Company intro */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div>
               <SectionHeader eyebrow="Who We Are" title="Your Reliable Travel Bridge to the World" />
               <div className="flex flex-col gap-4 text-[#667085] leading-relaxed">
@@ -95,7 +92,7 @@ export default function About() {
       </section>
 
       {/* Core values */}
-      <section className="py-20 bg-[#F8FAFC]">
+      <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <SectionHeader eyebrow="Core Values" title="What We Stand For" centered />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -113,7 +110,7 @@ export default function About() {
       </section>
 
       {/* Company credentials */}
-      <section className="py-20 bg-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <SectionHeader eyebrow="Company Information" title="Verified Company Details" centered />
           <div className="max-w-2xl mx-auto">
@@ -137,7 +134,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="py-24 bg-[#F8FAFC]">
+      <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <SectionHeader eyebrow="Membership & Credentials" title="Our Accreditations" centered />
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-10">
@@ -211,10 +208,10 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-[#101B46]">
+      <section className="py-12 sm:py-16 bg-[#101B46]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <h2 className="font-display text-3xl font-bold text-white mb-4">Ready to Travel with Etak?</h2>
-          <p className="text-blue-200 mb-8">Get in touch with our team and let us help you plan your next journey.</p>
+          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Travel with Etak?</h2>
+          <p className="text-blue-200 text-sm sm:text-base mb-6 sm:mb-8">Get in touch with our team and let us help you plan your next journey.</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link to="/contact"><Button size="lg" variant="primary">Contact Us</Button></Link>
             <Link to="/services"><Button size="lg" variant="white">Our Services</Button></Link>

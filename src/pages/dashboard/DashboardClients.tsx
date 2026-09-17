@@ -2,7 +2,7 @@ import { Users } from 'lucide-react'
 
 export default function DashboardClients() {
   return (
-    <div className="p-6 xl:p-8 space-y-6">
+    <div className="p-4 sm:p-5 xl:p-7 space-y-6">
       <div>
         <h1 className="font-display text-2xl font-bold text-[#101B46]">Clients</h1>
         <p className="text-sm text-[#667085] mt-0.5">View and manage your travel clients</p>
@@ -20,3 +20,4 @@ export default function DashboardClients() {
     </div>
   )
 }
+

@@ -10,7 +10,7 @@ const bookingTypes = [
 
 export default function DashboardBookings() {
   return (
-    <div className="p-6 xl:p-8 space-y-6">
+    <div className="p-4 sm:p-5 xl:p-7 space-y-6">
       <div>
         <h1 className="font-display text-2xl font-bold text-[#101B46]">Bookings</h1>
         <p className="text-sm text-[#667085] mt-0.5">Manage your flight, hotel and tour bookings</p>
@@ -48,3 +48,4 @@ export default function DashboardBookings() {
     </div>
   )
 }
+

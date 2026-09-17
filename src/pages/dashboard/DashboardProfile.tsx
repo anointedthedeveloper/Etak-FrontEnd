@@ -37,7 +37,7 @@ export default function DashboardProfile() {
   const initials = `${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase() || '?'
 
   return (
-    <div className="p-6 xl:p-8 space-y-6">
+    <div className="p-4 sm:p-5 xl:p-7 space-y-6">
       <div>
         <h1 className="font-display text-2xl font-bold text-[#101B46]">Profile</h1>
         <p className="text-sm text-[#667085] mt-0.5">Manage your personal information</p>
@@ -131,3 +131,4 @@ export default function DashboardProfile() {
     </div>
   )
 }
+

@@ -1,8 +1,8 @@
-import { Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation, Headphones, Sunset, Briefcase } from 'lucide-react'
+import { Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation, Headphones, Sunset, Briefcase, ChevronDown } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { services } from '../../data/services'
-import { SectionHeader, ImageSlot } from '../ui/index'
+import { SectionHeader } from '../ui/index'
 import { Button } from '../ui/Button'
 
 const iconMap: Record<string, React.ElementType> = {
@@ -12,11 +12,17 @@ const iconMap: Record<string, React.ElementType> = {
 
 export default function ServicesShowcase() {
   const [active, setActive] = useState(services[0].id)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const activeService = services.find(s => s.id === active) ?? services[0]
   const Icon = iconMap[activeService.icon] ?? Plane
 
+  const selectService = (id: string) => {
+    setActive(id)
+    setMobileOpen(false)
+  }
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-14 sm:py-20 bg-white">
       <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         <SectionHeader
           eyebrow="What We Offer"
@@ -24,9 +30,42 @@ export default function ServicesShowcase() {
           subtitle="From flight bookings to visa assistance, we handle every aspect of your journey with care and professionalism."
         />
 
-        <div className="grid lg:grid-cols-5 gap-8">
-          {/* Service list */}
-          <div className="lg:col-span-2 flex flex-col gap-1">
+        {/* Mobile: dropdown selector */}
+        <div className="lg:hidden mb-4">
+          <button
+            onClick={() => setMobileOpen(v => !v)}
+            className="w-full flex items-center justify-between px-4 py-3 bg-[#101B46] text-white rounded-xl text-sm font-medium"
+          >
+            <span className="flex items-center gap-2">
+              <Icon size={16} className="text-[#08A9E0]" />
+              {activeService.title}
+            </span>
+            <ChevronDown size={16} className={`transition-transform ${mobileOpen ? 'rotate-180' : ''}`} />
+          </button>
+          {mobileOpen && (
+            <div className="mt-1 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden z-10 relative">
+              {services.map(service => {
+                const SIcon = iconMap[service.icon] ?? Plane
+                return (
+                  <button
+                    key={service.id}
+                    onClick={() => selectService(service.id)}
+                    className={`w-full flex items-center gap-3 px-4 py-3 text-left text-sm transition-colors ${
+                      active === service.id ? 'bg-[#EAF8FD] text-[#08A9E0] font-medium' : 'text-[#172033] hover:bg-gray-50'
+                    }`}
+                  >
+                    <SIcon size={15} />
+                    {service.title}
+                  </button>
+                )
+              })}
+            </div>
+          )}
+        </div>
+
+        <div className="grid lg:grid-cols-5 gap-6 lg:gap-8">
+          {/* Desktop: service list */}
+          <div className="hidden lg:flex lg:col-span-2 flex-col gap-1">
             {services.map(service => {
               const SIcon = iconMap[service.icon] ?? Plane
               return (
@@ -42,7 +81,7 @@ export default function ServicesShowcase() {
                   <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
                     active === service.id ? 'bg-[#08A9E0]' : 'bg-[#EAF8FD]'
                   }`}>
-                    <SIcon size={17} className={active === service.id ? 'text-white' : 'text-[#08A9E0]'} />
+                    <SIcon size={16} className={active === service.id ? 'text-white' : 'text-[#08A9E0]'} />
                   </div>
                   <span className="text-sm font-medium">{service.title}</span>
                 </button>
@@ -51,23 +90,24 @@ export default function ServicesShowcase() {
           </div>
 
           {/* Active service detail */}
-          <div className="lg:col-span-3 bg-gradient-to-br from-[#EAF8FD] to-white rounded-2xl p-8 flex flex-col gap-6">
+          <div className="lg:col-span-3 bg-gradient-to-br from-[#EAF8FD] to-white rounded-2xl p-5 sm:p-8 flex flex-col gap-5 sm:gap-6">
             <div className="flex items-start gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-[#101B46] flex items-center justify-center shrink-0">
-                <Icon size={26} className="text-[#08A9E0]" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#101B46] flex items-center justify-center shrink-0">
+                <Icon size={22} className="text-[#08A9E0]" />
               </div>
               <div>
-                <h3 className="font-display text-2xl font-bold text-[#101B46] mb-2">{activeService.title}</h3>
-                <p className="text-[#667085] leading-relaxed">{activeService.description}</p>
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-[#101B46] mb-1 sm:mb-2">{activeService.title}</h3>
+                <p className="text-[#667085] text-sm leading-relaxed">{activeService.description}</p>
               </div>
             </div>
 
-            <ImageSlot
-              src={activeService.image}
-              alt={activeService.title}
-              className="w-full h-48 rounded-xl object-cover"
-              label={`${activeService.title} — image coming soon`}
-            />
+            <div className="rounded-xl overflow-hidden h-40 sm:h-48">
+              <img
+                src={activeService.image}
+                alt={activeService.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
 
             <div>
               <h4 className="text-sm font-semibold text-[#101B46] mb-3">What's included</h4>
@@ -82,12 +122,12 @@ export default function ServicesShowcase() {
             </div>
 
             <Link to={`/services#${activeService.id}`}>
-              <Button variant="primary">Request This Service</Button>
+              <Button variant="primary" className="w-full sm:w-auto">Request This Service</Button>
             </Link>
           </div>
         </div>
 
-        <div className="mt-10 text-center">
+        <div className="mt-8 sm:mt-10 text-center">
           <Link to="/services">
             <Button variant="outline">View All Services</Button>
           </Link>

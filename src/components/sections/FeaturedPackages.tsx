@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { tours } from '../../data/tours'
-import { SectionHeader, ImageSlot } from '../ui/index'
+import { SectionHeader } from '../ui/index'
 import { Button } from '../ui/Button'
 import { Clock, MapPin, ArrowRight } from 'lucide-react'
 
@@ -8,7 +8,7 @@ export default function FeaturedPackages() {
   const featured = tours.filter(t => t.featured)
 
   return (
-    <section className="py-20 bg-[#F8FAFC]">
+    <section className="py-14 sm:py-20 bg-[#F8FAFC]">
       <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
           <SectionHeader
@@ -24,12 +24,12 @@ export default function FeaturedPackages() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featured.map(tour => (
             <div key={tour.id} className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col">
-              <div className="relative h-52">
-                <ImageSlot
+              <div className="relative h-48 sm:h-52 overflow-hidden">
+                <img
                   src={tour.image}
                   alt={tour.title}
                   className="w-full h-full object-cover"
-                  label={tour.title}
+                  loading="lazy"
                 />
               </div>
 

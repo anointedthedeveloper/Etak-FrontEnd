@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Clock, MapPin, Users, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react'
 import { tours, tourCategories } from '../data/tours'
-import { ImageSlot, SectionHeader } from '../components/ui/index'
+import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 
 export default function Tours() {
@@ -14,11 +14,18 @@ export default function Tours() {
   return (
     <>
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#101B46] to-[#45419A] pt-32 pb-16">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <span className="inline-block text-[#08A9E0] text-sm font-semibold tracking-widest uppercase mb-3">Tours & Packages</span>
-          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-4">Curated Travel Experiences</h1>
-          <p className="text-blue-200 text-lg max-w-2xl mx-auto">
+      <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=1400&auto=format&fit=crop"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/80 to-[#45419A]/70" />
+        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
+          <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">Tours & Packages</span>
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Curated Travel Experiences</h1>
+          <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto">
             Carefully planned tour packages for individuals, families, and groups — tailored to your journey.
           </p>
         </div>
@@ -43,19 +50,19 @@ export default function Tours() {
 
 
       {/* Tours list */}
-      <section className="py-16 bg-[#F8FAFC]">
+      <section className="py-12 sm:py-16 bg-[#F8FAFC]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <div className="flex flex-col gap-6">
             {filtered.map(tour => (
               <div key={tour.id} id={tour.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
                 <div className="grid md:grid-cols-3 gap-0">
                   {/* Image */}
-                  <div className="relative h-56 md:h-auto">
-                    <ImageSlot
+                  <div className="relative h-52 md:h-auto min-h-48 overflow-hidden">
+                    <img
                       src={tour.image}
                       alt={tour.title}
                       className="w-full h-full object-cover"
-                      label={tour.title}
+                      loading="lazy"
                     />
                   </div>
 
@@ -138,7 +145,7 @@ export default function Tours() {
       </section>
 
       {/* Custom tour CTA */}
-      <section className="py-16 bg-white border-t border-gray-100">
+      <section className="py-12 sm:py-16 bg-white border-t border-gray-100">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
           <SectionHeader
             eyebrow="Custom Tours"
