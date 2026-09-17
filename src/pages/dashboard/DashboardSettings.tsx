@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Bell, Shield, Globe, Moon, CheckCircle2 } from 'lucide-react'
+import { Bell, Shield, Globe, CheckCircle2 } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 
 export default function DashboardSettings() {

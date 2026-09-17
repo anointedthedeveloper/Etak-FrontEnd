@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X, CheckCircle2, AlertCircle } from 'lucide-react'
+import { CheckCircle2, AlertCircle } from 'lucide-react'
 import { Button } from './Button'
 import { Input } from './FormFields'
 import { supabase } from '../../lib/supabase'

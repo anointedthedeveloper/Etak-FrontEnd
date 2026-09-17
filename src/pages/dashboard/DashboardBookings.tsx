@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { Bookmark, ArrowRight, Plane, Hotel, Map } from 'lucide-react'
-import { Button } from '../../components/ui/Button'
 
 const bookingTypes = [
   { icon: Plane,  label: 'Flight Booking',    desc: 'Book international and domestic flights', to: '/contact?service=flight',  color: 'bg-blue-50 text-blue-600' },

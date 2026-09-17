@@ -92,7 +92,7 @@ export const authService = {
     if (error) throw new Error(error.message)
   },
 
-  async updateProfile(userId: string, data: Partial<User>): Promise<User> {
+  async updateProfile(_userId: string, data: Partial<User>): Promise<User> {
     const { data: result, error } = await supabase.auth.updateUser({
       data: {
         first_name: data.firstName,
