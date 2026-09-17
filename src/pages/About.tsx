@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { CheckCircle2, Target, Eye, Heart, ChevronDown } from 'lucide-react'
 import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
+import SEO from '../components/ui/SEO'
 
 const values = [
   { icon: CheckCircle2, title: 'Integrity', desc: 'We operate with honesty and transparency in every client interaction and business arrangement.' },
@@ -16,6 +17,12 @@ export default function About() {
 
   return (
     <>
+      <SEO
+        title="About Us"
+        description="Learn about Etak Travels & Tours Expert Limited — Abuja's trusted travel management company. CAC registered (RC 898792), IATA affiliated, serving individuals, families and corporates."
+        keywords="about Etak Travels, Etak Limited history, Abuja travel company, CAC registered travel agency Nigeria, IATA member Nigeria"
+        url="/about"
+      />
       {/* Header */}
       <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
         <img

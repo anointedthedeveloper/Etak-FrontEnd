@@ -2,12 +2,25 @@ import { Link } from 'react-router-dom'
 import { destinations } from '../../data/destinations'
 import { SectionHeader, Badge } from '../ui/index'
 import { Button } from '../ui/Button'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Heart } from 'lucide-react'
+import { useCart } from '../../context/CartContext'
 
 export default function FeaturedDestinations() {
   const featured = destinations.filter(d => d.featured)
   const rest = destinations.filter(d => !d.featured).slice(0, 2)
   const smallCards = [...featured.slice(1), ...rest].slice(0, 4)
+  const { toggle, has } = useCart()
+
+  const saveBtn = (dest: typeof destinations[0], size: number = 14, cls: string = 'top-3 right-3 w-8 h-8') => (
+    <button
+      onClick={e => { e.preventDefault(); e.stopPropagation(); toggle({ id: dest.id, type: 'destination', title: dest.name, image: dest.image, subtitle: dest.country }) }}
+      className={`absolute ${cls} rounded-full flex items-center justify-center shadow transition-colors z-10 ${
+        has(dest.id) ? 'bg-[#08A9E0] text-white' : 'bg-white/80 text-[#667085] hover:text-[#08A9E0]'
+      }`}
+    >
+      <Heart size={size} fill={has(dest.id) ? 'currentColor' : 'none'} />
+    </button>
+  )
 
   return (
     <section className="py-14 sm:py-20 bg-[#F8FAFC]">
@@ -33,6 +46,7 @@ export default function FeaturedDestinations() {
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#101B46]/85 via-[#101B46]/30 to-transparent" />
+              {saveBtn(dest)}
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 {i === 0 && (
                   <div className="flex flex-wrap gap-1.5 mb-2">
@@ -51,7 +65,6 @@ export default function FeaturedDestinations() {
 
         {/* Desktop: asymmetric grid */}
         <div className="hidden lg:grid grid-cols-3 gap-6">
-          {/* Large featured card spans 2 cols and 2 rows */}
           {featured[0] && (
             <div className="col-span-2 row-span-2 group relative rounded-2xl overflow-hidden bg-[#101B46] min-h-[420px]">
               <img
@@ -60,6 +73,7 @@ export default function FeaturedDestinations() {
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#101B46]/90 via-[#101B46]/25 to-transparent" />
+              {saveBtn(featured[0], 16, 'top-4 right-4 w-9 h-9')}
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <div className="flex flex-wrap gap-2 mb-3">
                   {featured[0].category.map(c => <Badge key={c} variant="blue">{c}</Badge>)}
@@ -74,7 +88,6 @@ export default function FeaturedDestinations() {
             </div>
           )}
 
-          {/* Smaller cards */}
           {smallCards.map(dest => (
             <div key={dest.id} className="group relative rounded-2xl overflow-hidden bg-[#101B46] min-h-48">
               <img
@@ -83,6 +96,7 @@ export default function FeaturedDestinations() {
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#101B46]/80 to-transparent" />
+              {saveBtn(dest)}
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <h3 className="font-display text-xl font-bold text-white">{dest.name}</h3>
                 <p className="text-blue-200 text-xs mb-2">{dest.country}</p>

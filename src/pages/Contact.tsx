@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { MapPin, Mail, Phone, Clock, CheckCircle2, AlertCircle } from 'lucide-react'
 import { Input, Textarea, Select } from '../components/ui/FormFields'
 import { Button } from '../components/ui/Button'
+import SEO from '../components/ui/SEO'
 import { apiService } from '../services/api'
 
 interface FormState {
@@ -54,6 +55,12 @@ export default function Contact() {
 
   return (
     <>
+      <SEO
+        title="Contact Us"
+        description="Contact Etak Travels & Tours Expert Limited for flight bookings, hotel reservations, tour packages and visa assistance. Based in Abuja, Nigeria. Call +234 803 206 2242."
+        keywords="contact Etak Travels, Etak Abuja phone number, travel inquiry Nigeria, book flight Abuja"
+        url="/contact"
+      />
       {/* Header */}
       <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
         <img

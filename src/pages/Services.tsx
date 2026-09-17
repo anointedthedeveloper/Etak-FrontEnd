@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation, Headphones, Sunset, Briefcase, ArrowRight, CheckCircle2 } from 'lucide-react'
 import { services } from '../data/services'
 import { Button } from '../components/ui/Button'
+import SEO from '../components/ui/SEO'
 
 const iconMap: Record<string, React.ElementType> = {
   Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation,
@@ -14,6 +15,12 @@ export default function Services() {
 
   return (
     <>
+      <SEO
+        title="Our Services"
+        description="Etak Travels offers flight booking, hotel reservations, tour packages, visa assistance, travel insurance, airport logistics and corporate travel management from Abuja, Nigeria."
+        keywords="flight booking Nigeria, hotel reservations Abuja, visa assistance Dubai, tour packages Nigeria, corporate travel Abuja, travel insurance Nigeria, airport transfers Abuja"
+        url="/services"
+      />
       {/* Page header */}
       <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
         <img

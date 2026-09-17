@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom'
 import { tours } from '../../data/tours'
 import { SectionHeader } from '../ui/index'
 import { Button } from '../ui/Button'
-import { Clock, MapPin, ArrowRight } from 'lucide-react'
+import { Clock, MapPin, ArrowRight, Heart } from 'lucide-react'
+import { useCart } from '../../context/CartContext'
 
 export default function FeaturedPackages() {
   const featured = tours.filter(t => t.featured)
+  const { toggle, has } = useCart()
 
   return (
     <section className="py-14 sm:py-20 bg-[#F8FAFC]">
@@ -31,6 +33,15 @@ export default function FeaturedPackages() {
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
+                <button
+                  onClick={e => { e.preventDefault(); toggle({ id: tour.id, type: 'tour', title: tour.title, image: tour.image, subtitle: tour.destination }) }}
+                  className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center shadow transition-colors ${
+                    has(tour.id) ? 'bg-[#08A9E0] text-white' : 'bg-white/90 text-[#667085] hover:text-[#08A9E0]'
+                  }`}
+                  title={has(tour.id) ? 'Saved' : 'Save package'}
+                >
+                  <Heart size={14} fill={has(tour.id) ? 'currentColor' : 'none'} />
+                </button>
               </div>
 
               <div className="p-5 flex flex-col flex-1">

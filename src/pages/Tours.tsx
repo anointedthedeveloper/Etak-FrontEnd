@@ -1,18 +1,43 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Clock, MapPin, Users, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { Clock, MapPin, Users, ChevronDown, ChevronUp, ArrowRight, Heart } from 'lucide-react'
 import { tours, tourCategories } from '../data/tours'
 import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
+import SEO from '../components/ui/SEO'
+import { useCart } from '../context/CartContext'
 
 export default function Tours() {
+  const [searchParams] = useSearchParams()
   const [category, setCategory] = useState('all')
   const [expanded, setExpanded] = useState<string | null>(null)
+  const { toggle, has } = useCart()
 
-  const filtered = tours.filter(t => category === 'all' || t.category === category || t.groupType === category)
+  // Sync category filter if navigated from search
+  useEffect(() => {
+    const q = searchParams.get('q')
+    if (q) {
+      const match = tourCategories.find(c => c.label.toLowerCase().includes(q.toLowerCase()))
+      if (match) setCategory(match.id)
+    }
+  }, [searchParams])
+
+  const q = searchParams.get('q')?.toLowerCase() ?? ''
+  const filtered = tours.filter(t => {
+    const matchesCategory = category === 'all' || t.category === category || t.groupType === category
+    const matchesQuery = !q || t.title.toLowerCase().includes(q) || t.destination.toLowerCase().includes(q) || t.description.toLowerCase().includes(q)
+    return matchesCategory && matchesQuery
+  })
 
   return (
     <>
+      <SEO
+        title="Tours & Travel Packages"
+        description="Browse Etak Travels tour packages — Dubai, Istanbul, London, Accra and more. Carefully planned packages for individuals, families and groups departing from Nigeria."
+        keywords="Etak tour packages, Dubai tour Nigeria, Istanbul tour Abuja, London package Nigeria, Accra tour Nigeria, group tours Nigeria, holiday packages Abuja"
+        url="/tours"
+        image="/images/headers/tours.jpg"
+      />
       {/* Header */}
       <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
         <img
@@ -52,6 +77,17 @@ export default function Tours() {
       {/* Tours list */}
       <section className="py-12 sm:py-16 bg-[#F8FAFC]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+          {filtered.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-[#667085] text-lg">No tours found for your search.</p>
+              <button
+                onClick={() => { setCategory('all'); window.history.replaceState({}, '', '/tours') }}
+                className="mt-4 text-[#08A9E0] font-medium hover:underline"
+              >
+                Clear filters
+              </button>
+            </div>
+          ) : (
           <div className="flex flex-col gap-6">
             {filtered.map(tour => (
               <div key={tour.id} id={tour.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
@@ -64,6 +100,15 @@ export default function Tours() {
                       className="w-full h-full object-cover"
                       loading="lazy"
                     />
+                    <button
+                      onClick={e => { e.stopPropagation(); toggle({ id: tour.id, type: 'tour', title: tour.title, image: tour.image, subtitle: tour.destination }) }}
+                      className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-md transition-colors ${
+                        has(tour.id) ? 'bg-[#08A9E0] text-white' : 'bg-white/90 text-[#667085] hover:text-[#08A9E0]'
+                      }`}
+                      title={has(tour.id) ? 'Remove from saved' : 'Save package'}
+                    >
+                      <Heart size={16} fill={has(tour.id) ? 'currentColor' : 'none'} />
+                    </button>
                   </div>
 
                   {/* Content */}
@@ -141,6 +186,7 @@ export default function Tours() {
               </div>
             ))}
           </div>
+          )}
         </div>
       </section>
 

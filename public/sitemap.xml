@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://etaktravels.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/brand/logo.png</image:loc>
+      <image:title>Etak Travels &amp; Tours Expert Limited</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/brand/hero.png</image:loc>
+      <image:title>Etak Travels Hero</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/headers/about.jpg</image:loc>
+      <image:title>About Etak Travels &amp; Tours Expert Limited</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/credentials/CAC.png</image:loc>
+      <image:title>CAC Registration Certificate - Etak Travels RC 898792</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/credentials/IATA.png</image:loc>
+      <image:title>IATA Membership - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/credentials/FIRS.png</image:loc>
+      <image:title>FIRS Registration - Etak Travels</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/flight.jpg</image:loc>
+      <image:title>Flight Booking &amp; Ticketing - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/hotel.jpg</image:loc>
+      <image:title>Hotel Reservations - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/visa.jpg</image:loc>
+      <image:title>Visa Assistance - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/tours.jpg</image:loc>
+      <image:title>Tour Packages - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/insurance.jpg</image:loc>
+      <image:title>Travel Insurance - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/airport.jpg</image:loc>
+      <image:title>Airport Logistics - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/corporate.jpg</image:loc>
+      <image:title>Corporate Travel - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/consulting.jpg</image:loc>
+      <image:title>Travel Consulting - Etak Travels</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/destinations</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/headers/destinations.jpg</image:loc>
+      <image:title>Travel Destinations - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/tours/dubai.jpg</image:loc>
+      <image:title>Dubai - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/tours/london.jpg</image:loc>
+      <image:title>London - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/tours/istanbul.jpg</image:loc>
+      <image:title>Istanbul - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/tours/accra.jpg</image:loc>
+      <image:title>Accra - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/destinations/paris.jpg</image:loc>
+      <image:title>Paris - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/destinations/new-york.jpg</image:loc>
+      <image:title>New York - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/destinations/nairobi.jpg</image:loc>
+      <image:title>Nairobi - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/destinations/johannesburg.jpg</image:loc>
+      <image:title>Johannesburg - Etak Travels</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/tours</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/headers/tours.jpg</image:loc>
+      <image:title>Tour Packages - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/tours/dubai.jpg</image:loc>
+      <image:title>Dubai Discovery Package - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/tours/istanbul.jpg</image:loc>
+      <image:title>Istanbul Cultural Experience - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/tours/london.jpg</image:loc>
+      <image:title>London Business &amp; Leisure - Etak Travels</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/tours/accra.jpg</image:loc>
+      <image:title>West Africa Explorer - Etak Travels</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/headers/contact.jpg</image:loc>
+      <image:title>Contact Etak Travels - Abuja Nigeria</image:title>
+    </image:image>
+  </url>
+
+</urlset>

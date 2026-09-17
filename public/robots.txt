@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://etaktravels.com/sitemap.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 10
+
+# Allow image indexing
+User-agent: Googlebot-Image
+Allow: /brand/
+Allow: /images/
+Allow: /credentials/

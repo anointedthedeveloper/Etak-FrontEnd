@@ -1,14 +1,33 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Search, MapPin, ArrowRight } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { Search, MapPin, ArrowRight, Heart } from 'lucide-react'
 import { destinations, destinationCategories } from '../data/destinations'
 import { Badge } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
+import SEO from '../components/ui/SEO'
+import { useCart } from '../context/CartContext'
 
 export default function Destinations() {
-  const [query, setQuery] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
   const [category, setCategory] = useState('all')
   const [selected, setSelected] = useState<string | null>(null)
+  const { toggle, has } = useCart()
+
+  // Initialise query from URL param
+  const query = searchParams.get('q') ?? ''
+  const setQuery = (val: string) => {
+    if (val) setSearchParams({ q: val }, { replace: true })
+    else setSearchParams({}, { replace: true })
+  }
+
+  // Sync category from URL if it matches
+  useEffect(() => {
+    const q = searchParams.get('q')
+    if (q) {
+      const match = destinationCategories.find(c => c.label.toLowerCase().includes(q.toLowerCase()))
+      if (match && match.id !== 'all') setCategory(match.id)
+    }
+  }, [])
 
   const filtered = destinations.filter(d => {
     const matchesQuery = !query || d.name.toLowerCase().includes(query.toLowerCase()) || d.country.toLowerCase().includes(query.toLowerCase())
@@ -18,6 +37,13 @@ export default function Destinations() {
 
   return (
     <>
+      <SEO
+        title="Destinations"
+        description="Explore popular travel destinations from Nigeria — Dubai, London, Istanbul, Paris, New York, Accra, Nairobi and more. Etak Travels arranges flights, hotels and tours to destinations worldwide."
+        keywords="travel destinations Nigeria, Dubai from Abuja, London from Nigeria, Istanbul tour Nigeria, Paris travel Nigeria, Accra from Abuja, international travel Nigeria"
+        url="/destinations"
+        image="/images/headers/destinations.jpg"
+      />
       {/* Header */}
       <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
         <img
@@ -33,7 +59,7 @@ export default function Destinations() {
           <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto mb-6 sm:mb-8">
             Popular destinations for Nigerian travellers — from business hubs to leisure escapes and cultural experiences.
           </p>
-          <div className="max-w-md mx-auto relative">
+                <div className="max-w-md mx-auto relative">
             <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#667085]" />
             <input
               type="text"
@@ -90,6 +116,14 @@ export default function Destinations() {
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#101B46]/70 to-transparent" />
+                    <button
+                      onClick={e => { e.stopPropagation(); toggle({ id: dest.id, type: 'destination', title: dest.name, image: dest.image, subtitle: dest.country }) }}
+                      className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center shadow transition-colors z-10 ${
+                        has(dest.id) ? 'bg-[#08A9E0] text-white' : 'bg-white/80 text-[#667085] hover:text-[#08A9E0]'
+                      }`}
+                    >
+                      <Heart size={14} fill={has(dest.id) ? 'currentColor' : 'none'} />
+                    </button>
                     <div className="absolute bottom-3 left-3 right-3">
                       <div className="flex flex-wrap gap-1 mb-1">
                         {dest.category.slice(0, 2).map(c => <Badge key={c} variant="blue">{c}</Badge>)}
