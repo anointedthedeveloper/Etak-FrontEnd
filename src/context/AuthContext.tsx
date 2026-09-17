@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { supabase } from '../lib/supabase'
 import { authService, type User } from '../services/auth'
 
 interface AuthContextType {
@@ -7,8 +8,9 @@ interface AuthContextType {
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
   register: (data: { firstName: string; lastName: string; email: string; phone: string; password: string }) => Promise<void>
-  logout: () => void
+  logout: () => Promise<void>
   updateProfile: (data: Partial<User>) => Promise<void>
+  signInWithGoogle: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -18,9 +20,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const session = authService.getSession()
-    setUser(session.user)
-    setIsLoading(false)
+    // Load existing session on mount
+    authService.getSession().then(u => {
+      setUser(u)
+      setIsLoading(false)
+    })
+
+    // Keep in sync with Supabase auth state changes
+    // (login, logout, token refresh, magic link, OAuth, etc.)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        const meta = session.user.user_metadata ?? {}
+        setUser({
+          id: session.user.id,
+          firstName: meta.first_name ?? '',
+          lastName: meta.last_name ?? '',
+          email: session.user.email ?? '',
+          phone: meta.phone ?? '',
+          createdAt: session.user.created_at,
+        })
+      } else {
+        setUser(null)
+      }
+      setIsLoading(false)
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   const login = async (email: string, password: string) => {
@@ -33,8 +58,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(user)
   }
 
-  const logout = () => {
-    authService.logout()
+  const logout = async () => {
+    await authService.logout()
     setUser(null)
   }
 
@@ -44,8 +69,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(updated)
   }
 
+  const signInWithGoogle = async () => {
+    await authService.signInWithGoogle()
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, logout, updateProfile }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, register, logout, updateProfile, signInWithGoogle }}>
       {children}
     </AuthContext.Provider>
   )
