@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, AlertCircle } from 'lucide-react'
+import { Eye, EyeOff, AlertCircle, User, Lock, ArrowLeft } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
-import { Input } from '../components/ui/FormFields'
-import { Button } from '../components/ui/Button'
+import AuthLayout from '../components/layout/AuthLayout'
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
@@ -23,7 +22,10 @@ export default function Login() {
   const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({})
   const [loading, setLoading] = useState(false)
 
-  const set = (k: string, v: string) => { setForm(f => ({ ...f, [k]: v })); setErrors(e => ({ ...e, [k]: '', general: '' })) }
+  const set = (k: string, v: string) => {
+    setForm(f => ({ ...f, [k]: v }))
+    setErrors(e => ({ ...e, [k]: '', general: '' }))
+  }
 
   const validate = () => {
     const e: typeof errors = {}
@@ -48,92 +50,108 @@ export default function Login() {
     }
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#101B46] via-[#1a2a6c] to-[#45419A] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 mb-4">
-            <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain rounded-full" />
-          </Link>
-          <h1 className="font-display text-3xl font-bold text-white mb-1">Welcome Back</h1>
-          <p className="text-blue-200 text-sm">Sign in to your Etak Travels account</p>
-        </div>
+  const inputClass = (err?: string) =>
+    `w-full pl-10 pr-4 py-3 rounded-xl border text-sm text-[#172033] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] focus:border-transparent transition-colors bg-white ${err ? 'border-red-400' : 'border-gray-200'}`
 
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <Input
-              label="Email Address"
+  return (
+    <AuthLayout>
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-7">
+        <div className="w-11 h-11 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0">
+          <User size={20} className="text-white" />
+        </div>
+        <div>
+          <h2 className="font-display text-xl font-bold text-[#101B46]">Welcome Back</h2>
+          <p className="text-sm text-[#667085]">Sign in to your Etak Travels account</p>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {/* Email */}
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-semibold text-[#172033]">Email Address <span className="text-red-500">*</span></label>
+          <div className="relative">
+            <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#667085] pointer-events-none" />
+            <input
               type="email"
               placeholder="your@email.com"
               value={form.email}
               onChange={e => set('email', e.target.value)}
-              error={errors.email}
-              required
               autoComplete="email"
+              className={inputClass(errors.email)}
             />
-
-            <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-[#172033]">Password <span className="text-red-500">*</span></label>
-                <Link to="/forgot-password" className="text-xs text-[#08A9E0] hover:underline">Forgot password?</Link>
-              </div>
-              <div className="relative">
-                <input
-                  type={showPw ? 'text' : 'password'}
-                  placeholder="Enter your password"
-                  value={form.password}
-                  onChange={e => set('password', e.target.value)}
-                  autoComplete="current-password"
-                  className={`w-full px-4 py-3 pr-11 rounded-lg border text-sm text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] focus:border-transparent transition-colors ${errors.password ? 'border-red-400' : 'border-gray-200'}`}
-                />
-                <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#667085] hover:text-[#172033]">
-                  {showPw ? <EyeOff size={17} /> : <Eye size={17} />}
-                </button>
-              </div>
-              {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
-            </div>
-
-            {errors.general && (
-              <div className="flex items-center gap-2 p-3 bg-red-50 rounded-lg border border-red-200">
-                <AlertCircle size={15} className="text-red-500 shrink-0" />
-                <p className="text-sm text-red-600">{errors.general}</p>
-              </div>
-            )}
-
-            <Button type="submit" variant="primary" size="lg" loading={loading} className="w-full mt-1">
-              Sign In
-            </Button>
-          </form>
-
-          <p className="text-center text-sm text-[#667085] mt-6">
-            Don't have an account?{' '}
-            <Link to="/signup" className="text-[#08A9E0] font-medium hover:underline">Create one</Link>
-          </p>
-
-          <div className="relative my-2">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-white px-3 text-xs text-[#667085]">or continue with</span>
-            </div>
           </div>
-
-          <button
-            onClick={signInWithGoogle}
-            type="button"
-            className="w-full flex items-center justify-center gap-3 px-4 h-11 rounded-lg border-2 border-gray-200 text-sm font-semibold text-[#172033] hover:bg-gray-50 hover:border-gray-300 transition-colors duration-150 cursor-pointer"
-          >
-            <GoogleIcon />
-            Continue with Google
-          </button>
+          {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
         </div>
 
-        <p className="text-center text-blue-300 text-xs mt-6">
-          <Link to="/" className="hover:text-white transition-colors">← Back to Etak Travels</Link>
-        </p>
+        {/* Password */}
+        <div className="flex flex-col gap-1.5">
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-semibold text-[#172033]">Password <span className="text-red-500">*</span></label>
+            <Link to="/forgot-password" className="text-xs text-[#08A9E0] hover:underline font-medium">Forgot password?</Link>
+          </div>
+          <div className="relative">
+            <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#667085] pointer-events-none" />
+            <input
+              type={showPw ? 'text' : 'password'}
+              placeholder="Enter your password"
+              value={form.password}
+              onChange={e => set('password', e.target.value)}
+              autoComplete="current-password"
+              className={`${inputClass(errors.password)} pr-11`}
+            />
+            <button type="button" onClick={() => setShowPw(v => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#667085] hover:text-[#172033]">
+              {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
+          </div>
+          {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
+        </div>
+
+        {errors.general && (
+          <div className="flex items-center gap-2 p-3 bg-red-50 rounded-xl border border-red-200">
+            <AlertCircle size={14} className="text-red-500 shrink-0" />
+            <p className="text-sm text-red-600">{errors.general}</p>
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-colors disabled:opacity-60 disabled:cursor-not-allowed mt-1"
+        >
+          {loading ? (
+            <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+            </svg>
+          ) : 'Sign In →'}
+        </button>
+      </form>
+
+      <p className="text-center text-sm text-[#667085] mt-5">
+        Don't have an account?{' '}
+        <Link to="/signup" className="text-[#08A9E0] font-semibold hover:underline">Create one</Link>
+      </p>
+
+      <div className="relative my-4">
+        <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
+        <div className="relative flex justify-center"><span className="bg-[#F0F6FF] px-3 text-xs text-[#667085]">or continue with</span></div>
       </div>
-    </div>
+
+      <button
+        onClick={signInWithGoogle}
+        type="button"
+        className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border-2 border-gray-200 bg-white text-sm font-semibold text-[#172033] hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-pointer"
+      >
+        <GoogleIcon /> Continue with Google
+      </button>
+
+      <div className="text-center mt-5">
+        <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-[#667085] hover:text-[#08A9E0] transition-colors">
+          <ArrowLeft size={14} /> Back to Etak Travels
+        </Link>
+      </div>
+    </AuthLayout>
   )
 }
