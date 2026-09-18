@@ -22,7 +22,7 @@ export const nigerianAirports: Airport[] = [
   { code: 'SKO', name: 'Sadiq Abubakar III International Airport', city: 'Sokoto', state: 'Sokoto', country: 'Nigeria', region: 'Africa', aliases: ['sokoto state'] },
   { code: 'MIU', name: 'Maiduguri International Airport', city: 'Maiduguri', state: 'Borno', country: 'Nigeria', region: 'Africa', aliases: ['borno', 'borno state'] },
   { code: 'QOW', name: 'Sam Mbakwe International Cargo Airport', city: 'Owerri', state: 'Imo', country: 'Nigeria', region: 'Africa', aliases: ['imo', 'imo state'] },
-  { code: 'AKR', name: 'Akure Airport', city: 'Akure', state: 'Ondo', country: 'Nigeria', region: 'Africa', aliases: ['ondo', 'ondo state'] },
+  { code: 'ILR', name: 'Akure Airport (via Ilorin)', city: 'Akure', state: 'Ondo', country: 'Nigeria', region: 'Africa', aliases: ['ondo', 'ondo state', 'akure', 'akr'] },
   { code: 'ABB', name: 'Asaba International Airport', city: 'Asaba', state: 'Delta', country: 'Nigeria', region: 'Africa', aliases: ['delta', 'delta state', 'asaba'] },
   { code: 'YOL', name: 'Yola Airport', city: 'Yola', state: 'Adamawa', country: 'Nigeria', region: 'Africa', aliases: ['adamawa', 'adamawa state'] },
   { code: 'JOS', name: 'Yakubu Gowon Airport', city: 'Jos', state: 'Plateau', country: 'Nigeria', region: 'Africa', aliases: ['plateau', 'plateau state'] },
@@ -31,14 +31,14 @@ export const nigerianAirports: Airport[] = [
   { code: 'BCU', name: 'Bauchi Airport', city: 'Bauchi', state: 'Bauchi', country: 'Nigeria', region: 'Africa', aliases: ['bauchi state'] },
   { code: 'GMO', name: 'Gombe Lawanti International Airport', city: 'Gombe', state: 'Gombe', country: 'Nigeria', region: 'Africa', aliases: ['gombe state'] },
   { code: 'IBA', name: 'Ibadan Airport', city: 'Ibadan', state: 'Oyo', country: 'Nigeria', region: 'Africa', aliases: ['oyo', 'oyo state'] },
-  { code: 'QRW', name: 'Warri Airport', city: 'Warri', state: 'Delta', country: 'Nigeria', region: 'Africa', aliases: ['effurun'] },
+  { code: 'PHC', name: 'Warri Airport (via Port Harcourt)', city: 'Warri', state: 'Delta', country: 'Nigeria', region: 'Africa', aliases: ['effurun', 'qrw', 'warri'] },
   { code: 'ZAR', name: 'Zaria Airport', city: 'Zaria', state: 'Kaduna', country: 'Nigeria', region: 'Africa' },
   { code: 'KTS', name: 'Katsina Airport', city: 'Katsina', state: 'Katsina', country: 'Nigeria', region: 'Africa', aliases: ['katsina state'] },
   { code: 'SKO', name: 'Kebbi Airport (via Sokoto)', city: 'Birnin Kebbi', state: 'Kebbi', country: 'Nigeria', region: 'Africa', aliases: ['kebbi', 'kebbi state', 'birnin kebbi'] },
   { code: 'SKO', name: 'Gusau Airport (via Sokoto)', city: 'Gusau', state: 'Zamfara', country: 'Nigeria', region: 'Africa', aliases: ['zamfara', 'zamfara state', 'gusau'] },
   { code: 'KAN', name: 'Dutse Airport (via Kano)', city: 'Dutse', state: 'Jigawa', country: 'Nigeria', region: 'Africa', aliases: ['jigawa', 'jigawa state', 'dutse'] },
   // ── Benue ─────────────────────────────────────────────────────────────────
-  { code: 'MKD', name: 'Makurdi Airport', city: 'Makurdi', state: 'Benue', country: 'Nigeria', region: 'Africa', aliases: ['benue', 'benue state', 'makurdi'] },
+  { code: 'ABV', name: 'Makurdi Airport (via Abuja)', city: 'Makurdi', state: 'Benue', country: 'Nigeria', region: 'Africa', aliases: ['benue', 'benue state', 'makurdi', 'mkd'] },
   // ── States served via nearest airport ─────────────────────────────────────
   { code: 'ABV', name: 'Nearest Airport: Abuja (ABV)', city: 'Lafia', state: 'Nasarawa', country: 'Nigeria', region: 'Africa', aliases: ['nasarawa', 'nasarawa state'] },
   { code: 'ABV', name: 'Nearest Airport: Abuja (ABV)', city: 'Lokoja', state: 'Kogi', country: 'Nigeria', region: 'Africa', aliases: ['kogi', 'kogi state'] },
@@ -49,6 +49,7 @@ export const nigerianAirports: Airport[] = [
   { code: 'PHC', name: 'Nearest Airport: Port Harcourt (PHC)', city: 'Aba', state: 'Abia', country: 'Nigeria', region: 'Africa', aliases: ['abia', 'abia state', 'umuahia'] },
   { code: 'ILR', name: 'Nearest Airport: Ilorin (ILR)', city: 'Ado-Ekiti', state: 'Ekiti', country: 'Nigeria', region: 'Africa', aliases: ['ekiti', 'ekiti state', 'ado ekiti'] },
   { code: 'IBA', name: 'Nearest Airport: Ibadan (IBA)', city: 'Osogbo', state: 'Osun', country: 'Nigeria', region: 'Africa', aliases: ['osun', 'osun state', 'osogbo'] },
+
   { code: 'YOL', name: 'Nearest Airport: Yola (YOL)', city: 'Jalingo', state: 'Taraba', country: 'Nigeria', region: 'Africa', aliases: ['taraba', 'taraba state', 'jalingo'] },
 ]
 
