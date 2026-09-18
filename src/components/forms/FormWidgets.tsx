@@ -112,10 +112,11 @@ export function LocationInput({ label, value, onChange, placeholder, mode, autoD
           const res = await fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=en`
           )
-          const data = await res.json()
-          const city    = data.address?.city || data.address?.town || data.address?.village || data.address?.county || ''
-          const state   = data.address?.state || ''
-          const country = data.address?.country || ''
+          const data = await res.json().catch(() => ({}))
+          const addr    = data?.address ?? {}
+          const city    = addr.city || addr.town || addr.village || addr.county || ''
+          const state   = addr.state || ''
+          const country = addr.country || ''
 
           if (mode === 'airport') {
             // Try city first, then state

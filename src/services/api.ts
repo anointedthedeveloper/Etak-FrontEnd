@@ -1,5 +1,33 @@
 import { supabase } from '../lib/supabase'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+
+async function apiFetch(path: string, options: RequestInit = {}) {
+  const res = await fetch(`${API_URL}${path}`, {
+    ...options,
+    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+  })
+  const json = await res.json()
+  if (!json.success) throw new Error(json.error?.message || 'Request failed')
+  return json.data
+}
+
+export interface FlightSearchParams {
+  origin: string
+  destination: string
+  departureDate: string
+  adults: number
+  cabinClass: string
+  maxStops?: number
+}
+
+export interface Airport {
+  code: string
+  name: string
+  city: string
+  country: string
+}
+
 export interface InquiryPayload {
   type: 'flight' | 'hotel' | 'tour' | 'assistance' | 'contact'
   name?: string
@@ -15,28 +43,42 @@ export const apiService = {
     const session = sessionData.session
     const userId = session?.user?.id ?? null
 
-    // If logged in and name/email not provided, pull from session metadata
     const meta = session?.user?.user_metadata ?? {}
-    const name  = payload.name  || (meta.full_name ?? `${meta.first_name ?? ''} ${meta.last_name ?? ''}`.trim()) || null
-    const email = payload.email || session?.user?.email || null
+    const name  = payload.name?.trim()
+      || (meta.full_name ?? `${meta.first_name ?? ''} ${meta.last_name ?? ''}`.trim())
+      || session?.user?.email?.split('@')[0]
+      || 'Guest'
+    const email = payload.email?.trim() || session?.user?.email || 'noreply@etaktravels.com'
 
     const { data, error } = await supabase
       .from('inquiries')
       .insert({
-        user_id:      userId,
+        user_id: userId,
         name,
         email,
-        phone:        payload.phone || null,
-        service:      payload.type,
-        message:      payload.message || JSON.stringify(payload.details),
-        details:      payload.details,
-        status:       'new',
+        phone:   payload.phone || null,
+        service: payload.type,
+        message: payload.message || JSON.stringify(payload.details),
+        details: payload.details,
+        status:  'new',
       })
       .select('id')
       .single()
 
     if (error) throw new Error(error.message)
     return { id: data.id }
+  },
+
+  async searchFlights(params: FlightSearchParams) {
+    return apiFetch('/api/flights/search', { method: 'POST', body: JSON.stringify(params) })
+  },
+
+  async searchAirports(q: string): Promise<Airport[]> {
+    return apiFetch(`/api/flights/airports?q=${encodeURIComponent(q)}`)
+  },
+
+  async getBookingLinks(ignavId: string) {
+    return apiFetch('/api/flights/booking-links', { method: 'POST', body: JSON.stringify({ ignavId }) })
   },
 
   // Legacy — kept for Contact page
