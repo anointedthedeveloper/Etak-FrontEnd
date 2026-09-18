@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { MapPin, Plane, ChevronLeft, ChevronRight, ChevronDown, Users, Plus, Minus, Navigation } from 'lucide-react'
-import { searchAirports, type Airport } from '../../data/airports'
-import { searchHotelDestinations, getPopularDestinations, type HotelDestination } from '../../data/hotelDestinations'
+import { MapPin, ChevronLeft, ChevronRight, ChevronDown, Users, Plus, Minus, Navigation } from 'lucide-react'
+import { searchDestinations, getPopularDestinations, type SearchDestination as Destination } from '../../data/locationSearch'
 
 // ─── Portal dropdown wrapper ──────────────────────────────────────────────────
 // Renders children into document.body so overflow:hidden on parents never clips them
@@ -58,19 +57,20 @@ interface LocationInputProps {
   value: string
   onChange: (val: string) => void
   placeholder?: string
-  mode: 'airport' | 'hotel'
   autoDetect?: boolean
   required?: boolean
 }
 
-export function LocationInput({ label, value, onChange, placeholder, mode, autoDetect, required }: LocationInputProps) {
+export function LocationInput({ label, value, onChange, placeholder, autoDetect, required }: LocationInputProps) {
   const [query, setQuery] = useState(value)
   const [open, setOpen] = useState(false)
   const [detecting, setDetecting] = useState(false)
+  const [page, setPage] = useState(1)
   const wrapRef = useRef<HTMLDivElement>(null)
   const anchorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => { setQuery(value) }, [value])
+  useEffect(() => { setPage(1) }, [query])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -83,25 +83,17 @@ export function LocationInput({ label, value, onChange, placeholder, mode, autoD
     return () => document.removeEventListener('mousedown', handler)
   }, [])
 
-  const airportResults = mode === 'airport' ? searchAirports(query) : []
-  const hotelResults   = mode === 'hotel'   ? searchHotelDestinations(query) : []
-  const popularHotels  = mode === 'hotel' && !query.trim() ? getPopularDestinations() : []
+  const popular = !query.trim() ? getPopularDestinations() : []
+  const { results, hasMore } = query.trim() ? searchDestinations(query, page) : { results: [], hasMore: false }
+  const listItems: Destination[] = query.trim() ? results : popular
+  const showFreeText = query.trim().length > 1 && results.length === 0
+  const showDropdown = open && (listItems.length > 0 || showFreeText)
 
-  // Free-text fallback: if typed but no match, offer "Use: <typed>"
-  const hasResults = airportResults.length > 0 || hotelResults.length > 0 || popularHotels.length > 0
-  const showFreeText = query.trim().length > 1 && !hasResults
-
-  const selectAirport = (a: Airport) => {
-    const val = `${a.city} (${a.code})`
-    setQuery(val); onChange(val); setOpen(false)
-  }
-  const selectHotel = (d: HotelDestination) => {
+  const select = (d: Destination) => {
     const val = `${d.city}, ${d.country}`
     setQuery(val); onChange(val); setOpen(false)
   }
-  const useFreeText = () => {
-    onChange(query); setOpen(false)
-  }
+  const useFreeText = () => { onChange(query); setOpen(false) }
 
   const detectLocation = () => {
     if (!navigator.geolocation) return
@@ -113,26 +105,14 @@ export function LocationInput({ label, value, onChange, placeholder, mode, autoD
             `https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=en`
           )
           const data = await res.json().catch(() => ({}))
-          const addr    = data?.address ?? {}
-          const city    = addr.city || addr.town || addr.village || addr.county || ''
-          const state   = addr.state || ''
+          const addr = data?.address ?? {}
+          const city = addr.city || addr.town || addr.village || addr.county || ''
           const country = addr.country || ''
-
-          if (mode === 'airport') {
-            // Try city first, then state
-            const match = searchAirports(city)[0] || searchAirports(state)[0]
-            if (match) { selectAirport(match) }
-            else {
-              const val = [city || state, country].filter(Boolean).join(', ')
-              setQuery(val); onChange(val)
-            }
-          } else {
-            const match = searchHotelDestinations(city)[0] || searchHotelDestinations(state)[0]
-            if (match) { selectHotel(match) }
-            else {
-              const val = [city || state, country].filter(Boolean).join(', ')
-              setQuery(val); onChange(val)
-            }
+          const { results: matches } = searchDestinations(city, 1)
+          if (matches[0]) { select(matches[0]) }
+          else {
+            const val = [city, country].filter(Boolean).join(', ')
+            setQuery(val); onChange(val)
           }
         } catch { /* silent */ }
         setDetecting(false)
@@ -142,11 +122,6 @@ export function LocationInput({ label, value, onChange, placeholder, mode, autoD
     )
   }
 
-  const showDropdown = open && (hasResults || showFreeText)
-  const listItems = mode === 'airport' ? airportResults
-    : hotelResults.length > 0 ? hotelResults
-    : popularHotels
-
   return (
     <div ref={wrapRef} className="relative">
       <label className="block text-xs font-semibold text-[#101B46] mb-1">
@@ -154,7 +129,7 @@ export function LocationInput({ label, value, onChange, placeholder, mode, autoD
       </label>
       <div ref={anchorRef as React.RefObject<HTMLDivElement>} className="relative">
         <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#667085] pointer-events-none">
-          {mode === 'airport' ? <Plane size={13} /> : <MapPin size={13} />}
+          <MapPin size={13} />
         </div>
         <input
           type="text"
@@ -183,42 +158,40 @@ export function LocationInput({ label, value, onChange, placeholder, mode, autoD
         <div
           data-location-dropdown
           className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden"
-          style={{ maxHeight: 260, overflowY: 'auto' }}
+          style={{ maxHeight: 300, overflowY: 'auto' }}
         >
-          {popularHotels.length > 0 && (
+          {!query.trim() && (
             <div className="px-3 py-1.5 text-[10px] font-semibold text-[#667085] uppercase tracking-wide bg-[#F8FAFC] border-b border-gray-100 sticky top-0">
               Popular Destinations
             </div>
           )}
 
-          {listItems.map((item, i) => {
-            const isAirport = mode === 'airport'
-            const a = item as Airport
-            const h = item as HotelDestination
-            return (
-              <button
-                key={i}
-                type="button"
-                onMouseDown={e => { e.preventDefault(); isAirport ? selectAirport(a) : selectHotel(h) }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-[#EAF8FD] transition-colors border-b border-gray-50 last:border-0"
-              >
-                <div className="w-7 h-7 rounded-lg bg-[#EAF8FD] flex items-center justify-center shrink-0">
-                  {isAirport ? <Plane size={12} className="text-[#08A9E0]" /> : <MapPin size={12} className="text-[#08A9E0]" />}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[#172033] truncate">
-                    {isAirport ? `${a.city}, ${a.country}` : `${h.city}, ${h.country}`}
-                  </p>
-                  <p className="text-xs text-[#667085] truncate">
-                    {isAirport ? a.name : h.region}
-                  </p>
-                </div>
-                {isAirport && (
-                  <span className="text-xs font-bold text-[#08A9E0] bg-[#EAF8FD] px-1.5 py-0.5 rounded shrink-0">{a.code}</span>
-                )}
-              </button>
-            )
-          })}
+          {listItems.map((d, i) => (
+            <button
+              key={i}
+              type="button"
+              onMouseDown={e => { e.preventDefault(); select(d) }}
+              className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-[#EAF8FD] transition-colors border-b border-gray-50 last:border-0"
+            >
+              <div className="w-7 h-7 rounded-lg bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                <MapPin size={12} className="text-[#08A9E0]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-[#172033] truncate">{d.city}, {d.country}</p>
+                <p className="text-xs text-[#667085] truncate">{d.region}</p>
+              </div>
+            </button>
+          ))}
+
+          {hasMore && (
+            <button
+              type="button"
+              onMouseDown={e => { e.preventDefault(); setPage(p => p + 1) }}
+              className="w-full py-2.5 text-xs font-semibold text-[#08A9E0] hover:bg-[#EAF8FD] transition-colors border-t border-gray-100"
+            >
+              Load more results
+            </button>
+          )}
 
           {showFreeText && (
             <button
@@ -256,7 +229,10 @@ interface DatePickerProps {
 
 export function DatePicker({ label, value, onChange, min, required }: DatePickerProps) {
   const today = new Date(); today.setHours(0,0,0,0)
-  const minDate = min ? new Date(min + 'T00:00:00') : today
+  // min is treated as exclusive (day after), so add 1 day
+  const minDate = min
+    ? (() => { const d = new Date(min + 'T00:00:00'); d.setDate(d.getDate() + 1); return d })()
+    : today
 
   const parsed = value ? new Date(value + 'T00:00:00') : null
   const [open, setOpen] = useState(false)
@@ -288,12 +264,16 @@ export function DatePicker({ label, value, onChange, min, required }: DatePicker
   const prevMonth = () => setView(v => v.month === 0 ? { year: v.year - 1, month: 11 } : { ...v, month: v.month - 1 })
   const nextMonth = () => setView(v => v.month === 11 ? { year: v.year + 1, month: 0 } : { ...v, month: v.month + 1 })
 
-  const firstDay    = new Date(view.year, view.month, 1).getDay()
-  const daysInMonth = new Date(view.year, view.month + 1, 0).getDate()
+  const prevMonthDays = new Date(view.year, view.month, 0).getDate()
+  const firstDay      = new Date(view.year, view.month, 1).getDay()
+  const daysInMonth   = new Date(view.year, view.month + 1, 0).getDate()
 
   const selectDay = (day: number) => {
-    const d = new Date(view.year, view.month, day)
-    onChange(d.toISOString().split('T')[0])
+    // Use local date parts to avoid UTC offset shifting the day
+    const yyyy = view.year
+    const mm = String(view.month + 1).padStart(2, '0')
+    const dd = String(day).padStart(2, '0')
+    onChange(`${yyyy}-${mm}-${dd}`)
     setOpen(false)
   }
 
@@ -342,12 +322,22 @@ export function DatePicker({ label, value, onChange, min, required }: DatePicker
             {DAYS.map(d => <div key={d} className="text-center text-[10px] font-semibold text-[#667085] py-1">{d}</div>)}
           </div>
           <div className="grid grid-cols-7 gap-0.5">
-            {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
+            {Array.from({ length: firstDay }).map((_, i) => {
+              const day = prevMonthDays - firstDay + i + 1
+              return (
+                <div key={`prev${i}`} className="w-full aspect-square flex items-center justify-center text-xs text-gray-300">
+                  {day}
+                </div>
+              )
+            })}
             {Array.from({ length: daysInMonth }).map((_, i) => {
               const day = i + 1
               const disabled = isDisabled(day)
               const selected = isSelected(day)
               const todayDay = isToday(day)
+              // fill remaining cells with next-month days
+              const totalCells = firstDay + daysInMonth
+              const nextMonthFill = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7)
               return (
                 <button
                   key={day}
@@ -365,6 +355,11 @@ export function DatePicker({ label, value, onChange, min, required }: DatePicker
                 </button>
               )
             })}
+            {Array.from({ length: (() => { const t = firstDay + daysInMonth; return t % 7 === 0 ? 0 : 7 - (t % 7) })() }).map((_, i) => (
+              <div key={`next${i}`} className="w-full aspect-square flex items-center justify-center text-xs text-gray-300">
+                {i + 1}
+              </div>
+            ))}
           </div>
         </div>
       </DropdownPortal>

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import { supabase } from '../lib/supabase'
 import { authService, type User } from '../services/auth'
+import { apiService } from '../services/api'
 import CompleteProfileModal from '../components/ui/CompleteProfileModal'
 
 interface AuthContextType {
@@ -58,10 +59,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (session?.user) {
         const mapped = mapSession(session.user)
         setUser(mapped)
-        // Show profile completion modal if phone is missing (typical for OAuth users)
-        if (!mapped.phone) {
-          setNeedsProfile(true)
-        }
+        if (!mapped.phone) setNeedsProfile(true)
+        // Claim any guest inquiries submitted before login (covers OAuth flow)
+        apiService.claimPendingInquiries(mapped.id)
       } else {
         setUser(null)
         setNeedsProfile(false)
@@ -75,11 +75,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     const { user } = await authService.login(email, password)
     setUser(user)
+    await apiService.claimPendingInquiries(user.id)
   }
 
   const register = async (data: { firstName: string; lastName: string; email: string; phone: string; password: string }) => {
     const { user } = await authService.register(data)
     setUser(user)
+    await apiService.claimPendingInquiries(user.id)
   }
 
   const logout = async () => {

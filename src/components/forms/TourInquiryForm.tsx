@@ -46,7 +46,7 @@ export default function TourInquiryForm({ compact: _compact }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <LocationInput label="Destination" value={destination} onChange={setDestination} placeholder="Where would you like to go?" mode="hotel" required />
+      <LocationInput label="Destination" value={destination} onChange={setDestination} placeholder="Where would you like to go?" required />
 
       <div className="grid grid-cols-2 gap-3">
         <DatePicker label="Travel Date" value={travelDate} onChange={setTravelDate} />

@@ -22,6 +22,11 @@ export default function HotelInquiryForm({ compact: _compact }: Props) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [submittedId, setSubmittedId] = useState<string | null>(null)
 
+  const handleCheckInChange = (val: string) => {
+    setCheckIn(val)
+    if (checkOut && checkOut <= val) setCheckOut('')
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('loading')
@@ -46,10 +51,10 @@ export default function HotelInquiryForm({ compact: _compact }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <LocationInput label="Destination" value={destination} onChange={setDestination} placeholder="City or country" mode="hotel" required />
+      <LocationInput label="Destination" value={destination} onChange={setDestination} placeholder="City or country" required />
 
       <div className="grid grid-cols-2 gap-3">
-        <DatePicker label="Check-in"  value={checkIn}  onChange={setCheckIn}  required />
+        <DatePicker label="Check-in"  value={checkIn}  onChange={handleCheckInChange}  required />
         <DatePicker label="Check-out" value={checkOut} onChange={setCheckOut} min={checkIn} />
       </div>
 

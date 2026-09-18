@@ -66,7 +66,22 @@ export const apiService = {
       .single()
 
     if (error) throw new Error(error.message)
+
+    // Save guest inquiry id so it can be claimed after signup/login
+    if (!userId) {
+      const pending = JSON.parse(localStorage.getItem('pendingInquiryIds') || '[]') as string[]
+      pending.push(data.id)
+      localStorage.setItem('pendingInquiryIds', JSON.stringify(pending))
+    }
+
     return { id: data.id }
+  },
+
+  async claimPendingInquiries(userId: string): Promise<void> {
+    const pending = JSON.parse(localStorage.getItem('pendingInquiryIds') || '[]') as string[]
+    if (!pending.length) return
+    await supabase.from('inquiries').update({ user_id: userId }).in('id', pending)
+    localStorage.removeItem('pendingInquiryIds')
   },
 
   async searchFlights(params: FlightSearchParams) {

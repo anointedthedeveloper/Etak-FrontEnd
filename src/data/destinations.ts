@@ -63,7 +63,7 @@ export const destinations = [
     category: ['business', 'leisure'],
     tagline: "Africa's city of gold",
     description:
-      'Johannesburg is South Africa\'s economic powerhouse and a major hub for business travel across the continent. The city offers world-class infrastructure, diverse dining, and easy access to safari destinations.',
+      "Johannesburg is South Africa's economic powerhouse and a major hub for business travel across the continent. The city offers world-class infrastructure, diverse dining, and easy access to safari destinations.",
     highlights: ['Apartheid Museum', 'Sandton City', 'Soweto', 'Gold Reef City', 'Cradle of Humankind'],
     travelTips: 'Visa required for Nigerian passport holders.',
     image: '/images/destinations/johannesburg.jpg',
@@ -77,7 +77,7 @@ export const destinations = [
     category: ['leisure', 'holiday', 'city'],
     tagline: 'The city of light and elegance',
     description:
-      'Paris is one of the world\'s most iconic travel destinations — renowned for its art, cuisine, fashion, and architecture. A dream destination for leisure travellers and a major European business hub.',
+      "Paris is one of the world's most iconic travel destinations — renowned for its art, cuisine, fashion, and architecture. A dream destination for leisure travellers and a major European business hub.",
     highlights: ['Eiffel Tower', 'The Louvre', 'Champs-Élysées', 'Versailles', 'Montmartre'],
     travelTips: 'Schengen visa required for Nigerian passport holders.',
     image: '/images/destinations/paris.jpg',
@@ -105,7 +105,7 @@ export const destinations = [
     category: ['business', 'leisure', 'educational'],
     tagline: 'Gateway to East Africa',
     description:
-      'Nairobi is East Africa\'s most cosmopolitan city and a gateway to some of the world\'s most spectacular wildlife destinations. A growing hub for business travel and an excellent base for safari experiences.',
+      "Nairobi is East Africa's most cosmopolitan city and a gateway to some of the world's most spectacular wildlife destinations. A growing hub for business travel and an excellent base for safari experiences.",
     highlights: ['Nairobi National Park', 'Karen Blixen Museum', 'Maasai Market', 'Giraffe Centre', 'Bomas of Kenya'],
     travelTips: 'E-visa available for Nigerian passport holders.',
     image: '/images/destinations/nairobi.jpg',

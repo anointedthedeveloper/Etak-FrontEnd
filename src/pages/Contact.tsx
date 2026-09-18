@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { MapPin, Mail, Phone, Clock, CheckCircle2, AlertCircle } from 'lucide-react'
 import { Input, Textarea, Select } from '../components/ui/FormFields'
+import { DatePicker } from '../components/forms/FormWidgets'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import { apiService } from '../services/api'
@@ -207,7 +208,7 @@ export default function Contact() {
                         { value: 'whatsapp', label: 'WhatsApp' },
                       ]}
                     />
-                    <Input label="Preferred Travel Dates" placeholder="e.g. August 2025" value={form.travelDates} onChange={e => set('travelDates', e.target.value)} />
+                    <DatePicker label="Preferred Travel Date" value={form.travelDates} onChange={v => set('travelDates', v)} />
                   </div>
                   <Textarea
                     label="Your Travel Inquiry"
