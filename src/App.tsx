@@ -26,6 +26,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
 import { ProtectedRoute } from './routes/ProtectedRoute'
 import NotFound from './pages/NotFound'
+import AuthCallback from './pages/AuthCallback'
 import PageLoader from './components/ui/PageLoader'
 import { useRouteLoader } from './hooks/useRouteLoader'
 import { useScrollToTop } from './hooks/useScrollToTop'
@@ -84,6 +85,7 @@ function AppRoutes() {
         <Route path="/signup"          element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password"  element={<ResetPassword />} />
+        <Route path="/auth/callback"   element={<AuthCallback />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
