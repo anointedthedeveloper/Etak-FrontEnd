@@ -12,10 +12,10 @@ import { tours } from '../../data/tours'
 
 const navLinks = [
   { to: '/',             label: 'Home',         icon: Home },
+  { to: '/about',        label: 'About Us',     icon: Info },
   { to: '/services',     label: 'Services',     icon: Briefcase },
   { to: '/destinations', label: 'Destinations', icon: Globe },
   { to: '/tours',        label: 'Tours',        icon: Map },
-  { to: '/about',        label: 'About Us',     icon: Info },
   { to: '/contact',      label: 'Contact',      icon: Mail },
 ]
 

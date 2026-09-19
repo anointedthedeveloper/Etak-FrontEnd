@@ -214,6 +214,36 @@ export default function About() {
         </div>
       </section>
 
+      {/* Partners */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+          <SectionHeader eyebrow="Our Partners" title="Trusted Airline Partners" centered />
+          <div className="mt-8 relative">
+            <div className="flex animate-scroll gap-8 items-center">
+              {[
+                'AIRFRANCE', 'QATAR AIRWAYS', 'Lufthansa', 'royal air maroc', 'virgin atlantic',
+                'SAUDIA', 'AIR INDIA', 'Emirates', 'SOUTH AFRICAN AIRWAYS', 'AFRIQIYAH',
+                'Arik', 'aero', 'DELTA', 'EGYPTAIR', 'Ethiopian'
+              ].map((partner) => (
+                <div key={partner} className="flex-shrink-0 px-6 py-3 bg-gray-50 rounded-lg border border-gray-100">
+                  <span className="text-sm font-semibold text-[#667085] whitespace-nowrap">{partner}</span>
+                </div>
+              ))}
+              {/* Duplicate for seamless scrolling */}
+              {[
+                'AIRFRANCE', 'QATAR AIRWAYS', 'Lufthansa', 'royal air maroc', 'virgin atlantic',
+                'SAUDIA', 'AIR INDIA', 'Emirates', 'SOUTH AFRICAN AIRWAYS', 'AFRIQIYAH',
+                'Arik', 'aero', 'DELTA', 'EGYPTAIR', 'Ethiopian'
+              ].map((partner) => (
+                <div key={`${partner}-duplicate`} className="flex-shrink-0 px-6 py-3 bg-gray-50 rounded-lg border border-gray-100">
+                  <span className="text-sm font-semibold text-[#667085] whitespace-nowrap">{partner}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-12 sm:py-16 bg-[#101B46]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">

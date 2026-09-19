@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { MapPin, Mail, Phone, Clock, CheckCircle2, AlertCircle } from 'lucide-react'
+import { FaWhatsapp } from 'react-icons/fa'
 import { Input, Textarea, Select } from '../components/ui/FormFields'
 import { DatePicker } from '../components/forms/FormWidgets'
 import { Button } from '../components/ui/Button'
@@ -116,6 +117,17 @@ export default function Contact() {
                       <div className="text-xs font-semibold text-[#101B46] mb-1">Phone</div>
                       <a href="tel:+2348032062242" className="text-sm text-[#08A9E0] hover:underline block">+234 803 206 2242</a>
                       <a href="tel:+2348173588783" className="text-sm text-[#08A9E0] hover:underline block">+234 817 358 8783</a>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#25D366] flex items-center justify-center shrink-0">
+                      <FaWhatsapp size={18} className="text-white" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-semibold text-[#101B46] mb-1">WhatsApp</div>
+                      <a href="https://wa.me/2348032062242" target="_blank" rel="noopener noreferrer" className="text-sm text-[#25D366] hover:underline block">
+                        Chat on WhatsApp
+                      </a>
                     </div>
                   </div>
                   <div className="flex gap-3">

@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import { MapPin, Mail, Phone } from 'lucide-react'
-import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn } from 'react-icons/fa'
+import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa'
 
 const quickLinks = [
   { to: '/', label: 'Home' },
+  { to: '/about', label: 'About Us' },
   { to: '/services', label: 'Services' },
   { to: '/destinations', label: 'Destinations' },
   { to: '/tours', label: 'Tours' },
-  { to: '/about', label: 'About Us' },
   { to: '/contact', label: 'Contact' },
 ]
 
@@ -25,6 +25,7 @@ const socials = [
   { icon: FaInstagram,  href: 'https://www.instagram.com/etaktravelsandtours', label: 'Instagram' },
   { icon: FaTwitter,    href: '#', label: 'Twitter' },
   { icon: FaLinkedinIn, href: '#', label: 'LinkedIn' },
+  { icon: FaWhatsapp,   href: 'https://wa.me/2348032062242',                   label: 'WhatsApp' },
 ]
 
 export default function Footer() {
@@ -117,6 +118,12 @@ export default function Footer() {
                   <a href="tel:+2348032062242" className="text-[#667085] hover:text-[#08A9E0] text-sm transition-colors">+234 803 206 2242</a>
                   <a href="tel:+2348173588783" className="text-[#667085] hover:text-[#08A9E0] text-sm transition-colors">+234 817 358 8783</a>
                 </div>
+              </li>
+              <li className="flex gap-3 items-center">
+                <FaWhatsapp size={16} className="text-[#25D366] shrink-0" />
+                <a href="https://wa.me/2348032062242" target="_blank" rel="noopener noreferrer" className="text-[#667085] hover:text-[#25D366] text-sm transition-colors">
+                  Chat on WhatsApp
+                </a>
               </li>
             </ul>
           </div>

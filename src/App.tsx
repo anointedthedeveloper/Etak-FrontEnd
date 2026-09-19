@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { useEffect } from 'react'
 import Layout from './components/layout/Layout'
 import DashboardLayout from './components/layout/DashboardLayout'
+import AdminLayout from './components/layout/AdminLayout'
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import Home from './pages/Home'
@@ -14,6 +15,10 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
+import AdminLogin from './pages/AdminLogin'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminEnquiries from './pages/admin/AdminEnquiries'
+import AdminUsers from './pages/admin/AdminUsers'
 import Dashboard from './pages/Dashboard'
 import DashboardInquiries from './pages/dashboard/DashboardInquiries'
 import DashboardBookings from './pages/dashboard/DashboardBookings'
@@ -85,7 +90,15 @@ function AppRoutes() {
         <Route path="/signup"          element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password"  element={<ResetPassword />} />
+        <Route path="/adlog"           element={<AdminLogin />} />
         <Route path="/auth/callback"   element={<AuthCallback />} />
+
+        {/* ── Admin — AdminLayout, protected by localStorage check ── */}
+        <Route element={<AdminLayout />}>
+          <Route path="/admin/dashboard"  element={<AdminDashboard />} />
+          <Route path="/admin/enquiries"  element={<AdminEnquiries />} />
+          <Route path="/admin/users"      element={<AdminUsers />} />
+        </Route>
 
         <Route path="*" element={<NotFound />} />
       </Routes>
