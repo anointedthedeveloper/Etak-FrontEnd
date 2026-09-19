@@ -105,7 +105,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <div className="text-xs font-semibold text-[#101B46] mb-1">Email</div>
-                      <a href="mailto:info@etakstravel.com" className="text-sm text-[#08A9E0] hover:underline">info@etakstravel.com</a>
+                      <a href="mailto:info@etakstravels.com" className="text-sm text-[#08A9E0] hover:underline">info@etakstravels.com</a>
                     </div>
                   </div>
                   <div className="flex gap-3">

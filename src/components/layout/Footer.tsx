@@ -107,8 +107,8 @@ export default function Footer() {
               </li>
               <li className="flex gap-3 items-center">
                 <Mail size={16} className="text-[#08A9E0] shrink-0" />
-                <a href="mailto:info@etakstravel.com" className="text-[#667085] hover:text-[#08A9E0] text-sm transition-colors">
-                  info@etakstravel.com
+                <a href="mailto:info@etakstravels.com" className="text-[#667085] hover:text-[#08A9E0] text-sm transition-colors">
+                  info@etakstravels.com
                 </a>
               </li>
               <li className="flex gap-3 items-center">

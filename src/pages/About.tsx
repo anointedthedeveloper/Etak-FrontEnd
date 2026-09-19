@@ -128,7 +128,7 @@ export default function About() {
                 { label: 'Business Type', value: 'Travel Management Company' },
                 { label: 'Location', value: 'Abuja, FCT, Nigeria' },
                 { label: 'Office Address', value: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Along Umaru Musa Yar\'Adua (Airport Road), Piwoyi, Abuja, FCT, Nigeria' },
-                { label: 'Email', value: 'info@etakstravel.com' },
+                { label: 'Email', value: 'info@etakstravels.com' },
                 { label: 'Phone', value: '+234 803 206 2242 / +234 817 358 8783' },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4 px-6 py-4 border-b border-gray-100 last:border-0">

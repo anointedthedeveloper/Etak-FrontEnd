@@ -335,9 +335,7 @@ export function DatePicker({ label, value, onChange, min, required }: DatePicker
               const disabled = isDisabled(day)
               const selected = isSelected(day)
               const todayDay = isToday(day)
-              // fill remaining cells with next-month days
-              const totalCells = firstDay + daysInMonth
-              const nextMonthFill = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7)
+              // fill remaining cells with next-month days (calculated at grid level)
               return (
                 <button
                   key={day}
