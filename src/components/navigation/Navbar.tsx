@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import {
   Menu, X, ChevronDown, User, LogOut, LayoutDashboard,
   Search, Home, Briefcase, Globe, Map, Info, Mail, ArrowRight,
@@ -189,10 +189,42 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen]     = useState(false)
   const [wishlistOpen, setWishlistOpen] = useState(false)
+  const [showNavbar, setShowNavbar]     = useState(false)
 
   const { isAuthenticated, user, logout } = useAuth()
   const { items, toggle, count } = useCart()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    const updateNavbarVisibility = () => {
+      const isMobile = window.innerWidth < 1024
+      const isHomePage = location.pathname === '/'
+      
+      if (!isMobile) {
+        // Desktop: always show navbar
+        setShowNavbar(true)
+      } else if (isHomePage) {
+        // Mobile + home page: show only after scrolling
+        setShowNavbar(window.scrollY > 100)
+      } else {
+        // Mobile + other pages: always show navbar
+        setShowNavbar(true)
+      }
+    }
+
+    const handleScroll = () => updateNavbarVisibility()
+    const handleResize = () => updateNavbarVisibility()
+
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleResize)
+    updateNavbarVisibility() // Check initial state
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [location.pathname])
 
   useEffect(() => {
     document.body.style.overflow = (mobileOpen || wishlistOpen) ? 'hidden' : ''
@@ -207,7 +239,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+      <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
           <div className="flex items-center justify-between h-16">
 
