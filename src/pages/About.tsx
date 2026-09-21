@@ -6,68 +6,23 @@ import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import PageHeader from '../components/ui/PageHeader'
 
-// Airline partner logos sourced from Wikimedia Commons (public domain / free use)
+// Airline partner logos — stored locally in public/partners/
 const AIRLINE_PARTNERS = [
-  {
-    name: 'Air France',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Air_France_Logo.svg',
-  },
-  {
-    name: 'Qatar Airways',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Qatar_Airways_logo.svg',
-  },
-  {
-    name: 'Lufthansa',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Lufthansa_Logo_2018_crane.svg',
-  },
-  {
-    name: 'Royal Air Maroc',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/b/bf/Logo_Royal_Air_Maroc.svg',
-  },
-  {
-    name: 'Virgin Atlantic',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Virgin_Atlantic_logo.svg',
-  },
-  {
-    name: 'Saudia',
-    logo: 'https://upload.wikimedia.org/wikipedia/en/4/48/Logo_of_Saudia.svg',
-  },
-  {
-    name: 'Air India',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/b/bf/Air_India_2023.svg',
-  },
-  {
-    name: 'Emirates',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Emirates_banner_logo.svg',
-  },
-  {
-    name: 'South African Airways',
-    logo: 'https://upload.wikimedia.org/wikipedia/en/7/7c/SAA_logo_%282019%29.svg',
-  },
-  {
-    name: 'Afriqiyah',
-    logo: 'https://upload.wikimedia.org/wikipedia/en/1/1a/Afriqiyah_Airways_logo.svg',
-  },
-  {
-    name: 'Arik Air',
-    logo: 'https://upload.wikimedia.org/wikipedia/en/4/4a/Arik_Air_logo.svg',
-  },
-  {
-    name: 'Delta',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Delta_logo.svg',
-  },
-  {
-    name: 'EgyptAir',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c2/Egyptair-Logo-2010.svg',
-  },
-  {
-    name: 'Ethiopian Airlines',
-    logo: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Ethiopian_Airlines_Logo.svg',
-  },
-  {
-    name: 'Aero',
-    logo: null, // text fallback – no public domain logo available
-  },
+  { name: 'Air France',          logo: '/partners/airfrance.svg' },
+  { name: 'Qatar Airways',       logo: '/partners/qatar.svg' },
+  { name: 'Lufthansa',           logo: '/partners/lufthansa.svg' },
+  { name: 'Royal Air Maroc',     logo: '/partners/royalairmaroc.svg' },
+  { name: 'Virgin Atlantic',     logo: '/partners/virgin.svg' },
+  { name: 'Saudia',              logo: '/partners/saudia.svg' },
+  { name: 'Air India',           logo: '/partners/airindia.svg' },
+  { name: 'Emirates',            logo: '/partners/emirates.svg' },
+  { name: 'South African Airways', logo: '/partners/saa.svg' },
+  { name: 'Afriqiyah',           logo: '/partners/afriqiyah.svg' },
+  { name: 'Arik Air',            logo: '/partners/arik.svg' },
+  { name: 'Delta',               logo: '/partners/delta.svg' },
+  { name: 'EgyptAir',            logo: '/partners/egyptair.svg' },
+  { name: 'Ethiopian Airlines',  logo: '/partners/ethiopian.svg' },
+  { name: 'Aero',                logo: null },
 ]
 
 function PartnerLogo({ name, logo }: { name: string; logo: string | null }) {
@@ -139,6 +94,21 @@ export default function About() {
             </div>
 
             <div className="flex flex-col gap-6">
+              {/* Intro image */}
+              <div className="relative rounded-2xl overflow-hidden h-56 sm:h-64 lg:h-52 xl:h-60 border border-gray-100 shadow-sm">
+                <img
+                  src="/images/sections/why-travel.jpg"
+                  alt="Travel planning at Etak Travels"
+                  className="w-full h-full object-cover object-center"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101B46]/60 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <p className="text-white font-display font-bold text-lg leading-snug">Your journey starts with a single conversation.</p>
+                  <p className="text-blue-200 text-xs mt-1">Based in Abuja · Serving Nigeria &amp; Beyond</p>
+                </div>
+              </div>
+
               {/* Mission */}
               <div className="bg-[#F8FAFC] rounded-2xl p-6 border border-gray-100">
                 <div className="flex items-center gap-3 mb-3">
@@ -307,13 +277,18 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="py-12 sm:py-16 bg-[#101B46]">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Travel with Etak?</h2>
-          <p className="text-blue-200 text-sm sm:text-base mb-6 sm:mb-8">Get in touch with our team and let us help you plan your next journey.</p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link to="/contact"><Button size="lg" variant="primary">Contact Us</Button></Link>
-            <Link to="/services"><Button size="lg" variant="white">Our Services</Button></Link>
+      <section className="py-14 sm:py-20 bg-white border-t border-gray-100">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+          <div className="max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 p-8 sm:p-10 rounded-2xl border border-gray-200 bg-[#F8FAFC]">
+            <div className="text-center lg:text-left">
+              <div className="w-10 h-1 bg-[#08A9E0] rounded-full mb-4 mx-auto lg:mx-0" />
+              <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#101B46] mb-2">Ready to Travel with Etak?</h2>
+              <p className="text-[#667085] text-sm sm:text-base max-w-md">Get in touch with our team and let us help you plan your next journey.</p>
+            </div>
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-end shrink-0">
+              <Link to="/contact"><Button size="lg" variant="primary">Contact Us</Button></Link>
+              <Link to="/services"><Button size="lg" variant="outline">Our Services</Button></Link>
+            </div>
           </div>
         </div>
       </section>

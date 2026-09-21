@@ -66,19 +66,23 @@ export default function Destinations() {
       </PageHeader>
 
       {/* Filters */}
-      <div className="bg-white border-b border-gray-100 sticky top-[72px] z-30">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 py-3 flex gap-2 overflow-x-auto scrollbar-hide">
-          {destinationCategories.map(cat => (
-            <button
-              key={cat.id}
-              onClick={() => setCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
-                category === cat.id ? 'bg-[#101B46] text-white' : 'bg-gray-100 text-[#667085] hover:bg-gray-200'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+      <div className="bg-white border-b border-gray-100 sticky top-[64px] z-30">
+        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+          <div className="flex gap-1.5 overflow-x-auto py-3 scrollbar-hide">
+            {destinationCategories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setCategory(cat.id)}
+                className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-150 cursor-pointer border ${
+                  category === cat.id
+                    ? 'bg-[#101B46] text-white border-[#101B46] shadow-sm'
+                    : 'bg-white text-[#667085] border-gray-200 hover:border-[#101B46]/40 hover:text-[#101B46]'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -93,15 +97,15 @@ export default function Destinations() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {filtered.map(dest => (
                 <div
                   key={dest.id}
                   id={dest.id}
-                  className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                  className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col"
                   onClick={() => setSelected(selected === dest.id ? null : dest.id)}
                 >
-                  <div className="relative h-48 sm:h-52 overflow-hidden">
+                  <div className="relative h-52 overflow-hidden rounded-t-2xl">
                     <img
                       src={dest.image}
                       alt={dest.name}

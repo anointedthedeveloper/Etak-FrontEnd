@@ -50,13 +50,12 @@ export default function Hero() {
           aria-hidden="true"
           className="absolute right-0 top-0 h-full w-full object-cover object-right hidden lg:block"
         />
-        {/* Subtle vignette on left so text pops */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent hidden lg:block" />
+        {/* Mobile: strong left-heavy overlay so white text is always readable */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/25 lg:hidden" />
+        {/* Desktop: lighter left vignette */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/15 to-transparent hidden lg:block" />
       </div>
 
-      {/* ── Floating decorative orbs ── */}
-      <div className="absolute top-24 left-8 w-16 h-16 rounded-full bg-[#08A9E0]/10 blur-xl animate-float pointer-events-none hidden lg:block" />
-      <div className="absolute bottom-32 left-1/4 w-24 h-24 rounded-full bg-[#45419A]/10 blur-2xl animate-float-rev pointer-events-none hidden lg:block" />
 
       {/* ── Mobile Header ── */}
       <div className="lg:hidden relative z-20 flex items-center justify-between px-4 py-3 bg-transparent">

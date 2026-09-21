@@ -239,7 +239,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 shadow-sm transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
           <div className="flex items-center justify-between h-16">
 
@@ -253,27 +253,21 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-1">
-              {navLinks.map(({ to, label, icon: Icon }) => (
+            <nav className="hidden lg:flex items-center gap-0.5">
+              {navLinks.map(({ to, label }) => (
                 <NavLink
                   key={to}
                   to={to}
                   end={to === '/'}
                   className={({ isActive }) =>
-                    `relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-150 ${
+                    `relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-150 ${
                       isActive
-                        ? 'bg-[#EAF8FD] text-[#08A9E0]'
-                        : 'text-[#172033] hover:text-[#08A9E0] hover:bg-gray-50'
+                        ? 'bg-[#101B46] text-white'
+                        : 'text-[#4B5563] hover:text-[#101B46] hover:bg-gray-100'
                     }`
                   }
                 >
-                  {({ isActive }) => (
-                    <>
-                      <Icon size={14} className={isActive ? 'text-[#08A9E0]' : 'text-[#667085]'} />
-                      {label}
-                      <span className={`absolute -bottom-[9px] left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-[#08A9E0] transition-all duration-200 ${isActive ? 'w-5' : 'w-0'}`} />
-                    </>
-                  )}
+                  {label}
                 </NavLink>
               ))}
             </nav>
@@ -374,12 +368,16 @@ export default function Navbar() {
       <div className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
         <div className={`absolute top-0 right-0 h-full w-[82%] max-w-xs bg-white shadow-2xl transition-transform duration-300 flex flex-col ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="flex items-center justify-between p-4 border-b border-gray-100 shrink-0">
-            <Link to="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2">
-              <img src="/brand/logo.png" alt="Etak Travels" className="h-10 w-10 object-contain" />
-              <span className="font-display font-bold text-[#101B46] text-sm">Etak Travels</span>
+          {/* Drawer header — branded */}
+          <div className="flex items-center justify-between px-5 py-4 bg-[#101B46] shrink-0">
+            <Link to="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2.5">
+              <img src="/brand/logo.png" alt="Etak Travels" className="h-9 w-9 object-contain" />
+              <div className="leading-tight">
+                <div className="font-display font-bold text-white text-sm">Etak Travels</div>
+                <div className="text-blue-300 text-[10px]">& Tours Expert Limited</div>
+              </div>
             </Link>
-            <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-full hover:bg-gray-100 text-[#667085]">
+            <button onClick={() => setMobileOpen(false)} className="p-1.5 rounded-full hover:bg-white/15 text-white/70 hover:text-white transition-colors">
               <X size={17} />
             </button>
           </div>
@@ -389,20 +387,27 @@ export default function Navbar() {
             <SearchBox onClose={() => setMobileOpen(false)} mobile />
           </div>
 
-          <nav className="flex-1 p-3 flex flex-col gap-1 overflow-y-auto mt-2">
-            {navLinks.map(({ to, label, icon: Icon }) => (
+          <nav className="flex-1 p-4 flex flex-col gap-0.5 overflow-y-auto mt-1">
+            {navLinks.map(({ to, label }) => (
               <NavLink
                 key={to}
                 to={to}
                 end={to === '/'}
                 onClick={() => setMobileOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-3 rounded-full text-sm font-medium transition-colors ${
-                    isActive ? 'bg-[#EAF8FD] text-[#08A9E0]' : 'text-[#172033] hover:bg-gray-50'
+                  `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-[#EAF8FD] text-[#08A9E0] font-semibold'
+                      : 'text-[#374151] hover:bg-gray-50 hover:text-[#101B46]'
                   }`
                 }
               >
-                <Icon size={15} /> {label}
+                {({ isActive }) => (
+                  <>
+                    {isActive && <span className="w-1 h-4 rounded-full bg-[#08A9E0] mr-3 shrink-0" />}
+                    {label}
+                  </>
+                )}
               </NavLink>
             ))}
           </nav>
