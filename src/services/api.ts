@@ -1,18 +1,5 @@
 import { supabase } from '../lib/supabase'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
-
-async function apiFetch(path: string, options: RequestInit = {}) {
-  const res = await fetch(`${API_URL}${path}`, {
-    ...options,
-    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
-  })
-  const json = await res.json()
-  if (!json.success) throw new Error(json.error?.message || 'Request failed')
-  return json.data
-}
-
-
 
 export interface InquiryPayload {
   type: 'flight' | 'hotel' | 'tour' | 'assistance' | 'contact'
