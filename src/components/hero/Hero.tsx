@@ -25,8 +25,15 @@ export default function Hero() {
   const [activeTab, setActiveTab] = useState('flights')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [wishlistOpen, setWishlistOpen] = useState(false)
+  const [atTop, setAtTop] = useState(true)
   const navigate = useNavigate()
   const { items, toggle, count } = useCart()
+
+  useEffect(() => {
+    const onScroll = () => setAtTop(window.scrollY < 100)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     document.body.style.overflow = wishlistOpen ? 'hidden' : ''
@@ -34,7 +41,7 @@ export default function Hero() {
   }, [wishlistOpen])
 
   return (
-    <section className="relative flex flex-col overflow-hidden bg-white">
+    <section className="relative flex flex-col overflow-hidden bg-[#0D1640] -mt-16 lg:-mt-[68px] xl:-mt-[72px] 2xl:-mt-20 min-h-screen">
 
       {/* ── Background image ── */}
       <div className="absolute inset-0 pointer-events-none select-none">
@@ -57,10 +64,12 @@ export default function Hero() {
       </div>
 
 
-      {/* ── Mobile Header ── */}
-      <div className="lg:hidden relative z-20 flex items-center justify-between px-4 py-3 bg-transparent">
+      {/* ── Mobile Header — only visible before navbar slides in ── */}
+      <div className={`lg:hidden relative z-20 flex items-center justify-between px-4 py-3 bg-transparent transition-opacity duration-300 ${atTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex items-center gap-2">
-          <img src="/brand/logo.png" alt="Etak Travels" className="h-20 w-20 object-contain" />
+          <div className="rounded-xl bg-white p-1 shadow-sm">
+            <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain block" />
+          </div>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -188,8 +197,8 @@ export default function Hero() {
       )}
 
       {/* ── Main content ── */}
-      <div className="relative z-10 w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 pt-20 lg:pt-24 pb-0">
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 xl:gap-14 items-start">
+      <div className="relative z-10 w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28 3xl:px-40 pt-16 lg:pt-[68px] xl:pt-[72px] 2xl:pt-20 pb-4 flex-1">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10 items-start max-w-[1600px] mx-auto">
 
           {/* ── LEFT ── */}
           <div className="pt-4 sm:pt-8 pb-4">
@@ -275,24 +284,26 @@ export default function Hero() {
       </div>
 
       {/* ── Trust bar ── */}
-      <div id="trust" className="hero-trust relative z-10 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 pb-6 -mt-2">
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 px-6 sm:px-8 py-4">
+      <div id="trust" className="hero-trust relative z-10 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28 3xl:px-40 pb-6 mt-auto pt-4">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 px-8 sm:px-10 py-5 max-w-[1600px] mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-6 sm:gap-10 lg:gap-14 overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto">
+            <div className="flex items-center gap-0 overflow-x-auto overflow-y-hidden pb-1 sm:pb-0 w-full sm:w-auto scrollbar-hide">
               {[
                 { icon: MapPin,    title: 'CAC Registered',        sub: 'RC 898792' },
                 { icon: Building2, title: 'Based in Abuja',         sub: 'FCT, Nigeria' },
                 { icon: Phone,     title: 'Full Travel Management', sub: 'End-to-end support' },
-              ].map(({ icon: Icon, title, sub }) => (
-                <div key={title} className="flex items-center gap-3 shrink-0">
-                  <div className="relative w-10 h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
-                    <Icon size={16} className="text-[#08A9E0]" />
-                    {/* pulse ring */}
-                    <span className="absolute inset-0 rounded-full bg-[#08A9E0]/20 animate-[pulse-ring_2.5s_ease-out_infinite]" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-[#101B46] whitespace-nowrap">{title}</p>
-                    <p className="text-xs text-[#667085]">{sub}</p>
+              ].map(({ icon: Icon, title, sub }, idx) => (
+                <div key={title} className="trust-item flex items-center shrink-0">
+                  {idx > 0 && <div className="trust-item-line w-10 h-0.5 bg-[#08A9E0] rounded-full mx-6 shrink-0" />}
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-10 h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                      <Icon size={16} className="text-[#08A9E0]" />
+                      <span className="absolute inset-0 rounded-full bg-[#08A9E0]/20 animate-[pulse-ring_2.5s_ease-out_infinite]" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-[#101B46] whitespace-nowrap">{title}</p>
+                      <p className="text-xs text-[#667085] mt-0.5">{sub}</p>
+                    </div>
                   </div>
                 </div>
               ))}

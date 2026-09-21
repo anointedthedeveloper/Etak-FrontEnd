@@ -59,9 +59,10 @@ interface LocationInputProps {
   placeholder?: string
   autoDetect?: boolean
   required?: boolean
+  error?: string
 }
 
-export function LocationInput({ label, value, onChange, placeholder, autoDetect, required }: LocationInputProps) {
+export function LocationInput({ label, value, onChange, placeholder, autoDetect, required, error }: LocationInputProps) {
   const [query, setQuery] = useState(value)
   const [open, setOpen] = useState(false)
   const [detecting, setDetecting] = useState(false)
@@ -138,7 +139,9 @@ export function LocationInput({ label, value, onChange, placeholder, autoDetect,
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
           required={required}
-          className="w-full pl-8 pr-8 py-2.5 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#08A9E0] bg-white text-[#172033] placeholder-[#9CA3AF]"
+          className={`w-full pl-8 pr-8 py-2.5 text-sm rounded-xl border focus:outline-none focus:ring-2 bg-white text-[#172033] placeholder-[#9CA3AF] ${
+            error ? 'border-red-400 focus:ring-red-300' : 'border-gray-200 focus:ring-[#08A9E0]'
+          }`}
         />
         {autoDetect && (
           <button
@@ -153,6 +156,7 @@ export function LocationInput({ label, value, onChange, placeholder, autoDetect,
           </button>
         )}
       </div>
+      {error && <p className="text-[10px] text-red-500 mt-0.5">{error}</p>}
 
       <DropdownPortal anchorRef={anchorRef} open={showDropdown}>
         <div
@@ -225,9 +229,10 @@ interface DatePickerProps {
   onChange: (val: string) => void
   min?: string
   required?: boolean
+  error?: string
 }
 
-export function DatePicker({ label, value, onChange, min, required }: DatePickerProps) {
+export function DatePicker({ label, value, onChange, min, required, error }: DatePickerProps) {
   const today = new Date(); today.setHours(0,0,0,0)
   // min is treated as exclusive (day after), so add 1 day
   const minDate = min
@@ -299,13 +304,16 @@ export function DatePicker({ label, value, onChange, min, required }: DatePicker
         ref={anchorRef}
         type="button"
         onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#08A9E0] bg-white text-left"
+        className={`w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-xl border focus:outline-none focus:ring-2 bg-white text-left ${
+          error ? 'border-red-400 focus:ring-red-300' : 'border-gray-200 focus:ring-[#08A9E0]'
+        }`}
       >
         <span className={displayValue ? 'text-[#172033]' : 'text-[#9CA3AF]'}>
           {displayValue || 'Select date'}
         </span>
         <ChevronDown size={13} className="text-[#667085] shrink-0" />
       </button>
+      {error && <p className="text-[10px] text-red-500 mt-0.5">{error}</p>}
 
       <DropdownPortal anchorRef={anchorRef} open={open}>
         <div data-datepicker-dropdown className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 w-64">

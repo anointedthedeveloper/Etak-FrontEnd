@@ -239,30 +239,30 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24">
-          <div className="flex items-center justify-between h-16">
+      <header className={`fixed top-0 left-0 right-0 z-50 bg-white/98 backdrop-blur-md border-b border-gray-100/80 shadow-sm transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 2xl:px-28 3xl:px-40">
+          <div className="flex items-center justify-between h-16 lg:h-[68px] xl:h-[72px] 2xl:h-20">
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
-              <img src="/brand/logo.png" alt="Etak Travels" className="h-12 w-12 sm:h-14 sm:w-14 object-contain" />
+              <img src="/brand/logo.png" alt="Etak Travels" className="h-11 w-11 sm:h-12 sm:w-12 xl:h-14 xl:w-14 2xl:h-16 2xl:w-16 object-contain" />
               <div className="leading-tight">
-                <div className="font-display font-bold text-[#101B46] text-xs sm:text-sm">Etak Travels</div>
-                <div className="text-[#667085] text-[10px] sm:text-xs">& Tours Expert Limited</div>
+                <div className="font-display font-bold text-[#101B46] text-xs sm:text-sm xl:text-base 2xl:text-lg">Etak Travels</div>
+                <div className="text-[#667085] text-[10px] sm:text-xs xl:text-[11px] 2xl:text-sm">& Tours Expert Limited</div>
               </div>
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-0.5">
+            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
               {navLinks.map(({ to, label }) => (
                 <NavLink
                   key={to}
                   to={to}
                   end={to === '/'}
                   className={({ isActive }) =>
-                    `relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-150 ${
+                    `relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-medium rounded-lg transition-all duration-150 ${
                       isActive
-                        ? 'bg-[#101B46] text-white'
+                        ? 'bg-[#101B46] text-white shadow-sm'
                         : 'text-[#4B5563] hover:text-[#101B46] hover:bg-gray-100'
                     }`
                   }
@@ -273,25 +273,25 @@ export default function Navbar() {
             </nav>
 
             {/* Desktop actions */}
-            <div className="hidden lg:flex items-center gap-2">
+            <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 2xl:gap-3">
               {searchOpen ? (
                 <SearchBox onClose={() => setSearchOpen(false)} />
               ) : (
                 <button
                   onClick={() => setSearchOpen(true)}
-                  className="p-2 rounded-full text-[#667085] hover:bg-gray-100 transition-colors"
+                  className="p-2 xl:p-2.5 rounded-full text-[#667085] hover:bg-gray-100 transition-colors"
                 >
-                  <Search size={17} />
+                  <Search size={17} className="xl:w-[18px] xl:h-[18px] 2xl:w-5 2xl:h-5" />
                 </button>
               )}
 
               {/* Wishlist */}
               <button
                 onClick={() => setWishlistOpen(true)}
-                className="relative p-2 rounded-full text-[#667085] hover:bg-gray-100 transition-colors"
+                className="relative p-2 xl:p-2.5 rounded-full text-[#667085] hover:bg-gray-100 transition-colors"
                 title="Saved items"
               >
-                <Heart size={17} />
+                <Heart size={17} className="xl:w-[18px] xl:h-[18px] 2xl:w-5 2xl:h-5" />
                 {count > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#08A9E0] text-white text-[10px] font-bold flex items-center justify-center">
                     {count}
@@ -303,12 +303,12 @@ export default function Navbar() {
                 <div className="relative">
                   <button
                     onClick={() => setUserMenuOpen(v => !v)}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium text-[#172033] hover:bg-gray-100 transition-colors"
+                    className="flex items-center gap-2 px-3 py-1.5 xl:px-4 xl:py-2 rounded-full text-sm xl:text-[15px] font-medium text-[#172033] hover:bg-gray-100 transition-colors border border-gray-200 hover:border-gray-300"
                   >
-                    <div className="w-7 h-7 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-xs font-bold">
+                    <div className="w-7 h-7 xl:w-8 xl:h-8 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-xs font-bold">
                       {user?.firstName?.[0]}{user?.lastName?.[0]}
                     </div>
-                    <span className="max-w-[90px] truncate">{user?.firstName}</span>
+                    <span className="max-w-[90px] xl:max-w-[110px] truncate">{user?.firstName}</span>
                     <ChevronDown size={13} className={`text-[#667085] transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {userMenuOpen && (
@@ -331,11 +331,16 @@ export default function Navbar() {
                   )}
                 </div>
               ) : (
-                <Link to="/signup">
-                  <button className="flex items-center gap-1.5 px-5 py-2 rounded-full bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-semibold transition-colors">
-                    Get Started <ArrowRight size={14} />
-                  </button>
-                </Link>
+                <div className="flex items-center gap-2">
+                  <Link to="/login" className="px-4 py-2 xl:px-5 xl:py-2.5 rounded-full text-sm xl:text-[15px] font-semibold text-[#101B46] border border-gray-200 hover:border-[#101B46] hover:bg-gray-50 transition-all">
+                    Sign In
+                  </Link>
+                  <Link to="/signup">
+                    <button className="flex items-center gap-1.5 px-5 py-2 xl:px-6 xl:py-2.5 2xl:px-7 rounded-full bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm xl:text-[15px] font-semibold transition-colors shadow-sm hover:shadow-md">
+                      Get Started <ArrowRight size={14} />
+                    </button>
+                  </Link>
+                </div>
               )}
             </div>
 
@@ -365,9 +370,9 @@ export default function Navbar() {
       </header>
 
       {/* Mobile drawer */}
-      <div className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-        <div className={`absolute top-0 right-0 h-full w-[82%] max-w-xs bg-white shadow-2xl transition-transform duration-300 flex flex-col ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={`absolute top-0 right-0 h-full w-[82%] max-w-[320px] bg-white shadow-2xl transition-transform duration-300 flex flex-col ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           {/* Drawer header — branded */}
           <div className="flex items-center justify-between px-5 py-4 bg-[#101B46] shrink-0">
             <Link to="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2.5">

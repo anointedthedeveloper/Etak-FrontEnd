@@ -114,19 +114,29 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
   const [phone, setPhone] = useState(isAuthenticated ? (user?.phone ?? '') : '')
 
   const [fieldError, setFieldError] = useState(false)
+  const [contactErrors, setContactErrors] = useState<Record<string, string>>({})
 
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [submittedId, setSubmittedId]   = useState<string | null>(null)
 
-  const handleSubmit = async () => {
-    if (!fromIata || !toIata) {
+  const handleContinue = () => {
+    if (!fromIata || !toIata || !departure) {
       setFieldError(true)
       return
     }
-    if (!departure) {
-      return
-    }
     setFieldError(false)
+    setStep('contact')
+  }
+
+  const handleSubmit = async () => {
+    if (!isAuthenticated) {
+      const e: Record<string, string> = {}
+      if (!name.trim())  e.name  = 'Required'
+      if (!email.trim()) e.email = 'Required'
+      if (!phone.trim()) e.phone = 'Required'
+      if (Object.keys(e).length) { setContactErrors(e); return }
+    }
+    setContactErrors({})
     setSubmitStatus('loading')
     try {
       const { id } = await apiService.submitInquiry({
@@ -172,7 +182,8 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
 
       <div className="grid grid-cols-2 gap-3">
         <DatePicker label="Departure" value={departure}
-          onChange={v => { setDeparture(v); if (returnDate && returnDate <= v) setReturn('') }} required />
+          onChange={v => { setDeparture(v); if (returnDate && returnDate <= v) setReturn('') }} required
+          error={fieldError && !departure ? 'Required' : undefined} />
         {tripType === 'round-trip' && (
           <DatePicker label="Return" value={returnDate} onChange={setReturn} min={departure} />
         )}
@@ -180,8 +191,11 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
 
       <TravellerSelector value={travellers} onChange={setTravellers} showClass />
 
-      <Button type="button" variant="primary" className="w-full"
-        onClick={() => setStep('contact')}>
+      {fieldError && (!fromIata || !toIata || !departure) && (
+        <p className="text-xs text-red-500">Please fill in origin, destination and departure date.</p>
+      )}
+
+      <Button type="button" variant="primary" className="w-full" onClick={handleContinue}>
         <Plane size={14} /> Continue to Contact
       </Button>
     </div>
@@ -212,10 +226,10 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
       {!isAuthenticated && (
         <>
           <div className="grid grid-cols-2 gap-3">
-            <Input label="Your Name" placeholder="Full name" value={name} onChange={e => setName(e.target.value)} required />
-            <Input label="Email" type="email" placeholder="your@email.com" value={email} onChange={e => setEmail(e.target.value)} required />
+            <Input label="Your Name" placeholder="Full name" value={name} onChange={e => { setName(e.target.value); setContactErrors(p => ({ ...p, name: '' })) }} required error={contactErrors.name} />
+            <Input label="Email" type="email" placeholder="your@email.com" value={email} onChange={e => { setEmail(e.target.value); setContactErrors(p => ({ ...p, email: '' })) }} required error={contactErrors.email} />
           </div>
-          <Input label="Phone (optional)" type="tel" placeholder="+234 xxx xxx xxxx" value={phone} onChange={e => setPhone(e.target.value)} />
+          <Input label="Phone" type="tel" placeholder="+234 xxx xxx xxxx" value={phone} onChange={e => { setPhone(e.target.value); setContactErrors(p => ({ ...p, phone: '' })) }} required error={contactErrors.phone} />
         </>
       )}
 

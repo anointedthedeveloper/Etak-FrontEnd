@@ -21,9 +21,23 @@ export default function TourInquiryForm({ compact: _compact }: Props) {
   const [phone, setPhone] = useState(isAuthenticated ? (user?.phone ?? '') : '')
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [submittedId, setSubmittedId] = useState<string | null>(null)
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  const validate = () => {
+    const e: Record<string, string> = {}
+    if (!destination.trim()) e.destination = 'Required'
+    if (!isAuthenticated) {
+      if (!name.trim())  e.name  = 'Required'
+      if (!email.trim()) e.email = 'Required'
+      if (!phone.trim()) e.phone = 'Required'
+    }
+    setErrors(e)
+    return Object.keys(e).length === 0
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validate()) return
     setStatus('loading')
     try {
       const { id } = await apiService.submitInquiry({
@@ -46,7 +60,7 @@ export default function TourInquiryForm({ compact: _compact }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <LocationInput label="Destination" value={destination} onChange={setDestination} placeholder="Where would you like to go?" required />
+      <LocationInput label="Destination" value={destination} onChange={v => { setDestination(v); setErrors(p => ({ ...p, destination: '' })) }} placeholder="Where would you like to go?" required error={errors.destination} />
 
       <div className="grid grid-cols-2 gap-3">
         <DatePicker label="Travel Date" value={travelDate} onChange={setTravelDate} />
@@ -61,13 +75,13 @@ export default function TourInquiryForm({ compact: _compact }: Props) {
       </div>
 
       {!isAuthenticated && (
-        <div className="grid grid-cols-2 gap-3">
-          <Input label="Your Name" placeholder="Full name" value={name} onChange={e => setName(e.target.value)} required />
-          <Input label="Email" type="email" placeholder="your@email.com" value={email} onChange={e => setEmail(e.target.value)} required />
-        </div>
-      )}
-      {!isAuthenticated && (
-        <Input label="Phone (optional)" type="tel" placeholder="+234 xxx xxx xxxx" value={phone} onChange={e => setPhone(e.target.value)} />
+        <>
+          <div className="grid grid-cols-2 gap-3">
+            <Input label="Your Name" placeholder="Full name" value={name} onChange={e => { setName(e.target.value); setErrors(p => ({ ...p, name: '' })) }} required error={errors.name} />
+            <Input label="Email" type="email" placeholder="your@email.com" value={email} onChange={e => { setEmail(e.target.value); setErrors(p => ({ ...p, email: '' })) }} required error={errors.email} />
+          </div>
+          <Input label="Phone" type="tel" placeholder="+234 xxx xxx xxxx" value={phone} onChange={e => { setPhone(e.target.value); setErrors(p => ({ ...p, phone: '' })) }} required error={errors.phone} />
+        </>
       )}
 
       {status === 'error' && (

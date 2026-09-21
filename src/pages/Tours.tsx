@@ -49,7 +49,7 @@ export default function Tours() {
       />
 
       {/* Filters */}
-      <div className="bg-white border-b border-gray-100 sticky top-[72px] z-30">
+      <div className="bg-white border-b border-gray-100 sticky top-16 lg:top-[68px] xl:top-[72px] 2xl:top-20 z-30">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 py-3 flex gap-2 overflow-x-auto">
           {tourCategories.map(cat => (
             <button

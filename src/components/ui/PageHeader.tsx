@@ -25,7 +25,7 @@ export default function PageHeader({
   }, [])
 
   return (
-    <div className="relative bg-[#0D1640] pt-24 sm:pt-32 pb-14 sm:pb-20 overflow-hidden">
+    <div className="relative bg-[#0D1640] pb-14 sm:pb-20 overflow-hidden">
 
       {/* Background photo — clearly visible, slow zoom on load */}
       <img
