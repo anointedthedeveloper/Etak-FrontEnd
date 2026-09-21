@@ -252,6 +252,20 @@ export default function Hero() {
                 <Building2 size={15} className="text-[#08A9E0]" /> Explore Services
               </button>
             </div>
+
+            {/* Short desktop view: keep the trust cues near the message instead of below the fold. */}
+            <div className="hero-copy-trust hidden lg:grid grid-cols-3 gap-2 mt-4">
+              {[
+                { icon: MapPin, label: 'CAC Registered' },
+                { icon: Building2, label: 'Abuja, Nigeria' },
+                { icon: Phone, label: 'End-to-end support' },
+              ].map(({ icon: Icon, label }) => (
+                <div key={label} className="flex items-center gap-2 rounded-xl bg-white/12 border border-white/15 px-2.5 py-2 text-white/90 backdrop-blur-sm">
+                  <Icon size={13} className="text-[#08A9E0] shrink-0" />
+                  <span className="text-[11px] font-semibold leading-tight">{label}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* ── RIGHT — Inquiry panel ── */}
