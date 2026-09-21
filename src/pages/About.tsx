@@ -5,6 +5,90 @@ import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 
+// Airline partner logos sourced from Wikimedia Commons (public domain / free use)
+const AIRLINE_PARTNERS = [
+  {
+    name: 'Air France',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Air_France_Logo.svg',
+  },
+  {
+    name: 'Qatar Airways',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Qatar_Airways_logo.svg',
+  },
+  {
+    name: 'Lufthansa',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Lufthansa_Logo_2018_crane.svg',
+  },
+  {
+    name: 'Royal Air Maroc',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/b/bf/Logo_Royal_Air_Maroc.svg',
+  },
+  {
+    name: 'Virgin Atlantic',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Virgin_Atlantic_logo.svg',
+  },
+  {
+    name: 'Saudia',
+    logo: 'https://upload.wikimedia.org/wikipedia/en/4/48/Logo_of_Saudia.svg',
+  },
+  {
+    name: 'Air India',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/b/bf/Air_India_2023.svg',
+  },
+  {
+    name: 'Emirates',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/Emirates_banner_logo.svg',
+  },
+  {
+    name: 'South African Airways',
+    logo: 'https://upload.wikimedia.org/wikipedia/en/7/7c/SAA_logo_%282019%29.svg',
+  },
+  {
+    name: 'Afriqiyah',
+    logo: 'https://upload.wikimedia.org/wikipedia/en/1/1a/Afriqiyah_Airways_logo.svg',
+  },
+  {
+    name: 'Arik Air',
+    logo: 'https://upload.wikimedia.org/wikipedia/en/4/4a/Arik_Air_logo.svg',
+  },
+  {
+    name: 'Delta',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Delta_logo.svg',
+  },
+  {
+    name: 'EgyptAir',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c2/Egyptair-Logo-2010.svg',
+  },
+  {
+    name: 'Ethiopian Airlines',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Ethiopian_Airlines_Logo.svg',
+  },
+  {
+    name: 'Aero',
+    logo: null, // text fallback – no public domain logo available
+  },
+]
+
+function PartnerLogo({ name, logo }: { name: string; logo: string | null }) {
+  const [errored, setErrored] = useState(false)
+
+  return (
+    <div className="flex-shrink-0 flex items-center justify-center px-3 py-2 sm:px-6 sm:py-4 bg-gray-50 rounded-lg sm:rounded-xl border border-gray-100 h-14 sm:h-20 min-w-[90px] sm:min-w-[140px]">
+      {logo && !errored ? (
+        <img
+          src={logo}
+          alt={`${name} logo`}
+          className="h-7 sm:h-10 w-auto max-w-[80px] sm:max-w-[120px] object-contain grayscale hover:grayscale-0 transition-all duration-300"
+          onError={() => setErrored(true)}
+          loading="lazy"
+        />
+      ) : (
+        <span className="text-xs sm:text-sm font-semibold text-[#667085] whitespace-nowrap">{name}</span>
+      )}
+    </div>
+  )
+}
+
 const values = [
   { icon: CheckCircle2, title: 'Integrity', desc: 'We operate with honesty and transparency in every client interaction and business arrangement.' },
   { icon: Target, title: 'Quality Service', desc: 'We are committed to delivering a high standard of travel management in everything we do.' },
@@ -219,25 +303,16 @@ export default function About() {
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
           <SectionHeader eyebrow="Our Partners" title="Trusted Airline Partners" centered />
           <div className="mt-8 relative">
-            <div className="flex animate-scroll gap-8 items-center">
-              {[
-                'AIRFRANCE', 'QATAR AIRWAYS', 'Lufthansa', 'royal air maroc', 'virgin atlantic',
-                'SAUDIA', 'AIR INDIA', 'Emirates', 'SOUTH AFRICAN AIRWAYS', 'AFRIQIYAH',
-                'Arik', 'aero', 'DELTA', 'EGYPTAIR', 'Ethiopian'
-              ].map((partner) => (
-                <div key={partner} className="flex-shrink-0 px-6 py-3 bg-gray-50 rounded-lg border border-gray-100">
-                  <span className="text-sm font-semibold text-[#667085] whitespace-nowrap">{partner}</span>
-                </div>
+            {/* Fade edges */}
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-16 z-10 bg-gradient-to-r from-white to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-16 z-10 bg-gradient-to-l from-white to-transparent" />
+            <div className="flex animate-scroll gap-4 sm:gap-10 items-center">
+              {AIRLINE_PARTNERS.map((partner) => (
+                <PartnerLogo key={partner.name} {...partner} />
               ))}
-              {/* Duplicate for seamless scrolling */}
-              {[
-                'AIRFRANCE', 'QATAR AIRWAYS', 'Lufthansa', 'royal air maroc', 'virgin atlantic',
-                'SAUDIA', 'AIR INDIA', 'Emirates', 'SOUTH AFRICAN AIRWAYS', 'AFRIQIYAH',
-                'Arik', 'aero', 'DELTA', 'EGYPTAIR', 'Ethiopian'
-              ].map((partner) => (
-                <div key={`${partner}-duplicate`} className="flex-shrink-0 px-6 py-3 bg-gray-50 rounded-lg border border-gray-100">
-                  <span className="text-sm font-semibold text-[#667085] whitespace-nowrap">{partner}</span>
-                </div>
+              {/* Duplicate for seamless loop */}
+              {AIRLINE_PARTNERS.map((partner) => (
+                <PartnerLogo key={`${partner.name}-dup`} {...partner} />
               ))}
             </div>
           </div>

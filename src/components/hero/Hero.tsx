@@ -95,16 +95,23 @@ export default function Hero() {
               </button>
             </div>
             <nav className="p-4">
-              {['Home', 'About Us', 'Services', 'Destinations', 'Tours', 'Contact'].map((item) => (
+              {[
+                { label: 'Home',         path: '/' },
+                { label: 'About Us',     path: '/about' },
+                { label: 'Services',     path: '/services' },
+                { label: 'Destinations', path: '/destinations' },
+                { label: 'Tours',        path: '/tours' },
+                { label: 'Contact',      path: '/contact' },
+              ].map(({ label, path }) => (
                 <button
-                  key={item}
+                  key={label}
                   onClick={() => {
-                    navigate(item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`)
+                    navigate(path)
                     setMobileMenuOpen(false)
                   }}
                   className="w-full text-left py-3 px-4 text-[#172033] hover:bg-gray-50 rounded-lg"
                 >
-                  {item}
+                  {label}
                 </button>
               ))}
             </nav>
