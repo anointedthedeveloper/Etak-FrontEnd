@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { services } from '../../data/services'
 import { SectionHeader } from '../ui/index'
 import { Button } from '../ui/Button'
+import { useInView } from '../../hooks/useInView'
 
 const iconMap: Record<string, React.ElementType> = {
   Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation,
@@ -15,6 +16,7 @@ export default function ServicesShowcase() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const activeService = services.find(s => s.id === active) ?? services[0]
   const Icon = iconMap[activeService.icon] ?? Plane
+  const { ref: sectionRef, inView } = useInView<HTMLElement>({ threshold: 0.1 })
 
   const selectService = (id: string) => {
     setActive(id)
@@ -22,8 +24,8 @@ export default function ServicesShowcase() {
   }
 
   return (
-    <section className="py-14 sm:py-20 bg-white">
-      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+    <section ref={sectionRef} className="py-16 sm:py-24 bg-white">
+      <div className={`relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
         <SectionHeader
           eyebrow="What We Offer"
           title="Travel Services Designed Around You"
@@ -101,11 +103,11 @@ export default function ServicesShowcase() {
               </div>
             </div>
 
-            <div className="rounded-xl overflow-hidden h-40 sm:h-48">
+            <div className="rounded-xl overflow-hidden h-40 sm:h-48 relative">
               <img
                 src={activeService.image}
                 alt={activeService.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
               />
             </div>
 

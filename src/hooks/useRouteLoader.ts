@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
 
-export function useRouteLoader(delay = 400) {
-  const location = useLocation()
-  const [loading, setLoading] = useState(false)
+/**
+ * Shows the PageLoader ONLY on the very first app mount.
+ * Navigation between routes is instant — no overlay that kills entrance animations.
+ */
+export function useRouteLoader() {
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setLoading(true)
-    const timer = setTimeout(() => setLoading(false), delay)
+    // Give React one tick to paint the initial page, then remove the loader
+    const timer = setTimeout(() => setLoading(false), 600)
     return () => clearTimeout(timer)
-  }, [location.pathname])
+  }, []) // empty dep array — fires once on mount only
 
   return loading
 }

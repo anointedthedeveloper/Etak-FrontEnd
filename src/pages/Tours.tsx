@@ -6,6 +6,7 @@ import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import { useCart } from '../context/CartContext'
+import PageHeader from '../components/ui/PageHeader'
 
 export default function Tours() {
   const [searchParams] = useSearchParams()
@@ -39,22 +40,13 @@ export default function Tours() {
         image="/images/headers/tours.jpg"
       />
       {/* Header */}
-      <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
-        <img
-          src="/images/headers/tours.jpg"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/80 to-[#45419A]/70" />
-        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">Tours & Packages</span>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Curated Travel Experiences</h1>
-          <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto">
-            Carefully planned tour packages for individuals, families, and groups — tailored to your journey.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Tours & Packages"
+        title="Curated Travel Experiences"
+        subtitle="Carefully planned tour packages for individuals, families, and groups — tailored to your journey."
+        image="/images/headers/tours.jpg"
+        centered
+      />
 
       {/* Filters */}
       <div className="bg-white border-b border-gray-100 sticky top-[72px] z-30">

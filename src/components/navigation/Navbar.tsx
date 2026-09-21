@@ -246,9 +246,9 @@ export default function Navbar() {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
               <img src="/brand/logo.png" alt="Etak Travels" className="h-12 w-12 sm:h-14 sm:w-14 object-contain" />
-              <div className="hidden sm:block leading-tight">
-                <div className="font-display font-bold text-[#101B46] text-sm">Etak Travels</div>
-                <div className="text-[#667085] text-xs">& Tours Expert Limited</div>
+              <div className="leading-tight">
+                <div className="font-display font-bold text-[#101B46] text-xs sm:text-sm">Etak Travels</div>
+                <div className="text-[#667085] text-[10px] sm:text-xs">& Tours Expert Limited</div>
               </div>
             </Link>
 

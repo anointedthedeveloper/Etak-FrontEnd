@@ -4,6 +4,7 @@ import { CheckCircle2, Target, Eye, Heart, ChevronDown } from 'lucide-react'
 import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
+import PageHeader from '../components/ui/PageHeader'
 
 // Airline partner logos sourced from Wikimedia Commons (public domain / free use)
 const AIRLINE_PARTNERS = [
@@ -108,26 +109,12 @@ export default function About() {
         url="/about"
       />
       {/* Header */}
-      <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
-        <img
-          src="/images/headers/about.jpg"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-25"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/85 to-[#45419A]/75" />
-        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24">
-          <div className="max-w-2xl">
-            <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">About Us</span>
-            <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-              Etak Travels & Tours Expert Limited
-            </h1>
-            <p className="text-blue-200 text-base sm:text-lg leading-relaxed">
-              A professional travel management company based in Abuja, Nigeria — providing reliable travel solutions for business, education, leisure, and international travel.
-            </p>
-          </div>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="About Us"
+        title="Etak Travels & Tours Expert Limited"
+        subtitle="A professional travel management company based in Abuja, Nigeria — providing reliable travel solutions for business, education, leisure, and international travel."
+        image="/images/headers/about.jpg"
+      />
 
       {/* Company intro */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">

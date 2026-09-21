@@ -7,6 +7,7 @@ import { DatePicker } from '../components/forms/FormWidgets'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import { apiService } from '../services/api'
+import PageHeader from '../components/ui/PageHeader'
 
 interface FormState {
   name: string; email: string; phone: string; service: string
@@ -64,22 +65,13 @@ export default function Contact() {
         url="/contact"
       />
       {/* Header */}
-      <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
-        <img
-          src="/images/headers/contact.jpg"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-25"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/85 to-[#45419A]/75" />
-        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">Contact Us</span>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Let's Plan Your Journey</h1>
-          <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto">
-            Reach out to our team with your travel inquiry and we'll get back to you with a personalised plan.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Contact Us"
+        title="Let's Plan Your Journey"
+        subtitle="Reach out to our team with your travel inquiry and we'll get back to you with a personalised plan."
+        image="/images/headers/contact.jpg"
+        centered
+      />
 
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">

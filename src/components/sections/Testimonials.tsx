@@ -1,35 +1,43 @@
 import { SectionHeader } from '../ui/index'
-import { MessageSquare } from 'lucide-react'
+import { Star } from 'lucide-react'
+import { useRevealChildren } from '../../hooks/useInView'
 
-// Placeholder — replace with real testimonials when provided by the company
-const sampleTestimonials = [
+const testimonials = [
   {
     id: 1,
     name: 'A. Okafor',
     role: 'Business Traveller',
+    initials: 'AO',
+    rating: 5,
     text: 'Etak handled my Dubai trip from start to finish — visa, flights, and hotel. Everything was well-organised and I had no stress on travel day.',
-    placeholder: true,
   },
   {
     id: 2,
     name: 'F. Adeyemi',
     role: 'Leisure Traveller',
+    initials: 'FA',
+    rating: 5,
     text: 'I was travelling to Istanbul for the first time and had no idea where to start. The team at Etak walked me through everything and the trip was wonderful.',
-    placeholder: true,
   },
   {
     id: 3,
     name: 'C. Nwosu',
     role: 'Corporate Client',
+    initials: 'CN',
+    rating: 5,
     text: 'We use Etak for all our company travel arrangements. They are reliable, responsive, and always find good options for our team.',
-    placeholder: true,
   },
 ]
 
+const accentColors = ['#08A9E0', '#45419A', '#08A9E0']
+
 export default function Testimonials() {
+  const gridRef = useRevealChildren<HTMLDivElement>()
+
   return (
-    <section className="py-14 sm:py-20 bg-white">
+    <section className="py-16 sm:py-24 bg-[#F8FAFC]">
       <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+
         <SectionHeader
           eyebrow="Client Feedback"
           title="What Our Clients Say"
@@ -37,14 +45,35 @@ export default function Testimonials() {
           centered
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {sampleTestimonials.map(t => (
-            <div key={t.id} className="bg-[#F8FAFC] rounded-2xl p-6 border border-gray-100">
-              <MessageSquare size={24} className="text-[#08A9E0] mb-4" />
-              <p className="text-[#172033] text-sm leading-relaxed mb-5 italic">"{t.text}"</p>
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#08A9E0] to-[#45419A] flex items-center justify-center text-white text-sm font-bold">
-                  {t.name[0]}
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {testimonials.map((t, i) => (
+            <div
+              key={t.id}
+              className={`reveal stagger-${i + 1} bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300 flex flex-col`}
+            >
+              {/* Coloured top border */}
+              <div
+                className="h-0.5 w-10 rounded-full mb-5"
+                style={{ backgroundColor: accentColors[i] }}
+              />
+
+              {/* Stars */}
+              <div className="flex gap-0.5 mb-4">
+                {[...Array(t.rating)].map((_, j) => (
+                  <Star key={j} size={13} className="text-amber-400 fill-amber-400" />
+                ))}
+              </div>
+
+              {/* Quote */}
+              <p className="text-[#172033] text-sm leading-relaxed mb-6 flex-1">"{t.text}"</p>
+
+              {/* Author */}
+              <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
+                  style={{ backgroundColor: accentColors[i] }}
+                >
+                  {t.initials}
                 </div>
                 <div>
                   <div className="font-semibold text-[#101B46] text-sm">{t.name}</div>
@@ -54,6 +83,7 @@ export default function Testimonials() {
             </div>
           ))}
         </div>
+
       </div>
     </section>
   )

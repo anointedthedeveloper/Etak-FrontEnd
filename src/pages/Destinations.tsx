@@ -6,6 +6,7 @@ import { Badge } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import { useCart } from '../context/CartContext'
+import PageHeader from '../components/ui/PageHeader'
 
 export default function Destinations() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -45,32 +46,24 @@ export default function Destinations() {
         image="/images/headers/destinations.jpg"
       />
       {/* Header */}
-      <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
-        <img
-          src="/images/headers/destinations.jpg"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/80 to-[#45419A]/70" />
-        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">Destinations</span>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">Explore the World with Etak</h1>
-          <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto mb-6 sm:mb-8">
-            Popular destinations for Nigerian travellers — from business hubs to leisure escapes and cultural experiences.
-          </p>
-                <div className="max-w-md mx-auto relative">
-            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#667085]" />
-            <input
-              type="text"
-              placeholder="Search destinations..."
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 rounded-xl bg-white text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] text-sm"
-            />
-          </div>
+      <PageHeader
+        eyebrow="Destinations"
+        title="Explore the World with Etak"
+        subtitle="Popular destinations for Nigerian travellers — from business hubs to leisure escapes and cultural experiences."
+        image="/images/headers/destinations.jpg"
+        centered
+      >
+        <div className="max-w-md mx-auto relative">
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#667085]" />
+          <input
+            type="text"
+            placeholder="Search destinations..."
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            className="w-full pl-11 pr-4 py-3 rounded-xl bg-white text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] text-sm"
+          />
         </div>
-      </div>
+      </PageHeader>
 
       {/* Filters */}
       <div className="bg-white border-b border-gray-100 sticky top-[72px] z-30">

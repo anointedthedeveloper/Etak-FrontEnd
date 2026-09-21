@@ -15,17 +15,12 @@
   --font-script: 'Dancing Script', cursive;
 
   /* Custom breakpoints */
-  --breakpoint-xs: 480px;    /* large mobile */
-  --breakpoint-3xl: 1920px;  /* 24–27 inch monitors */
+  --breakpoint-xs: 480px;
+  --breakpoint-3xl: 1920px;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
@@ -34,24 +29,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.font-display {
-  font-family: 'Playfair Display', Georgia, serif;
-}
+.font-display { font-family: 'Playfair Display', Georgia, serif; }
 
-/* Scrollbar — global */
+/* ─── Scrollbars ─────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb { background: #08A9E0; border-radius: 3px; }
-
-/* Flight results scroll area — subtle, branded */
 .flight-results-scroll::-webkit-scrollbar { width: 5px; }
 .flight-results-scroll::-webkit-scrollbar-track { background: transparent; border-radius: 4px; }
 .flight-results-scroll::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
 .flight-results-scroll::-webkit-scrollbar-thumb:hover { background: #08A9E0; }
-/* Firefox */
 .flight-results-scroll { scrollbar-width: thin; scrollbar-color: #CBD5E1 transparent; }
 
-/* Reduced motion */
+/* ─── Reduced motion ─────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -59,34 +49,200 @@ body {
   }
 }
 
-/* Ripple animation */
+/* ═══════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+═══════════════════════════════════════════════ */
+
+/* Ripple (Button click) */
 @keyframes ripple {
-  to {
-    transform: scale(2.5);
-    opacity: 0;
-  }
+  to { transform: scale(2.5); opacity: 0; }
 }
 
-.font-script {
-  font-family: 'Dancing Script', cursive;
+/* Fade up — scroll reveal */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade in — simple opacity */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Slide in from left */
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Slide in from right */
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Slide in from bottom (for hero trust bar) */
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Float — slow up/down bob for decorative elements */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-12px) rotate(2deg); }
+  66%       { transform: translateY(-6px) rotate(-1deg); }
+}
+
+/* Float reverse — offset phase */
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(10px) rotate(-2deg); }
+  66%       { transform: translateY(5px) rotate(1deg); }
+}
+
+/* Pulse ring — growing ring around elements */
+@keyframes pulse-ring {
+  0%   { transform: scale(1);    opacity: 0.6; }
+  100% { transform: scale(1.8);  opacity: 0; }
+}
+
+/* Shimmer — loading / accent sweep */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Draw line — connector line grows from 0 to full width */
+@keyframes draw-line {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* Spin slow — for decorative circles */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Counter up — scale pop */
+@keyframes pop-in {
+  0%   { opacity: 0; transform: scale(0.8); }
+  70%  { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 /* Partners scroll animation */
 @keyframes scroll {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
+/* ═══════════════════════════════════════════════
+   ANIMATION UTILITY CLASSES
+═══════════════════════════════════════════════ */
+
+.animate-fade-up   { animation: fade-up   0.6s ease both; }
+.animate-fade-in   { animation: fade-in   0.5s ease both; }
+.animate-slide-left  { animation: slide-in-left  0.6s ease both; }
+.animate-slide-right { animation: slide-in-right 0.6s ease both; }
+.animate-slide-up  { animation: slide-up  0.5s ease both; }
+.animate-float     { animation: float         5s ease-in-out infinite; }
+.animate-float-rev { animation: float-reverse 6s ease-in-out infinite; }
+.animate-pop-in    { animation: pop-in    0.5s cubic-bezier(.34,1.56,.64,1) both; }
+.animate-spin-slow { animation: spin-slow 18s linear infinite; }
+.animate-shimmer   {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* Scroll-triggered reveal — set by useInView hook */
+.reveal            { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible    { opacity: 1; transform: translateY(0); }
+.reveal-left       { opacity: 0; transform: translateX(-32px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right      { opacity: 0; transform: translateX(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-scale      { opacity: 0; transform: scale(0.93); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+/* Stagger delays for child elements */
+.stagger-1  { transition-delay: 0.05s; }
+.stagger-2  { transition-delay: 0.12s; }
+.stagger-3  { transition-delay: 0.19s; }
+.stagger-4  { transition-delay: 0.26s; }
+.stagger-5  { transition-delay: 0.33s; }
+.stagger-6  { transition-delay: 0.40s; }
+
+/* Partners infinite scroll */
 .animate-scroll {
   animation: scroll 30s linear infinite;
 }
-
 .animate-scroll:hover {
   animation-play-state: paused;
 }
-
 @media (max-width: 768px) {
-  .animate-scroll {
-    animation-duration: 18s;
-  }
+  .animate-scroll { animation-duration: 18s; }
 }
+
+/* ─── Hero entrance animation delays ─────────── */
+.hero-eyebrow { animation: fade-in    0.5s ease 0.1s both; }
+.hero-title   { animation: fade-up    0.7s ease 0.25s both; }
+.hero-sub     { animation: fade-up    0.7s ease 0.4s  both; }
+.hero-icons   { animation: fade-up    0.7s ease 0.55s both; }
+.hero-ctas    { animation: slide-up   0.6s ease 0.7s  both; }
+.hero-panel   { animation: slide-in-right 0.7s ease 0.35s both; }
+.hero-trust   { animation: slide-up   0.6s ease 0.85s both; }
+
+/* ─── Page header particle dots ─────────────── */
+.page-header-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(8, 169, 224, 0.25);
+  animation: float 6s ease-in-out infinite;
+}
+.page-header-dot:nth-child(2) { animation-name: float-reverse; animation-duration: 7s; }
+.page-header-dot:nth-child(3) { animation-duration: 9s; }
+
+/* ─── Gradient text ───────────────────────────  */
+.text-gradient {
+  background: linear-gradient(135deg, #08A9E0 0%, #7654C8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Decorative orbit ring ──────────────────── */
+.orbit-ring {
+  border: 1px dashed rgba(8, 169, 224, 0.3);
+  border-radius: 50%;
+  animation: spin-slow 18s linear infinite;
+}
+
+/* ─── Glass card ──────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ─── Dot grid background pattern ────────────── */
+.dot-grid {
+  background-image: radial-gradient(circle, rgba(8,169,224,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ─── Diagonal stripe pattern ────────────────── */
+.stripe-bg {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 10px,
+    rgba(8,169,224,0.04) 10px,
+    rgba(8,169,224,0.04) 20px
+  );
+}
+
+.font-script { font-family: 'Dancing Script', cursive; }

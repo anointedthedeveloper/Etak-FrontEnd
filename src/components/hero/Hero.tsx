@@ -50,9 +50,15 @@ export default function Hero() {
           aria-hidden="true"
           className="absolute right-0 top-0 h-full w-full object-cover object-right hidden lg:block"
         />
+        {/* Subtle vignette on left so text pops */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/10 to-transparent hidden lg:block" />
       </div>
 
-      {/* ── Mobile Header (Only on Home) ── */}
+      {/* ── Floating decorative orbs ── */}
+      <div className="absolute top-24 left-8 w-16 h-16 rounded-full bg-[#08A9E0]/10 blur-xl animate-float pointer-events-none hidden lg:block" />
+      <div className="absolute bottom-32 left-1/4 w-24 h-24 rounded-full bg-[#45419A]/10 blur-2xl animate-float-rev pointer-events-none hidden lg:block" />
+
+      {/* ── Mobile Header ── */}
       <div className="lg:hidden relative z-20 flex items-center justify-between px-4 py-3 bg-transparent">
         <div className="flex items-center gap-2">
           <img src="/brand/logo.png" alt="Etak Travels" className="h-20 w-20 object-contain" />
@@ -80,17 +86,14 @@ export default function Hero() {
 
       {/* ── Mobile Menu ── */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-30 bg-black/50" onClick={() => setMobileMenuOpen(false)}>
+        <div className="lg:hidden fixed inset-0 z-30 bg-black/50 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
           <div className="absolute top-0 right-0 bottom-0 w-64 bg-white shadow-xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
               <div className="flex items-center gap-2">
                 <img src="/brand/logo.png" alt="Etak Travels" className="h-10 w-10 object-contain" />
                 <span className="font-display font-bold text-[#101B46]">Etak Travels</span>
               </div>
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="p-2 rounded-full hover:bg-gray-100 text-[#667085]"
-              >
+              <button onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-full hover:bg-gray-100 text-[#667085]">
                 <X size={20} />
               </button>
             </div>
@@ -105,11 +108,8 @@ export default function Hero() {
               ].map(({ label, path }) => (
                 <button
                   key={label}
-                  onClick={() => {
-                    navigate(path)
-                    setMobileMenuOpen(false)
-                  }}
-                  className="w-full text-left py-3 px-4 text-[#172033] hover:bg-gray-50 rounded-lg"
+                  onClick={() => { navigate(path); setMobileMenuOpen(false) }}
+                  className="w-full text-left py-3 px-4 text-[#172033] hover:bg-gray-50 rounded-lg transition-colors"
                 >
                   {label}
                 </button>
@@ -135,7 +135,6 @@ export default function Hero() {
                 <X size={18} />
               </button>
             </div>
-
             <div className="flex-1 overflow-y-auto p-4">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center gap-3 py-16">
@@ -172,7 +171,6 @@ export default function Hero() {
                 </div>
               )}
             </div>
-
             {items.length > 0 && (
               <div className="p-4 border-t border-gray-100">
                 <button
@@ -196,30 +194,29 @@ export default function Hero() {
 
           {/* ── LEFT ── */}
           <div className="pt-4 sm:pt-8 pb-4">
-            <p className="text-[#08A9E0] text-xs sm:text-sm font-extrabold uppercase tracking-widest mb-3 drop-shadow-lg">
+            <p className="hero-eyebrow text-[#08A9E0] text-xs sm:text-sm font-extrabold uppercase tracking-widest mb-3 drop-shadow-lg">
               Your Journey Starts Here
             </p>
 
-            <h1 className="font-display font-extrabold text-white leading-tight mb-4
+            <h1 className="hero-title font-display font-extrabold text-white leading-tight mb-4
                            text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl"
-                           style={{ textShadow: '0 2px 6px rgba(16, 27, 70, 0.4), 0 1px 2px rgba(16, 27, 70, 0.2)' }}>
+                style={{ textShadow: '0 2px 6px rgba(16,27,70,0.4), 0 1px 2px rgba(16,27,70,0.2)' }}>
               Your Reliable{' '}
               <span className="text-[#08A9E0]">Travel Bridge</span>{' '}
               to the World
             </h1>
 
-            <p className="text-white leading-relaxed mb-6 max-w-lg font-semibold
-                          text-sm sm:text-base lg:text-lg"
-                          style={{ textShadow: '0 2px 8px rgba(16, 27, 70, 0.5), 0 1px 3px rgba(16, 27, 70, 0.3)' }}>
+            <p className="hero-sub text-white leading-relaxed mb-6 max-w-lg font-semibold text-sm sm:text-base lg:text-lg"
+               style={{ textShadow: '0 2px 8px rgba(16,27,70,0.5), 0 1px 3px rgba(16,27,70,0.3)' }}>
               From flight reservations and hotel stays to carefully planned tours, we make every journey easier to arrange — for business, leisure, education, and beyond.
             </p>
 
-            {/* Service icon strip — 2-col on mobile, 4-col from sm */}
-            <div className="grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-3 mb-6 sm:mb-8">
+            {/* Service icon strip */}
+            <div className="hero-icons grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-3 mb-6 sm:mb-8">
               {serviceIcons.map(({ icon: Icon, label, sub }) => (
                 <div
                   key={label}
-                  className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-3 rounded-2xl bg-white/95 border border-gray-100 shadow-sm backdrop-blur-sm"
+                  className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-3 rounded-2xl bg-white/95 border border-gray-100 shadow-sm backdrop-blur-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
                 >
                   <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
                     <Icon size={16} className="text-[#08A9E0]" />
@@ -231,16 +228,16 @@ export default function Hero() {
             </div>
 
             {/* CTA buttons */}
-            <div className="flex flex-wrap gap-3">
+            <div className="hero-ctas flex flex-wrap gap-3">
               <button
                 onClick={() => navigate('/contact')}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-colors flex-1 sm:flex-none justify-center shadow-lg"
+                className="group flex items-center gap-2 px-6 py-3 rounded-full bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-all flex-1 sm:flex-none justify-center shadow-lg hover:shadow-[#08A9E0]/40 hover:-translate-y-0.5"
               >
-                Plan Your Trip <ArrowRight size={15} />
+                Plan Your Trip <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </button>
               <button
                 onClick={() => navigate('/services')}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-gray-50 text-[#172033] text-sm font-bold border border-gray-200 shadow-lg transition-colors flex-1 sm:flex-none justify-center"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-gray-50 text-[#172033] text-sm font-bold border border-gray-200 shadow-lg transition-all flex-1 sm:flex-none justify-center hover:-translate-y-0.5"
               >
                 <Building2 size={15} className="text-[#08A9E0]" /> Explore Services
               </button>
@@ -248,15 +245,15 @@ export default function Hero() {
           </div>
 
           {/* ── RIGHT — Inquiry panel ── */}
-          <div className="pb-6 lg:pt-6">
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-100">
+          <div className="hero-panel pb-6 lg:pt-6">
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-500">
               {/* Tabs */}
-              <div className="grid grid-cols-4 border-b border-gray-100">
+              <div className="grid grid-cols-4 border-b border-gray-100 rounded-t-2xl overflow-hidden">
                 {tabs.map(({ id, label, icon: Icon }) => (
                   <button
                     key={id}
                     onClick={() => setActiveTab(id)}
-                    className={`flex flex-col items-center gap-1 py-3 sm:py-3.5 px-1 text-xs font-medium transition-all duration-150 cursor-pointer ${
+                    className={`flex flex-col items-center gap-1 py-3 sm:py-3.5 px-1 text-xs font-medium transition-all duration-200 cursor-pointer ${
                       activeTab === id
                         ? 'bg-[#08A9E0] text-white'
                         : 'text-[#667085] hover:text-[#172033] hover:bg-gray-50'
@@ -267,7 +264,6 @@ export default function Hero() {
                   </button>
                 ))}
               </div>
-
               <div className="p-4 sm:p-5">
                 {activeTab === 'flights'    && <FlightInquiryForm compact />}
                 {activeTab === 'hotels'     && <HotelInquiryForm compact />}
@@ -276,16 +272,13 @@ export default function Hero() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
-      {/* ── Floating trust bar — sits over the hero image ── */}
-      <div id="trust" className="relative z-10 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 pb-6 -mt-2">
+      {/* ── Trust bar ── */}
+      <div id="trust" className="hero-trust relative z-10 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 pb-6 -mt-2">
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 px-6 sm:px-8 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-
-            {/* Trust items */}
             <div className="flex items-center gap-6 sm:gap-10 lg:gap-14 overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto">
               {[
                 { icon: MapPin,    title: 'CAC Registered',        sub: 'RC 898792' },
@@ -293,8 +286,10 @@ export default function Hero() {
                 { icon: Phone,     title: 'Full Travel Management', sub: 'End-to-end support' },
               ].map(({ icon: Icon, title, sub }) => (
                 <div key={title} className="flex items-center gap-3 shrink-0">
-                  <div className="w-10 h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                  <div className="relative w-10 h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
                     <Icon size={16} className="text-[#08A9E0]" />
+                    {/* pulse ring */}
+                    <span className="absolute inset-0 rounded-full bg-[#08A9E0]/20 animate-[pulse-ring_2.5s_ease-out_infinite]" />
                   </div>
                   <div>
                     <p className="text-sm font-bold text-[#101B46] whitespace-nowrap">{title}</p>
@@ -303,15 +298,10 @@ export default function Hero() {
                 </div>
               ))}
             </div>
-
-            {/* Cursive "Explore the World" */}
             <div className="hidden md:flex items-center gap-2 shrink-0">
-              <span className="font-script text-[#08A9E0] text-2xl xl:text-3xl leading-none">
-                Explore the World
-              </span>
-              <Plane size={18} className="text-[#08A9E0] -rotate-12" />
+              <span className="font-script text-[#08A9E0] text-2xl xl:text-3xl leading-none">Explore the World</span>
+              <Plane size={18} className="text-[#08A9E0] -rotate-12 animate-float" />
             </div>
-
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation, He
 import { services } from '../data/services'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
+import PageHeader from '../components/ui/PageHeader'
 
 const iconMap: Record<string, React.ElementType> = {
   Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation,
@@ -22,24 +23,13 @@ export default function Services() {
         url="/services"
       />
       {/* Page header */}
-      <div className="relative bg-[#101B46] pt-24 sm:pt-32 pb-12 sm:pb-16 overflow-hidden">
-        <img
-          src="/images/headers/flights.jpg"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/80 to-[#45419A]/70" />
-        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <span className="inline-block text-[#08A9E0] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-3">Our Services</span>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Complete Travel Management
-          </h1>
-          <p className="text-blue-200 text-base sm:text-lg max-w-2xl mx-auto">
-            From your first inquiry to your safe return, Etak Travels provides professional support at every stage of your journey.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Our Services"
+        title="Complete Travel Management"
+        subtitle="From your first inquiry to your safe return, Etak Travels provides professional support at every stage of your journey."
+        image="/images/headers/flights.jpg"
+        centered
+      />
 
       {/* Services grid */}
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
@@ -117,13 +107,32 @@ export default function Services() {
       </section>
 
       {/* CTA */}
-      <section className="py-12 sm:py-16 bg-[#101B46]">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-4">Not Sure Which Service You Need?</h2>
-          <p className="text-blue-200 text-sm sm:text-base mb-6 sm:mb-8">Contact our team and we'll help you figure out the best travel arrangement for your situation.</p>
-          <Link to="/contact">
-            <Button size="lg" variant="primary">Talk to Our Team</Button>
-          </Link>
+      <section className="relative py-14 sm:py-20 bg-white overflow-hidden">
+        {/* Decorative background */}
+        <div className="absolute inset-0 dot-grid opacity-30 pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+
+        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+          <div className="max-w-3xl mx-auto text-center">
+            {/* Icon */}
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#101B46] to-[#45419A] flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <MessageSquare size={28} className="text-[#08A9E0]" />
+            </div>
+            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#101B46] mb-4">
+              Not Sure Which Service You Need?
+            </h2>
+            <p className="text-[#667085] text-sm sm:text-base mb-8 max-w-xl mx-auto leading-relaxed">
+              Contact our team and we'll help you figure out the best travel arrangement for your situation.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link to="/contact">
+                <Button size="lg" variant="primary" className="w-full sm:w-auto">Talk to Our Team <ArrowRight size={16} /></Button>
+              </Link>
+              <a href="tel:+2348032062242">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto">Call Us Directly</Button>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </>
