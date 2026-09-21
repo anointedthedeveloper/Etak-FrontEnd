@@ -74,7 +74,7 @@ export default function Contact() {
       />
 
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           <div className="grid lg:grid-cols-3 gap-10">
             {/* Contact info */}
             <div className="flex flex-col gap-6">
@@ -98,7 +98,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <div className="text-xs font-semibold text-[#101B46] mb-1">Email</div>
-                      <a href="mailto:info@etakstravels.com" className="text-sm text-[#08A9E0] hover:underline">info@etakstravels.com</a>
+                      <a href="mailto:info@etaktravels.com" className="text-sm text-[#08A9E0] hover:underline">info@etaktravels.com</a>
                     </div>
                   </div>
                   <div className="flex gap-3">

@@ -271,7 +271,7 @@ export default function DashboardInquiries() {
             <div className="px-5 py-4 border-t border-gray-100">
               <p className="text-xs text-[#667085] text-center">
                 Need to follow up?{' '}
-                <a href="mailto:info@etakstravels.com" className="text-[#08A9E0] hover:underline">Email us</a>
+                <a href="mailto:info@etaktravels.com" className="text-[#08A9E0] hover:underline">Email us</a>
                 {' '}or call{' '}
                 <a href="tel:+2348032062242" className="text-[#08A9E0] hover:underline">+234 803 206 2242</a>
               </p>

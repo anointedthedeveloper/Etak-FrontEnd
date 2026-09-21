@@ -25,7 +25,7 @@ export default function ServicesShowcase() {
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-24 bg-white">
-      <div className={`relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+      <div className={`site-gutter relative z-10 w-full transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
         <SectionHeader
           eyebrow="What We Offer"
           title="Travel Services Designed Around You"

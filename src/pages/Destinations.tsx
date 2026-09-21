@@ -67,7 +67,7 @@ export default function Destinations() {
 
       {/* Filters */}
       <div className="bg-white border-b border-gray-100 sticky top-16 lg:top-[68px] xl:top-[72px] 2xl:top-20 z-30">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           <div className="flex gap-1.5 overflow-x-auto py-3 scrollbar-hide">
             {destinationCategories.map(cat => (
               <button
@@ -88,7 +88,7 @@ export default function Destinations() {
 
       {/* Destinations grid */}
       <section className="py-12 sm:py-16 bg-[#F8FAFC]">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           {filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-[#667085] text-lg">No destinations found for your search.</p>
@@ -168,7 +168,7 @@ export default function Destinations() {
 
       {/* CTA */}
       <section className="py-12 sm:py-16 bg-white border-t border-gray-100">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
+        <div className="site-gutter w-full text-center">
           <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#101B46] mb-4">Don't See Your Destination?</h2>
           <p className="text-[#667085] text-sm sm:text-base mb-6 sm:mb-8">We arrange travel to destinations worldwide. Contact us and we'll help plan your journey wherever you need to go.</p>
           <Link to="/contact">

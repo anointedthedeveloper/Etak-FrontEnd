@@ -32,7 +32,7 @@ export default function AuthLayout({ children }: Props) {
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/88 via-[#101B46]/68 to-[#1a6cc4]/40" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/88 via-[#087EAF]/70 to-[#08A9E0]/42" />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col h-full px-6 py-4 sm:px-10 sm:py-6 lg:px-12 lg:py-10">
@@ -92,7 +92,7 @@ export default function AuthLayout({ children }: Props) {
          * py padding gives breathing room when scrolling is needed.
          */}
         <div className="min-h-full flex items-center justify-center p-5 sm:p-8 lg:p-10">
-          <div className="w-full max-w-md">
+          <div className="w-full max-w-md rounded-3xl border border-white/80 bg-white/90 p-5 sm:p-7 shadow-2xl shadow-[#087EAF]/10 backdrop-blur-xl animate-fade-up">
             {children}
           </div>
         </div>

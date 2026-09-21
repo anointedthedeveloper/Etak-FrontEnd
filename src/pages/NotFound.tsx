@@ -5,11 +5,11 @@ export default function NotFound() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#101B46] via-[#1a2a6c] to-[#45419A] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#101B46] via-[#075D82] to-[#087EAF] flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
 
       {/* Decorative blurs */}
       <div className="absolute top-1/4 left-1/4 w-72 h-72 rounded-full bg-[#08A9E0]/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#45419A]/20 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#08A9E0]/20 blur-3xl pointer-events-none" />
 
       {/* Logo */}
       <Link to="/" className="mb-10 flex items-center gap-2 relative z-10">

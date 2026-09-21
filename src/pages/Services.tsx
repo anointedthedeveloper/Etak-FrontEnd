@@ -33,7 +33,7 @@ export default function Services() {
 
       {/* Services grid */}
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
-        <div className="w-full px-4 sm:px-6 lg:px-10 xl:px-14">
+        <div className="site-gutter w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {services.map(service => {
               const Icon = iconMap[service.icon] ?? Plane
@@ -112,10 +112,10 @@ export default function Services() {
         <div className="absolute inset-0 dot-grid opacity-30 pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 
-        <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter relative z-10 w-full">
           <div className="max-w-3xl mx-auto text-center">
             {/* Icon */}
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#101B46] to-[#45419A] flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-6 shadow-lg">
               <MessageSquare size={28} className="text-[#08A9E0]" />
             </div>
             <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#101B46] mb-4">

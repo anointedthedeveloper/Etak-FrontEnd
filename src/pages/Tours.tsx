@@ -50,7 +50,7 @@ export default function Tours() {
 
       {/* Filters */}
       <div className="bg-white border-b border-gray-100 sticky top-16 lg:top-[68px] xl:top-[72px] 2xl:top-20 z-30">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 py-3 flex gap-2 overflow-x-auto">
+        <div className="site-gutter w-full py-3 flex gap-2 overflow-x-auto">
           {tourCategories.map(cat => (
             <button
               key={cat.id}
@@ -68,7 +68,7 @@ export default function Tours() {
 
       {/* Tours list */}
       <section className="py-12 sm:py-16 bg-[#F8FAFC]">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           {filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-[#667085] text-lg">No tours found for your search.</p>
@@ -184,7 +184,7 @@ export default function Tours() {
 
       {/* Custom tour CTA */}
       <section className="py-12 sm:py-16 bg-white border-t border-gray-100">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 text-center">
+        <div className="site-gutter w-full text-center">
           <SectionHeader
             eyebrow="Custom Tours"
             title="Need a Custom Itinerary?"

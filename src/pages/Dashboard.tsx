@@ -75,7 +75,7 @@ export default function Dashboard() {
         <div className="space-y-5 min-w-0">
 
           {/* Hero banner — matches screenshot */}
-          <div className="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#101B46] via-[#1e3a8a] to-[#2d5be3] h-[200px] flex items-center">
+          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#101B46] via-[#087EAF] to-[#08A9E0] h-[200px] flex items-center shadow-xl shadow-[#08A9E0]/20 animate-fade-up">
             {/* subtle texture */}
             <div className="absolute inset-0 opacity-10"
               style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")" }}
@@ -113,7 +113,7 @@ export default function Dashboard() {
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {stats.map(({ label, value, icon: Icon, bg, fg }) => (
-              <div key={label} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+              <div key={label} className="premium-card rounded-2xl p-5">
                 <div className="flex items-center gap-2.5 mb-4">
                   <div className={`w-9 h-9 rounded-xl ${bg} flex items-center justify-center shrink-0`}>
                     <Icon size={16} className={fg} />
@@ -132,7 +132,7 @@ export default function Dashboard() {
           </div>
 
           {/* Inquiries */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div className="premium-card rounded-2xl overflow-hidden">
             <div className="flex items-center justify-between px-6 pt-5 pb-3">
               <div>
                 <h2 className="font-semibold text-[#172033]">My inquiries</h2>
@@ -203,7 +203,7 @@ export default function Dashboard() {
           </Link>
 
           {/* Profile card */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="premium-card rounded-2xl p-5">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-full bg-[#08A9E0] flex items-center justify-center text-white font-bold text-sm shrink-0">
                 {`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase() || '?'}
@@ -227,7 +227,7 @@ export default function Dashboard() {
           </div>
 
           {/* Quick actions */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <div className="premium-card rounded-2xl p-5">
             <div className="flex items-center gap-2 mb-3">
               <Zap size={15} className="text-[#08A9E0]" />
               <h3 className="font-bold text-[#101B46] text-sm">Quick actions</h3>

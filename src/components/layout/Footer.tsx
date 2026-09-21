@@ -45,14 +45,14 @@ export default function Footer() {
       {/* ── Background decorations ── */}
       <div className="absolute inset-0 dot-grid opacity-10 pointer-events-none" />
       <div className="absolute top-20 right-0 w-96 h-96 rounded-full bg-[#08A9E0]/5 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-[#45419A]/8 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-[#08A9E0]/8 blur-3xl pointer-events-none" />
 
       {/* ── Floating plane decoration ── */}
       <div className="absolute top-24 right-16 text-[#08A9E0]/8 pointer-events-none hidden lg:block">
         <Plane size={120} className="rotate-12 animate-float" />
       </div>
 
-      <div className="relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 pt-24 pb-8">
+      <div className="site-gutter relative z-10 w-full pt-24 pb-8">
 
         {/* ── Columns ── */}
         <div ref={colsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -138,8 +138,8 @@ export default function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-[#08A9E0]/10 flex items-center justify-center shrink-0">
                   <Mail size={14} className="text-[#08A9E0]" />
                 </div>
-                <a href="mailto:info@etakstravels.com" className="text-blue-200/70 hover:text-[#08A9E0] text-sm transition-colors">
-                  info@etakstravels.com
+                <a href="mailto:info@etaktravels.com" className="text-blue-200/70 hover:text-[#08A9E0] text-sm transition-colors">
+                  info@etaktravels.com
                 </a>
               </li>
               <li className="flex gap-3 items-center">

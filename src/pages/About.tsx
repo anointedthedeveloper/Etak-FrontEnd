@@ -73,7 +73,7 @@ export default function About() {
 
       {/* Company intro */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div>
               <SectionHeader eyebrow="Who We Are" title="Your Reliable Travel Bridge to the World" />
@@ -125,7 +125,7 @@ export default function About() {
               {/* Vision */}
               <div className="bg-[#F8FAFC] rounded-2xl p-6 border border-gray-100">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#45419A] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-[#087EAF] flex items-center justify-center">
                     <Eye size={18} className="text-white" />
                   </div>
                   <h3 className="font-display font-bold text-[#101B46] text-xl">Our Vision</h3>
@@ -141,7 +141,7 @@ export default function About() {
 
       {/* Core values */}
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           <SectionHeader eyebrow="Core Values" title="What We Stand For" centered />
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map(({ icon: Icon, title, desc }) => (
@@ -159,7 +159,7 @@ export default function About() {
 
       {/* Company credentials */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           <SectionHeader eyebrow="Company Information" title="Verified Company Details" centered />
           <div className="max-w-2xl mx-auto">
             <div className="bg-[#F8FAFC] rounded-2xl border border-gray-100 overflow-hidden">
@@ -169,7 +169,7 @@ export default function About() {
                 { label: 'Business Type', value: 'Travel Management Company' },
                 { label: 'Location', value: 'Abuja, FCT, Nigeria' },
                 { label: 'Office Address', value: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Along Umaru Musa Yar\'Adua (Airport Road), Piwoyi, Abuja, FCT, Nigeria' },
-                { label: 'Email', value: 'info@etakstravels.com' },
+                { label: 'Email', value: 'info@etaktravels.com' },
                 { label: 'Phone', value: '+234 803 206 2242 / +234 817 358 8783' },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4 px-6 py-4 border-b border-gray-100 last:border-0">
@@ -183,7 +183,7 @@ export default function About() {
       </section>
 
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           <SectionHeader eyebrow="Membership & Credentials" title="Our Accreditations" centered />
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-10">
             {[
@@ -257,7 +257,7 @@ export default function About() {
 
       {/* Partners */}
       <section className="py-12 sm:py-16 lg:py-20 bg-white overflow-hidden">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           <SectionHeader eyebrow="Our Partners" title="Trusted Airline Partners" centered />
           <div className="mt-8 relative">
             {/* Fade edges */}
@@ -278,7 +278,7 @@ export default function About() {
 
       {/* CTA */}
       <section className="py-14 sm:py-20 bg-white border-t border-gray-100">
-        <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+        <div className="site-gutter w-full">
           <div className="max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 p-8 sm:p-10 rounded-2xl border border-gray-200 bg-[#F8FAFC]">
             <div className="text-center lg:text-left">
               <div className="w-10 h-1 bg-[#08A9E0] rounded-full mb-4 mx-auto lg:mx-0" />

@@ -4,11 +4,11 @@ import { useRevealChildren, useInView } from '../../hooks/useInView'
 
 const values = [
   { icon: CheckCircle2,   title: 'Professional Coordination', desc: 'Every arrangement handled with attention to detail, from first inquiry to your return.',      accent: '#08A9E0' },
-  { icon: Users,          title: 'Personalised Service',      desc: 'We tailor our support to your specific travel needs and requirements.',                        accent: '#45419A' },
+  { icon: Users,          title: 'Personalised Service',      desc: 'We tailor our support to your specific travel needs and requirements.',                        accent: '#087EAF' },
   { icon: Globe,          title: 'Local & International',     desc: 'Travelling within Africa or worldwide — we have the knowledge to support you.',                 accent: '#08A9E0' },
-  { icon: Clock,          title: 'Before, During & After',    desc: "Our support doesn't end at ticket issuance. We're available throughout your trip.",             accent: '#45419A' },
+  { icon: Clock,          title: 'Before, During & After',    desc: "Our support doesn't end at ticket issuance. We're available throughout your trip.",             accent: '#087EAF' },
   { icon: HeartHandshake, title: 'Client Relationships',      desc: 'We build long-term relationships, not just one-time transactions.',                            accent: '#08A9E0' },
-  { icon: TrendingDown,   title: 'Cost-Conscious Planning',   desc: 'Best value for your budget without compromising on quality or comfort.',                       accent: '#45419A' },
+  { icon: TrendingDown,   title: 'Cost-Conscious Planning',   desc: 'Best value for your budget without compromising on quality or comfort.',                       accent: '#087EAF' },
 ]
 
 const stats = [
@@ -24,7 +24,7 @@ export default function WhyChooseEtak() {
 
   return (
     <section className="py-16 sm:py-24 bg-white">
-      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+      <div className="site-gutter w-full">
 
         <SectionHeader
           eyebrow="Why Etak"

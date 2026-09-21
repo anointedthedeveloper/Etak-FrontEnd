@@ -32,7 +32,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#101B46] via-[#1a2a6c] to-[#45419A] px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-[#101B46] via-[#075D82] to-[#087EAF] px-4 py-12">
       <div className="mx-auto max-w-md">
         <div className="mb-8 text-center">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">

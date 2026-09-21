@@ -38,27 +38,30 @@ export default function AdminEnquiries() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6 animate-fade-up">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-display text-2xl font-bold text-[#101B46]">Enquiries</h1>
+          <div className="flex items-center gap-2">
+            <div className="w-9 h-9 rounded-xl bg-[#08A9E0] text-white flex items-center justify-center shadow-md shadow-[#08A9E0]/20"><MessageSquare size={17} /></div>
+            <h1 className="font-display text-2xl font-bold text-[#101B46]">Enquiries</h1>
+          </div>
           <p className="text-sm text-[#667085] mt-0.5">View and respond to customer inquiries</p>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="relative">
+        <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-2 w-full sm:w-auto">
+          <div className="relative flex-1">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#667085]" />
             <input
               type="text"
               placeholder="Search enquiries..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]"
+              className="w-full pl-9 pr-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
             />
           </div>
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value as 'all' | 'pending' | 'responded')}
-            className="px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]"
+            className="px-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
           >
             <option value="all">All Enquiries</option>
             <option value="pending">Pending</option>
@@ -67,11 +70,12 @@ export default function AdminEnquiries() {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-2 gap-5 lg:gap-6">
         {/* Enquiries List */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
-          <div className="p-4 border-b border-gray-100">
-            <h3 className="font-semibold text-[#101B46]">All Enquiries ({filteredEnquiries.length})</h3>
+        <div className="premium-card rounded-2xl overflow-hidden">
+          <div className="p-4 border-b border-[#08A9E0]/10 flex items-center justify-between">
+            <h3 className="font-semibold text-[#101B46]">All Enquiries</h3>
+            <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{filteredEnquiries.length}</span>
           </div>
           <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
             {filteredEnquiries.length === 0 ? (
@@ -84,8 +88,8 @@ export default function AdminEnquiries() {
                 <div
                   key={enquiry.id}
                   onClick={() => setSelectedEnquiry(enquiry)}
-                  className={`p-4 cursor-pointer transition-colors ${
-                    selectedEnquiry?.id === enquiry.id ? 'bg-[#EAF8FD] border-l-4 border-[#08A9E0]' : 'hover:bg-gray-50'
+                  className={`p-4 cursor-pointer transition-all ${
+                    selectedEnquiry?.id === enquiry.id ? 'bg-[#EAF8FD] border-l-4 border-[#08A9E0]' : 'hover:bg-[#F8FCFE]'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-3">
@@ -113,10 +117,10 @@ export default function AdminEnquiries() {
         </div>
 
         {/* Enquiry Details & Response */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+        <div className="premium-card rounded-2xl overflow-hidden min-h-[420px]">
           {selectedEnquiry ? (
             <div className="h-full flex flex-col">
-              <div className="p-4 border-b border-gray-100">
+              <div className="p-4 border-b border-[#08A9E0]/10 bg-[#F8FCFE]">
                 <h3 className="font-semibold text-[#101B46]">Enquiry Details</h3>
               </div>
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -141,7 +145,7 @@ export default function AdminEnquiries() {
                   </div>
                 )}
               </div>
-              <div className="p-4 border-t border-gray-100">
+              <div className="p-4 border-t border-[#08A9E0]/10 bg-[#F8FCFE]/60">
                 <label className="text-xs font-semibold text-[#667085] uppercase tracking-wide mb-2 block">Your Response</label>
                 <Textarea
                   placeholder="Type your response here..."

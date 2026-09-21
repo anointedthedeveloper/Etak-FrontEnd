@@ -13,7 +13,7 @@ export default function FeaturedPackages() {
 
   return (
     <section className="py-16 sm:py-24 bg-[#F8FAFC]">
-      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+      <div className="site-gutter w-full">
 
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <SectionHeader

@@ -58,8 +58,8 @@ export default function Hero() {
           className="absolute right-0 top-0 h-full w-full object-cover object-right hidden lg:block"
         />
         {/* Mobile: layered navy overlay keeps the portrait image visible while text stays crisp */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#07102D]/72 via-[#07102D]/48 to-[#07102D]/82 lg:hidden" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07102D]/58 via-transparent to-[#07102D]/18 lg:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07102D]/56 via-[#07102D]/34 to-[#07102D]/62 lg:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07102D]/38 via-transparent to-[#07102D]/10 lg:hidden" />
         {/* Desktop: a richer navy wash keeps the image atmospheric without losing legibility */}
         <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#07102D]/72 via-[#0D1640]/42 to-[#0D1640]/10" />
         <div className="absolute inset-0 hidden lg:block bg-gradient-to-t from-[#07102D]/26 via-transparent to-[#07102D]/10" />
@@ -69,8 +69,8 @@ export default function Hero() {
       {/* ── Mobile Header — only visible before navbar slides in ── */}
       <div className={`lg:hidden relative z-20 flex items-center justify-between px-4 py-3 bg-[#07102D]/28 backdrop-blur-sm transition-opacity duration-300 ${atTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex items-center gap-2">
-          <div className="rounded-xl bg-white p-1 shadow-sm">
-            <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain block" />
+          <div className="rounded-2xl bg-white/95 p-1.5 shadow-lg shadow-[#07102D]/30 ring-1 ring-white/80">
+            <img src="/brand/logo.png" alt="Etak Travels" className="h-12 w-12 object-contain block" />
           </div>
         </div>
         <div className="flex items-center gap-3">
@@ -199,11 +199,11 @@ export default function Hero() {
       )}
 
       {/* ── Main content ── */}
-      <div className="hero-main relative z-10 w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28 3xl:px-40 pt-2 sm:pt-4 lg:pt-[68px] xl:pt-[72px] 2xl:pt-20 pb-4 flex-1">
+      <div className="hero-main site-gutter relative z-10 w-full pt-2 sm:pt-4 lg:pt-[68px] xl:pt-[72px] 2xl:pt-20 pb-4 flex-1">
         <div className="hero-grid grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center max-w-[1600px] mx-auto">
 
           {/* ── LEFT ── */}
-          <div className="hero-copy rounded-2xl bg-[#07102D]/34 p-4 pt-3 sm:p-5 lg:rounded-3xl lg:bg-[#07102D]/24 lg:p-6 lg:backdrop-blur-[2px] backdrop-blur-sm">
+          <div className="hero-copy rounded-2xl bg-[#07102D]/42 p-4 pt-3 sm:p-5 lg:rounded-3xl lg:bg-[#07102D]/24 lg:p-6 lg:backdrop-blur-[2px] backdrop-blur-md border border-white/10">
             <p className="hero-eyebrow text-[#08A9E0] text-xs sm:text-sm font-extrabold uppercase tracking-widest mb-3 drop-shadow-lg">
               Your Journey Starts Here
             </p>
@@ -263,9 +263,9 @@ export default function Hero() {
                   <button
                     key={id}
                     onClick={() => setActiveTab(id)}
-                    className={`flex flex-col items-center gap-1 py-3 sm:py-3.5 px-1 text-xs font-medium transition-all duration-200 cursor-pointer ${
+                    className={`flex flex-col items-center gap-1 py-2.5 sm:py-3 px-1 text-xs font-medium transition-all duration-200 cursor-pointer ${
                       activeTab === id
-                        ? 'bg-[#08A9E0] text-white'
+                        ? 'bg-[#08A9E0] text-white shadow-sm shadow-[#08A9E0]/25'
                         : 'text-[#667085] hover:text-[#172033] hover:bg-gray-50'
                     }`}
                   >
@@ -274,7 +274,7 @@ export default function Hero() {
                   </button>
                 ))}
               </div>
-              <div className="p-4 sm:p-5">
+              <div className="hero-form p-3 sm:p-4">
                 {activeTab === 'flights'    && <FlightInquiryForm compact />}
                 {activeTab === 'hotels'     && <HotelInquiryForm compact />}
                 {activeTab === 'tours'      && <TourInquiryForm compact />}
@@ -286,7 +286,7 @@ export default function Hero() {
       </div>
 
       {/* ── Trust bar ── */}
-      <div id="trust" className="hero-trust relative z-10 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28 3xl:px-40 pb-4 sm:pb-6 mt-auto pt-3 sm:pt-4">
+      <div id="trust" className="hero-trust site-gutter relative z-10 pb-4 sm:pb-6 mt-auto pt-3 sm:pt-4">
         <div className="bg-white/[0.94] rounded-2xl shadow-lg shadow-[#07102D]/20 border border-white/70 px-4 sm:px-10 py-4 sm:py-5 max-w-[1600px] mx-auto backdrop-blur-xl">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-0 overflow-x-auto overflow-y-hidden pb-1 sm:pb-0 w-full sm:w-auto scrollbar-hide">

@@ -75,13 +75,13 @@ export default function Signup() {
   }
 
   const inputClass = (err?: string) =>
-    `w-full pl-9 pr-4 py-2 rounded-xl border text-sm text-[#172033] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] focus:border-transparent transition-colors bg-white ${err ? 'border-red-400' : 'border-gray-200'}`
+    `w-full pl-9 pr-4 py-2 rounded-xl border text-sm text-[#172033] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/35 focus:border-[#08A9E0]/30 transition-colors bg-white ${err ? 'border-red-400' : 'border-[#08A9E0]/15 hover:border-[#08A9E0]/35'}`
 
   return (
     <AuthLayout>
       {/* Header */}
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-9 h-9 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0">
+        <div className="w-9 h-9 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0 shadow-md shadow-[#08A9E0]/20">
           <User size={17} className="text-white" />
         </div>
         <div>
@@ -145,7 +145,7 @@ export default function Signup() {
         )}
 
         <button type="submit" disabled={loading}
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-all duration-300 hover:shadow-lg hover:shadow-[#08A9E0]/25 disabled:opacity-60 disabled:cursor-not-allowed">
           {loading ? <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
             : 'Create Account →'}
         </button>
@@ -162,7 +162,7 @@ export default function Signup() {
       </div>
 
       <button onClick={signInWithGoogle} type="button"
-        className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl border-2 border-gray-200 bg-white text-sm font-semibold text-[#172033] hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-pointer">
+        className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl border-2 border-[#08A9E0]/15 bg-white text-sm font-semibold text-[#172033] hover:bg-[#F4FBFE] hover:border-[#08A9E0]/35 transition-all hover:-translate-y-0.5 cursor-pointer">
         <GoogleIcon /> Continue with Google
       </button>
 

@@ -15,7 +15,7 @@ export default function TravelProcess() {
 
   return (
     <section className="py-16 sm:py-24 bg-[#101B46]">
-      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+      <div className="site-gutter w-full">
 
         <SectionHeader
           eyebrow="How It Works"

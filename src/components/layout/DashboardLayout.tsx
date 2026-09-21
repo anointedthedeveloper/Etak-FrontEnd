@@ -26,7 +26,7 @@ function SidebarContent({
   onLogout: () => void
 }) {
   return (
-    <div className="flex flex-col h-full bg-white border-r border-gray-100">
+    <div className="flex flex-col h-full bg-white/95 border-r border-[#08A9E0]/10 backdrop-blur-xl">
       {/* Logo */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
         <Link to="/" className="flex items-center gap-2" onClick={mobile ? onClose : undefined}>
@@ -54,8 +54,8 @@ function SidebarContent({
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${
                 isActive
-                  ? 'bg-[#101B46] text-white shadow-sm'
-                  : 'text-[#667085] hover:bg-gray-50 hover:text-[#172033]'
+                  ? 'bg-[#08A9E0] text-white shadow-md shadow-[#08A9E0]/20'
+                  : 'text-[#667085] hover:bg-[#EAF8FD] hover:text-[#087EAF]'
               }`
             }
           >
@@ -66,7 +66,7 @@ function SidebarContent({
       </nav>
 
       {/* Promo card */}
-      <div className="mx-3 mb-3 rounded-2xl bg-gradient-to-br from-[#101B46] to-[#45419A] p-4 text-white shrink-0">
+      <div className="mx-3 mb-3 rounded-2xl bg-gradient-to-br from-[#101B46] to-[#087EAF] p-4 text-white shadow-lg shadow-[#08A9E0]/20 shrink-0">
         <Plane size={20} className="text-[#08A9E0] mb-2" />
         <p className="font-bold text-sm leading-snug mb-1">Your journey<br />our priority</p>
         <p className="text-blue-200 text-xs">More destinations.<br />More possibilities.</p>
@@ -97,7 +97,7 @@ export default function DashboardLayout() {
   const initials = `${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase() || '?'
 
   return (
-    <div className="flex h-screen bg-[#F8FAFC] overflow-hidden">
+    <div className="flex h-screen bg-[#F7F7FC] overflow-hidden">
 
       {/* ── Desktop sidebar (always visible lg+) ── */}
       <div className="hidden lg:flex flex-col w-56 xl:w-60 shrink-0 h-full">
@@ -118,7 +118,7 @@ export default function DashboardLayout() {
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
 
         {/* Top bar */}
-        <header className="bg-white border-b border-gray-100 px-4 sm:px-5 py-2.5 flex items-center gap-3 shrink-0">
+        <header className="bg-white/90 backdrop-blur-xl border-b border-[#08A9E0]/10 px-4 sm:px-5 py-2.5 flex items-center gap-3 shrink-0">
           {/* Mobile hamburger */}
           <button
             onClick={() => setSidebarOpen(true)}
@@ -133,7 +133,7 @@ export default function DashboardLayout() {
             <input
               type="text"
               placeholder="Search inquiries, clients, or bookings..."
-              className="w-full pl-8 pr-3 py-2 rounded-xl bg-gray-50 border border-gray-100 text-sm text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] focus:border-transparent"
+              className="w-full pl-8 pr-3 py-2 rounded-xl bg-[#F4FBFE] border border-[#08A9E0]/10 text-sm text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/35 focus:border-[#08A9E0]/30"
             />
           </div>
 

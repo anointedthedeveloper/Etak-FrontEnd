@@ -45,7 +45,7 @@ export default function AdminLayout() {
     <div className="min-h-screen bg-[#F8FAFC]">
       {/* Desktop sidebar */}
       <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0">
-        <div className="flex flex-col flex-grow bg-[#101B46] overflow-y-auto">
+        <div className="flex flex-col flex-grow bg-gradient-to-b from-[#101B46] via-[#075D82] to-[#087EAF] overflow-y-auto">
           <div className="flex items-center justify-center h-16 px-4 border-b border-white/10">
             <div className="flex items-center gap-2">
               <ShieldCheck size={24} className="text-[#08A9E0]" />
@@ -61,7 +61,7 @@ export default function AdminLayout() {
                   to={link.to}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-[#08A9E0] text-white'
+                      ? 'bg-white text-[#087EAF] shadow-lg shadow-black/10'
                       : 'text-blue-100 hover:bg-white/10 hover:text-white'
                   }`}
                 >
@@ -84,7 +84,7 @@ export default function AdminLayout() {
       </div>
 
       {/* Mobile header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#101B46] border-b border-white/10">
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#101B46] to-[#087EAF] border-b border-white/10">
         <div className="flex items-center justify-between h-16 px-4">
           <div className="flex items-center gap-2">
             <ShieldCheck size={24} className="text-[#08A9E0]" />
@@ -102,7 +102,7 @@ export default function AdminLayout() {
       {/* Mobile sidebar */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-40 bg-black/50" onClick={() => setMobileOpen(false)}>
-          <div className="fixed top-0 left-0 bottom-0 w-64 bg-[#101B46] overflow-y-auto">
+          <div className="fixed top-0 left-0 bottom-0 w-64 bg-gradient-to-b from-[#101B46] via-[#075D82] to-[#087EAF] overflow-y-auto">
             <div className="flex items-center justify-center h-16 px-4 border-b border-white/10">
               <div className="flex items-center gap-2">
                 <ShieldCheck size={24} className="text-[#08A9E0]" />
@@ -119,7 +119,7 @@ export default function AdminLayout() {
                     onClick={() => setMobileOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-[#08A9E0] text-white'
+                      ? 'bg-white text-[#087EAF] shadow-lg shadow-black/10'
                         : 'text-blue-100 hover:bg-white/10 hover:text-white'
                     }`}
                   >

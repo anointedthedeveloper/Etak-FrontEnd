@@ -46,18 +46,18 @@ export default function PageHeader({
       <div className="absolute inset-0 bg-gradient-to-r from-[#0D1640]/95 via-[#0D1640]/80 to-[#0D1640]/60" />
 
       {/* Single left-side accent bar */}
-      <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#08A9E0] via-[#08A9E0]/60 to-transparent ${centered ? 'hidden' : 'block'}`} />
+      <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#08A9E0] via-[#0798C8] to-transparent ${centered ? 'hidden' : 'block'}`} />
 
       {/* Bottom border line */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#08A9E0]/50 via-[#08A9E0]/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#08A9E0]/50 via-[#0798C8]/40 to-transparent" />
 
       {/* Content */}
-      <div className={`relative z-10 w-full px-6 sm:px-10 lg:px-16 xl:px-24 ${centered ? 'text-center' : ''}`}>
+      <div className={`site-gutter relative z-10 w-full ${centered ? 'text-center' : ''}`}>
         <div className={centered ? 'max-w-3xl mx-auto' : 'max-w-2xl'}>
 
           {/* Eyebrow */}
-          <span className="inline-flex items-center gap-2 text-[#08A9E0] text-xs font-bold tracking-[0.18em] uppercase mb-4 animate-fade-in">
-            <span className="w-5 h-px bg-[#08A9E0] inline-block" />
+          <span className="inline-flex items-center gap-2 accent-text text-xs font-bold tracking-[0.18em] uppercase mb-4 animate-fade-in">
+            <span className="w-5 h-px accent-gradient inline-block" />
             {eyebrow}
           </span>
 

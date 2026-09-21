@@ -44,12 +44,12 @@ export function Button({
   }
 
   const base =
-    'relative overflow-hidden inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer active:brightness-95'
+    'relative overflow-hidden inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer active:scale-[0.98] hover:-translate-y-0.5'
 
   const variants = {
-    primary:   'bg-[#08A9E0] hover:bg-[#0798C8] text-white focus:ring-[#08A9E0]',
-    secondary: 'bg-[#45419A] hover:bg-[#3a3788] text-white focus:ring-[#45419A]',
-    outline:   'border-2 border-[#08A9E0] text-[#08A9E0] hover:bg-[#EAF8FD] focus:ring-[#08A9E0]',
+    primary:   'bg-[#08A9E0] hover:bg-[#0798C8] text-white focus:ring-[#08A9E0] shadow-md shadow-[#08A9E0]/25 hover:shadow-lg hover:shadow-[#08A9E0]/30',
+    secondary: 'bg-[#087EAF] hover:bg-[#076F9B] text-white focus:ring-[#087EAF] shadow-sm hover:shadow-md',
+    outline:   'border-2 border-[#08A9E0]/45 text-[#087EAF] hover:bg-[#EAF8FD] focus:ring-[#08A9E0]',
     ghost:     'text-[#172033] hover:bg-gray-100 focus:ring-gray-300',
     white:     'bg-white text-[#101B46] hover:bg-gray-100 focus:ring-white',
   }

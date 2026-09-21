@@ -18,7 +18,7 @@ export default function AdminDashboard() {
   ]
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-up">
       <div>
         <h1 className="font-display text-2xl font-bold text-[#101B46]">Admin Dashboard</h1>
         <p className="text-sm text-[#667085] mt-0.5">Overview of platform activity</p>
@@ -27,7 +27,7 @@ export default function AdminDashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <div key={stat.label} className="premium-card rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
               <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
                 <stat.icon size={20} className="text-white" />
@@ -46,7 +46,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Link
           to="/admin/enquiries"
-          className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#08A9E0] transition-colors group"
+          className="premium-card rounded-2xl p-6 group"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -58,7 +58,7 @@ export default function AdminDashboard() {
         </Link>
         <Link
           to="/admin/users"
-          className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 hover:border-[#08A9E0] transition-colors group"
+          className="premium-card rounded-2xl p-6 group"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -71,7 +71,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent Enquiries */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+      <div className="premium-card rounded-2xl overflow-hidden">
         <div className="p-6 border-b border-gray-100">
           <h3 className="font-semibold text-[#101B46]">Recent Enquiries</h3>
         </div>

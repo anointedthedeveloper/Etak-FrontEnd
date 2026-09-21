@@ -8,7 +8,7 @@ export default function FinalCTA() {
 
   return (
     <section className="py-14 sm:py-20 bg-white">
-      <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24">
+      <div className="site-gutter w-full">
         <div
           ref={ref}
           className={`relative rounded-2xl overflow-hidden min-h-72 sm:min-h-80 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}

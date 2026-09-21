@@ -29,7 +29,7 @@ interface BadgeProps {
 export function Badge({ children, variant = 'blue' }: BadgeProps) {
   const variants = {
     blue: 'bg-[#EAF8FD] text-[#08A9E0]',
-    purple: 'bg-purple-50 text-[#45419A]',
+    purple: 'bg-[#EAF8FD] text-[#087EAF]',
     green: 'bg-green-50 text-green-700',
     orange: 'bg-orange-50 text-orange-700',
     gray: 'bg-gray-100 text-[#667085]',

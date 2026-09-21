@@ -239,7 +239,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#7654C8]/15 shadow-[0_8px_30px_rgba(16,27,70,0.08)] transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
+      <header className={`fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#08A9E0]/15 shadow-[0_8px_30px_rgba(16,27,70,0.08)] transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 2xl:px-28 3xl:px-40">
           <div className="flex items-center justify-between h-16 lg:h-[68px] xl:h-[72px] 2xl:h-20">
 
@@ -247,13 +247,13 @@ export default function Navbar() {
             <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
               <img src="/brand/logo.png" alt="Etak Travels" className="h-11 w-11 sm:h-12 sm:w-12 xl:h-14 xl:w-14 2xl:h-16 2xl:w-16 object-contain" />
               <div className="leading-tight">
-                <div className="font-display font-bold text-[#45419A] text-xs sm:text-sm xl:text-base 2xl:text-lg">Etak Travels</div>
+                <div className="font-display font-bold text-[#087EAF] text-xs sm:text-sm xl:text-base 2xl:text-lg">Etak Travels</div>
                 <div className="text-[#6E7190] text-[10px] sm:text-xs xl:text-[11px] 2xl:text-sm">& Tours Expert Limited</div>
               </div>
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-0.5 rounded-full bg-[#F5F3FF]/90 p-1 ring-1 ring-[#7654C8]/10">
+            <nav className="hidden lg:flex items-center gap-0.5 rounded-full bg-[#F2FAFD]/90 p-1 ring-1 ring-[#08A9E0]/12">
               {navLinks.map(({ to, label }) => (
                 <NavLink
                   key={to}
@@ -262,8 +262,8 @@ export default function Navbar() {
                   className={({ isActive }) =>
                     `relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
                       isActive
-                        ? 'bg-gradient-to-r from-[#45419A] to-[#7654C8] text-white shadow-md shadow-[#45419A]/25'
-                        : 'text-[#565873] hover:text-[#45419A] hover:bg-white'
+                        ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
+                        : 'text-[#565873] hover:text-[#087EAF] hover:bg-white'
                     }`
                   }
                 >
@@ -276,7 +276,7 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 2xl:gap-3">
               <button
                 onClick={() => setSearchOpen(true)}
-                className="p-2 xl:p-2.5 rounded-full text-[#6E7190] hover:text-[#45419A] hover:bg-[#F1EEFF] transition-colors"
+                  className="p-2 xl:p-2.5 rounded-full text-[#6E7190] hover:text-[#087EAF] hover:bg-[#EAF8FD] transition-colors"
                 aria-label="Search destinations and tours"
               >
                 <Search size={17} className="xl:w-[18px] xl:h-[18px] 2xl:w-5 2xl:h-5" />
@@ -285,7 +285,7 @@ export default function Navbar() {
               {/* Wishlist */}
               <button
                 onClick={() => setWishlistOpen(true)}
-                className="relative p-2 xl:p-2.5 rounded-full text-[#6E7190] hover:text-[#45419A] hover:bg-[#F1EEFF] transition-colors"
+                className="relative p-2 xl:p-2.5 rounded-full text-[#6E7190] hover:text-[#087EAF] hover:bg-[#EAF8FD] transition-colors"
                 title="Saved items"
               >
                 <Heart size={17} className="xl:w-[18px] xl:h-[18px] 2xl:w-5 2xl:h-5" />
@@ -302,7 +302,7 @@ export default function Navbar() {
                     onClick={() => setUserMenuOpen(v => !v)}
                     className="flex items-center gap-2 px-3 py-1.5 xl:px-4 xl:py-2 rounded-full text-sm xl:text-[15px] font-medium text-[#172033] hover:bg-gray-100 transition-colors border border-gray-200 hover:border-gray-300"
                   >
-                    <div className="w-7 h-7 xl:w-8 xl:h-8 rounded-full bg-gradient-to-br from-[#08A9E0] to-[#7654C8] flex items-center justify-center text-white text-xs font-bold">
+                    <div className="w-7 h-7 xl:w-8 xl:h-8 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-xs font-bold">
                       {user?.firstName?.[0]}{user?.lastName?.[0]}
                     </div>
                     <span className="max-w-[90px] xl:max-w-[110px] truncate">{user?.firstName}</span>
@@ -329,11 +329,11 @@ export default function Navbar() {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Link to="/login" className="px-4 py-2 xl:px-5 xl:py-2.5 rounded-full text-sm xl:text-[15px] font-semibold text-[#45419A] border border-[#7654C8]/20 hover:border-[#7654C8]/50 hover:bg-[#F5F3FF] transition-all">
+                  <Link to="/login" className="px-4 py-2 xl:px-5 xl:py-2.5 rounded-full text-sm xl:text-[15px] font-semibold text-[#087EAF] border border-[#08A9E0]/20 hover:border-[#08A9E0]/50 hover:bg-[#EAF8FD] transition-all">
                     Sign In
                   </Link>
                   <Link to="/signup">
-                    <button className="flex items-center gap-1.5 px-5 py-2 xl:px-6 xl:py-2.5 2xl:px-7 rounded-full bg-gradient-to-r from-[#08A9E0] via-[#3B8FDC] to-[#7654C8] bg-[length:160%_100%] bg-left hover:bg-right text-white text-sm xl:text-[15px] font-semibold transition-all duration-300 shadow-md shadow-[#45419A]/20 hover:shadow-lg">
+                    <button className="flex items-center gap-1.5 px-5 py-2 xl:px-6 xl:py-2.5 2xl:px-7 rounded-full bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm xl:text-[15px] font-semibold transition-all duration-300 shadow-md shadow-[#08A9E0]/25 hover:shadow-lg">
                       Get Started <ArrowRight size={14} />
                     </button>
                   </Link>
@@ -345,7 +345,7 @@ export default function Navbar() {
             <div className="flex lg:hidden items-center gap-1">
               <button
                 onClick={() => setWishlistOpen(true)}
-                className="relative p-2 rounded-full text-[#45419A] hover:bg-[#F1EEFF]"
+                className="relative p-2 rounded-full text-[#087EAF] hover:bg-[#EAF8FD]"
               >
                 <Heart size={18} />
                 {count > 0 && (
@@ -356,7 +356,7 @@ export default function Navbar() {
               </button>
               <button
                 onClick={() => setMobileOpen(v => !v)}
-                className="p-2 rounded-full border border-[#7654C8]/20 text-[#45419A] hover:bg-[#F1EEFF]"
+                className="p-2 rounded-full border border-[#08A9E0]/20 text-[#087EAF] hover:bg-[#EAF8FD]"
                 aria-label="Toggle menu"
               >
                 {mobileOpen ? <X size={19} /> : <Menu size={19} />}
@@ -365,11 +365,11 @@ export default function Navbar() {
           </div>
         </div>
         {searchOpen && (
-          <div className="hidden lg:block absolute right-14 xl:right-20 2xl:right-28 top-[calc(100%+10px)] rounded-2xl bg-white/95 p-2 shadow-2xl shadow-[#101B46]/15 ring-1 ring-[#7654C8]/15 backdrop-blur-xl">
+          <div className="hidden lg:block absolute right-14 xl:right-20 2xl:right-28 top-[calc(100%+10px)] rounded-2xl bg-white/95 p-2 shadow-2xl shadow-[#101B46]/15 ring-1 ring-[#08A9E0]/15 backdrop-blur-xl">
             <SearchBox onClose={() => setSearchOpen(false)} />
           </div>
         )}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-[#08A9E0] via-[#7654C8] to-[#08A9E0] opacity-60" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-[#08A9E0]/60" />
       </header>
 
       {/* Mobile drawer */}
@@ -377,7 +377,7 @@ export default function Navbar() {
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
         <div className={`absolute top-0 right-0 h-full w-[82%] max-w-[320px] bg-white shadow-2xl transition-transform duration-300 flex flex-col ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           {/* Drawer header — branded */}
-          <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#45419A] to-[#7654C8] shrink-0">
+          <div className="flex items-center justify-between px-5 py-4 bg-[#087EAF] shrink-0">
             <Link to="/" onClick={() => setMobileOpen(false)} className="flex items-center gap-2.5">
               <img src="/brand/logo.png" alt="Etak Travels" className="h-9 w-9 object-contain" />
               <div className="leading-tight">

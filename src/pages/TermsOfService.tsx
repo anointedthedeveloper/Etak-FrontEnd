@@ -1,6 +1,6 @@
 export default function TermsOfService() {
   return (
-    <div className="w-full px-6 sm:px-10 lg:px-16 xl:px-24 py-24">
+    <div className="site-gutter w-full py-24">
       <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm sm:p-10">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#08A9E0]">Terms of Service</p>
         <h1 className="font-display text-4xl font-bold text-[#101B46]">Travel arrangements and service terms.</h1>

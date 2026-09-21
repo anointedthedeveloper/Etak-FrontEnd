@@ -22,7 +22,7 @@ function FormLoader({ message = 'Signing you in…' }: { message?: string }) {
       <div className="relative w-16 h-16 mb-5">
         <span className="absolute inset-0 rounded-full border-4 border-[#EAF8FD]" />
         <span className="absolute inset-0 rounded-full border-4 border-[#08A9E0] border-t-transparent animate-spin" />
-        <span className="absolute inset-[6px] rounded-full border-2 border-[#45419A] border-b-transparent animate-spin" style={{ animationDuration: '0.7s', animationDirection: 'reverse' }} />
+        <span className="absolute inset-[6px] rounded-full border-2 border-[#087EAF] border-b-transparent animate-spin" style={{ animationDuration: '0.7s', animationDirection: 'reverse' }} />
         <div className="absolute inset-[14px] rounded-full bg-[#EAF8FD] flex items-center justify-center">
           <User size={12} className="text-[#08A9E0]" />
         </div>
@@ -82,7 +82,7 @@ export default function Login() {
   }
 
   const inputClass = (err?: string) =>
-    `w-full pl-10 pr-4 py-3 rounded-xl border text-sm text-[#172033] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] focus:border-transparent transition-all bg-white ${err ? 'border-red-400 bg-red-50/30' : 'border-gray-200 hover:border-gray-300'}`
+    `w-full pl-10 pr-4 py-3 rounded-xl border text-sm text-[#172033] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/35 focus:border-[#08A9E0]/30 transition-all bg-white ${err ? 'border-red-400 bg-red-50/30' : 'border-[#08A9E0]/15 hover:border-[#08A9E0]/35'}`
 
   const isSubmitting = loading || googleLoading
 
@@ -105,7 +105,7 @@ export default function Login() {
 
           {/* Header */}
           <div className="flex items-center gap-3 mb-7">
-            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-[#08A9E0] to-[#45419A] flex items-center justify-center shrink-0 shadow-md">
+            <div className="w-11 h-11 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0 shadow-md">
               <User size={20} className="text-white" />
             </div>
             <div>
@@ -169,7 +169,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-all disabled:opacity-60 disabled:cursor-not-allowed mt-1 hover:shadow-lg hover:shadow-[#08A9E0]/30 active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed mt-1 hover:shadow-lg hover:shadow-[#08A9E0]/30 active:scale-[0.98]"
             >
               {loading ? (
                 <>
