@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { Users, Search, Mail, Phone, Calendar, Filter, ChevronDown } from 'lucide-react'
-import { Button } from '../../components/ui/Button'
+import { Users, Search, Mail, Phone, Calendar } from 'lucide-react'
 
 export default function AdminUsers() {
-  const [users, setUsers] = useState([
+  const [users] = useState([
     { id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com', phone: '+234 803 206 2242', joinDate: '2024-01-15', status: 'active' },
     { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com', phone: '+234 817 358 8783', joinDate: '2024-02-20', status: 'active' },
     { id: 3, firstName: 'Mike', lastName: 'Johnson', email: 'mike@example.com', phone: '+234 803 206 2242', joinDate: '2024-03-10', status: 'active' },

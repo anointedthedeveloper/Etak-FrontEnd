@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { MessageSquare, CheckCircle, Clock, Reply, Search, Filter } from 'lucide-react'
-import { Input } from '../../components/ui/FormFields'
+import { MessageSquare, CheckCircle, Clock, Reply, Search } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { Textarea } from '../../components/ui/FormFields'
 

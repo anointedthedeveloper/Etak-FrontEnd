@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Lock, ShieldCheck, AlertCircle, Plane, Globe, Shield, Headphones } from 'lucide-react'
+import { AlertCircle, Plane, Globe, Shield, Headphones } from 'lucide-react'
 import { Input } from '../components/ui/FormFields'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
@@ -133,7 +133,6 @@ export default function AdminLogin() {
                   value={credentials.username}
                   onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
                   required
-                  icon={<Lock size={16} className="text-[#667085]" />}
                 />
                 <Input
                   label="Password"
@@ -142,7 +141,6 @@ export default function AdminLogin() {
                   value={credentials.password}
                   onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
                   required
-                  icon={<Lock size={16} className="text-[#667085]" />}
                 />
 
                 {error && (

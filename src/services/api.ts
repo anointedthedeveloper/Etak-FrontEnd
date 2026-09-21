@@ -12,21 +12,7 @@ async function apiFetch(path: string, options: RequestInit = {}) {
   return json.data
 }
 
-export interface FlightSearchParams {
-  origin: string
-  destination: string
-  departureDate: string
-  adults: number
-  cabinClass: string
-  maxStops?: number
-}
 
-export interface Airport {
-  code: string
-  name: string
-  city: string
-  country: string
-}
 
 export interface InquiryPayload {
   type: 'flight' | 'hotel' | 'tour' | 'assistance' | 'contact'
@@ -84,17 +70,7 @@ export const apiService = {
     localStorage.removeItem('pendingInquiryIds')
   },
 
-  async searchFlights(params: FlightSearchParams) {
-    return apiFetch('/api/flights/search', { method: 'POST', body: JSON.stringify(params) })
-  },
 
-  async searchAirports(q: string): Promise<Airport[]> {
-    return apiFetch(`/api/flights/airports?q=${encodeURIComponent(q)}`)
-  },
-
-  async getBookingLinks(ignavId: string) {
-    return apiFetch('/api/flights/booking-links', { method: 'POST', body: JSON.stringify({ ignavId }) })
-  },
 
   // Legacy — kept for Contact page
   async submitContactForm(data: Record<string, unknown>): Promise<void> {
