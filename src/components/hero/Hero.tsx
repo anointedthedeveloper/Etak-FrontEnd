@@ -41,7 +41,7 @@ export default function Hero() {
   }, [wishlistOpen])
 
   return (
-    <section className="relative flex flex-col overflow-hidden bg-[#0D1640] -mt-16 lg:-mt-[68px] xl:-mt-[72px] 2xl:-mt-20 min-h-screen">
+    <section className="hero-shell relative flex flex-col overflow-hidden bg-[#0D1640] -mt-16 lg:-mt-[68px] xl:-mt-[72px] 2xl:-mt-20 min-h-[100svh] lg:h-[100svh]">
 
       {/* ── Background image ── */}
       <div className="absolute inset-0 pointer-events-none select-none">
@@ -57,15 +57,17 @@ export default function Hero() {
           aria-hidden="true"
           className="absolute right-0 top-0 h-full w-full object-cover object-right hidden lg:block"
         />
-        {/* Mobile: strong left-heavy overlay so white text is always readable */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/25 lg:hidden" />
-        {/* Desktop: lighter left vignette */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/15 to-transparent hidden lg:block" />
+        {/* Mobile: layered navy overlay keeps the portrait image visible while text stays crisp */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07102D]/72 via-[#07102D]/48 to-[#07102D]/82 lg:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07102D]/58 via-transparent to-[#07102D]/18 lg:hidden" />
+        {/* Desktop: a richer navy wash keeps the image atmospheric without losing legibility */}
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#07102D]/72 via-[#0D1640]/42 to-[#0D1640]/10" />
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-t from-[#07102D]/26 via-transparent to-[#07102D]/10" />
       </div>
 
 
       {/* ── Mobile Header — only visible before navbar slides in ── */}
-      <div className={`lg:hidden relative z-20 flex items-center justify-between px-4 py-3 bg-transparent transition-opacity duration-300 ${atTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`lg:hidden relative z-20 flex items-center justify-between px-4 py-3 bg-[#07102D]/28 backdrop-blur-sm transition-opacity duration-300 ${atTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex items-center gap-2">
           <div className="rounded-xl bg-white p-1 shadow-sm">
             <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain block" />
@@ -197,11 +199,11 @@ export default function Hero() {
       )}
 
       {/* ── Main content ── */}
-      <div className="relative z-10 w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28 3xl:px-40 pt-16 lg:pt-[68px] xl:pt-[72px] 2xl:pt-20 pb-4 flex-1">
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10 items-start max-w-[1600px] mx-auto">
+      <div className="hero-main relative z-10 w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28 3xl:px-40 pt-2 sm:pt-4 lg:pt-[68px] xl:pt-[72px] 2xl:pt-20 pb-4 flex-1">
+        <div className="hero-grid grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center max-w-[1600px] mx-auto">
 
           {/* ── LEFT ── */}
-          <div className="pt-4 sm:pt-8 pb-4">
+          <div className="hero-copy rounded-2xl bg-[#07102D]/34 p-4 pt-3 sm:p-5 lg:rounded-3xl lg:bg-[#07102D]/24 lg:p-6 lg:backdrop-blur-[2px] backdrop-blur-sm">
             <p className="hero-eyebrow text-[#08A9E0] text-xs sm:text-sm font-extrabold uppercase tracking-widest mb-3 drop-shadow-lg">
               Your Journey Starts Here
             </p>
@@ -224,7 +226,7 @@ export default function Hero() {
               {serviceIcons.map(({ icon: Icon, label, sub }) => (
                 <div
                   key={label}
-                  className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-3 rounded-2xl bg-white/95 border border-gray-100 shadow-sm backdrop-blur-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+                  className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-3 rounded-2xl bg-white/[0.92] border border-white/60 shadow-sm backdrop-blur-md hover:bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
                 >
                   <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
                     <Icon size={16} className="text-[#08A9E0]" />
@@ -254,7 +256,7 @@ export default function Hero() {
 
           {/* ── RIGHT — Inquiry panel ── */}
           <div className="hero-panel pb-6 lg:pt-6">
-            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 hover:shadow-2xl transition-shadow duration-500">
+            <div className="bg-white/[0.96] rounded-2xl shadow-2xl shadow-[#07102D]/25 border border-white/70 backdrop-blur-xl hover:shadow-2xl transition-shadow duration-500">
               {/* Tabs */}
               <div className="grid grid-cols-4 border-b border-gray-100 rounded-t-2xl overflow-hidden">
                 {tabs.map(({ id, label, icon: Icon }) => (
@@ -284,8 +286,8 @@ export default function Hero() {
       </div>
 
       {/* ── Trust bar ── */}
-      <div id="trust" className="hero-trust relative z-10 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28 3xl:px-40 pb-6 mt-auto pt-4">
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 px-8 sm:px-10 py-5 max-w-[1600px] mx-auto">
+      <div id="trust" className="hero-trust relative z-10 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28 3xl:px-40 pb-4 sm:pb-6 mt-auto pt-3 sm:pt-4">
+        <div className="bg-white/[0.94] rounded-2xl shadow-lg shadow-[#07102D]/20 border border-white/70 px-4 sm:px-10 py-4 sm:py-5 max-w-[1600px] mx-auto backdrop-blur-xl">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-0 overflow-x-auto overflow-y-hidden pb-1 sm:pb-0 w-full sm:w-auto scrollbar-hide">
               {[

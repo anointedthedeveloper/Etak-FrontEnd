@@ -201,6 +201,30 @@ body {
 .hero-panel   { animation: slide-in-right 0.7s ease 0.35s both; }
 .hero-trust   { animation: slide-up   0.6s ease 0.85s both; }
 
+/* Keep the desktop landing view self-contained: the hero fills the visible
+   browser area, with its two columns centred between the fixed navigation and
+   the trust bar. Mobile remains naturally scrollable for comfortable forms. */
+@media (min-width: 1024px) {
+  .hero-shell { height: 100svh; }
+  .hero-main { min-height: 0; }
+  .hero-grid { height: 100%; }
+}
+
+/* Short laptops still show the complete first impression without clipping. */
+@media (min-width: 1024px) and (max-height: 760px) {
+  .hero-main { padding-bottom: 0.5rem; }
+  .hero-copy { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+  .hero-copy .hero-eyebrow { margin-bottom: 0.5rem; }
+  .hero-copy .hero-title { font-size: clamp(2rem, 3.2vw, 3rem); margin-bottom: 0.625rem; }
+  .hero-copy .hero-sub { font-size: 0.9375rem; margin-bottom: 1rem; }
+  .hero-copy .hero-icons { margin-bottom: 1rem; }
+  .hero-copy .hero-icons > div { padding: 0.5rem; }
+  .hero-copy .hero-icons span:last-child { display: none; }
+  .hero-panel { padding-top: 0; padding-bottom: 0; }
+  .hero-trust { padding-top: 0.5rem; padding-bottom: 0.75rem; }
+  .hero-trust > div { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+}
+
 /* ─── Page header particle dots ─────────────── */
 .page-header-dot {
   position: absolute;
