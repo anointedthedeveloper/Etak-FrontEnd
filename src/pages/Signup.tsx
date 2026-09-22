@@ -158,7 +158,7 @@ export default function Signup() {
 
       <div className="relative my-3">
         <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
-        <div className="relative flex justify-center"><span className="bg-[#F0F6FF] px-3 text-xs text-[#667085]">or continue with</span></div>
+        <div className="relative flex justify-center"><span className="bg-white/75 backdrop-blur-sm px-3 text-xs text-[#667085]">or continue with</span></div>
       </div>
 
       <button onClick={signInWithGoogle} type="button"

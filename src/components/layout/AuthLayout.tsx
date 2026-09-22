@@ -27,13 +27,14 @@ export default function AuthLayout({ children }: Props) {
      * The right panel handles its own internal scroll when the form
      * is taller than the available height (e.g. signup on mobile).
      */
-    <div className="fixed inset-0 flex flex-col lg:flex-row overflow-hidden">
+    <div className="fixed inset-0 flex flex-col lg:flex-row overflow-hidden bg-[#F0F6FF]">
+
+      {/* Shared image layer keeps the glass panels visually connected. */}
+      <ImageSlideshow images={authSlides} interval={7000} className="z-0" />
 
       {/* ── LEFT PANEL — brand / hero image ── */}
       <div className="relative lg:w-[48%] xl:w-[52%] shrink-0 lg:h-full
                       h-[140px] sm:h-[180px] overflow-hidden">
-        {/* Rotating destination photography */}
-        <ImageSlideshow images={authSlides} interval={7000} />
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/88 via-[#087EAF]/70 to-[#08A9E0]/42" />
 
@@ -87,7 +88,7 @@ export default function AuthLayout({ children }: Props) {
       </div>
 
       {/* ── RIGHT PANEL — scrollable, always fits inside viewport ── */}
-      <div className="flex-1 min-h-0 bg-[#F0F6FF] overflow-y-auto">
+      <div className="relative z-10 flex-1 min-h-0 bg-[#F0F6FF]/80 backdrop-blur-md overflow-y-auto">
         {/*
          * Inner wrapper: centers content vertically when there's space,
          * but allows natural stacking when the form is taller than the panel.
@@ -95,7 +96,7 @@ export default function AuthLayout({ children }: Props) {
          * py padding gives breathing room when scrolling is needed.
          */}
         <div className="min-h-full flex items-center justify-center p-5 sm:p-8 lg:p-10">
-          <div className="w-full max-w-md rounded-3xl border border-white/80 bg-white/90 p-5 sm:p-7 shadow-2xl shadow-[#087EAF]/10 backdrop-blur-xl animate-fade-up">
+          <div className="w-full max-w-md rounded-3xl border border-white/70 bg-white/75 p-5 sm:p-7 shadow-2xl shadow-[#087EAF]/10 backdrop-blur-2xl animate-fade-up">
             {children}
           </div>
         </div>

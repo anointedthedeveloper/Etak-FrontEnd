@@ -47,7 +47,7 @@ export default function ForgotPassword() {
 
   const verifyCode = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (code.length < 8) { setError('Enter the 8-digit code.'); return }
+    if (code.length < 6) { setError('Enter the verification code.'); return }
     setLoading(true); setError('')
     const { error: err } = await supabase.auth.verifyOtp({
       email,
@@ -80,8 +80,8 @@ export default function ForgotPassword() {
           </Link>
           <h1 className="font-display text-3xl font-bold text-white">Reset Password</h1>
           <p className="text-blue-200 text-sm mt-1">
-            {step === 'email' && "We'll send a verification code to your email."}
-            {step === 'code'  && `Enter the 8-digit code sent to ${email}`}
+            {step === 'email'    && "We'll send a verification code to your email."}
+            {step === 'code'     && `Enter the code sent to ${email}`}
             {step === 'password' && 'Choose a new password for your account.'}
           </p>
         </div>
@@ -133,7 +133,7 @@ export default function ForgotPassword() {
                 Verify code
               </Button>
               <button type="button" onClick={() => { setStep('email'); setCode(''); setError('') }} className="w-full text-sm text-[#667085] hover:text-[#08A9E0]">
-                ← Use a different email
+                Use a different email
               </button>
             </form>
           ) : (

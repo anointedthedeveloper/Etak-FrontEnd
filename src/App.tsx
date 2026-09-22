@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { useEffect, lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import Layout from './components/layout/Layout'
 import DashboardLayout from './components/layout/DashboardLayout'
 import AdminLayout from './components/layout/AdminLayout'
@@ -42,17 +42,6 @@ const AuthCallback       = lazy(() => import('./pages/AuthCallback'))
 function AppRoutes() {
   const loading = useRouteLoader()
   useScrollToTop()
-
-  // Request geolocation permission early so auto-detect works instantly later
-  useEffect(() => {
-    if ('permissions' in navigator) {
-      navigator.permissions.query({ name: 'geolocation' }).then(result => {
-        if (result.state === 'prompt') {
-          navigator.geolocation.getCurrentPosition(() => {}, () => {}, { timeout: 1 })
-        }
-      }).catch(() => {})
-    }
-  }, [])
 
   return (
     <Suspense fallback={<PageLoader />}>
