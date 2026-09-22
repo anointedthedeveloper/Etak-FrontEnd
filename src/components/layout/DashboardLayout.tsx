@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import Avatar from '../ui/Avatar'
+import SkipLink from '../ui/SkipLink'
 import { supabase } from '../../lib/supabase'
 
 const navItems = [
@@ -127,6 +128,7 @@ export default function DashboardLayout() {
 
   return (
     <div className="flex h-screen bg-[#F7F7FC] overflow-hidden">
+      <SkipLink />
 
       {/* ── Desktop sidebar (always visible lg+) ── */}
       <div className="hidden lg:flex flex-col w-56 xl:w-60 shrink-0 h-full">

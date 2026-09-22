@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Bookmark, ArrowRight, Plane, Hotel, Map } from 'lucide-react'
+import { EmptyState } from '../../components/ui/States'
 
 const bookingTypes = [
   { icon: Plane,  label: 'Flight Booking',    desc: 'Book international and domestic flights', to: '/contact?service=flight',  color: 'bg-blue-50 text-blue-600' },
@@ -16,33 +17,30 @@ export default function DashboardBookings() {
       </div>
 
       {/* Empty state with quick start options */}
-      <div className="premium-card rounded-2xl p-4 sm:p-5 xl:p-8">
-        <div className="flex flex-col items-center text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
-            <Bookmark size={26} className="text-gray-300" />
-          </div>
-          <p className="font-semibold text-[#172033] mb-1">No bookings yet</p>
-          <p className="text-sm text-[#667085] max-w-sm">
-            Your confirmed bookings will appear here once an inquiry has been processed by the Etak team.
-          </p>
-        </div>
-
-        <div className="grid sm:grid-cols-3 gap-4">
-          {bookingTypes.map(({ icon: Icon, label, desc, to, color }) => (
-            <Link key={label} to={to}>
-              <div className="border border-gray-100 rounded-2xl p-5 hover:border-[#08A9E0] hover:shadow-md transition-all cursor-pointer group">
-                <div className={`w-10 h-10 rounded-xl ${color.split(' ')[0]} flex items-center justify-center mb-3`}>
-                  <Icon size={18} className={color.split(' ')[1]} />
-                </div>
-                <p className="font-semibold text-[#172033] text-sm mb-1">{label}</p>
-                <p className="text-xs text-[#667085] mb-3">{desc}</p>
-                <span className="text-xs font-medium text-[#08A9E0] flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Get started <ArrowRight size={12} />
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
+      <div className="card-surface p-4 sm:p-5 xl:p-8">
+        <EmptyState
+          icon={Bookmark}
+          title="No bookings yet"
+          description="Your confirmed bookings will appear here once an inquiry has been processed by the Etak team."
+          action={
+            <div className="grid sm:grid-cols-3 gap-4 w-full mt-2">
+              {bookingTypes.map(({ icon: Icon, label, desc, to, color }) => (
+                <Link key={label} to={to}>
+                  <div className="border border-line rounded-card p-5 hover:border-[#08A9E0] hover:shadow-card transition-all cursor-pointer group">
+                    <div className={`w-10 h-10 rounded-xl ${color.split(' ')[0]} flex items-center justify-center mb-3`}>
+                      <Icon size={18} className={color.split(' ')[1]} />
+                    </div>
+                    <p className="font-semibold text-[#172033] text-sm mb-1">{label}</p>
+                    <p className="text-xs text-[#667085] mb-3">{desc}</p>
+                    <span className="text-xs font-medium text-[#08A9E0] flex items-center gap-1 group-hover:gap-2 transition-all">
+                      Get started <ArrowRight size={12} />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          }
+        />
       </div>
     </div>
   )

@@ -18,7 +18,7 @@ export default function DashboardTours() {
 
       <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
         {tours.map(tour => (
-          <div key={tour.id} className="premium-card rounded-2xl overflow-hidden flex flex-col">
+          <div key={tour.id} className="premium-card overflow-hidden flex flex-col">
             <div className="h-44 overflow-hidden">
               <img src={tour.image} alt={tour.title} className="w-full h-full object-cover" />
             </div>

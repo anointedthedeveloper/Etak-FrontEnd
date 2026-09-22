@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { StatusBadge } from '../components/ui/index'
+import { EmptyState, LoadingState } from '../components/ui/States'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabase'
 
@@ -113,7 +114,7 @@ export default function Dashboard() {
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {stats.map(({ label, value, icon: Icon, bg, fg }) => (
-              <div key={label} className="premium-card rounded-2xl p-5">
+              <div key={label} className="card-surface p-5">
                 <div className="flex items-center gap-2.5 mb-4">
                   <div className={`w-9 h-9 rounded-xl ${bg} flex items-center justify-center shrink-0`}>
                     <Icon size={16} className={fg} />
@@ -131,7 +132,7 @@ export default function Dashboard() {
           </div>
 
           {/* Inquiries */}
-          <div className="premium-card rounded-2xl overflow-hidden">
+          <div className="card-surface overflow-hidden">
             <div className="flex items-center justify-between px-6 pt-5 pb-3">
               <div>
                 <h2 className="font-semibold text-[#172033]">My inquiries</h2>
@@ -144,24 +145,20 @@ export default function Dashboard() {
             </div>
 
             {loading ? (
-              <div className="flex items-center justify-center py-16">
-                <div className="h-7 w-7 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
-              </div>
+              <LoadingState compact />
             ) : inquiries.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-14 px-6 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
-                  <FileSearch size={24} className="text-gray-300" />
-                </div>
-                <p className="font-semibold text-[#172033] mb-1">No inquiries yet.</p>
-                <p className="text-sm text-[#667085] mb-5">
-                  When a customer makes an inquiry, it will appear here.
-                </p>
-                <Link to="/contact">
-                  <Button variant="primary" size="md">
-                    <Plane size={14} /> Submit your first inquiry
-                  </Button>
-                </Link>
-              </div>
+              <EmptyState
+                icon={FileSearch}
+                title="No inquiries yet."
+                description="When a customer makes an inquiry, it will appear here."
+                action={
+                  <Link to="/contact">
+                    <Button variant="primary" size="md">
+                      <Plane size={14} /> Submit your first inquiry
+                    </Button>
+                  </Link>
+                }
+              />
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
@@ -202,7 +199,7 @@ export default function Dashboard() {
           </Link>
 
           {/* Profile card */}
-          <div className="premium-card rounded-2xl p-5">
+          <div className="card-surface p-5">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-full bg-[#08A9E0] flex items-center justify-center text-white font-bold text-sm shrink-0">
                 {`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase() || '?'}
@@ -226,7 +223,7 @@ export default function Dashboard() {
           </div>
 
           {/* Quick actions */}
-          <div className="premium-card rounded-2xl p-5">
+          <div className="card-surface p-5">
             <div className="flex items-center gap-2 mb-3">
               <Zap size={15} className="text-[#08A9E0]" />
               <h3 className="font-bold text-[#101B46] text-sm">Quick actions</h3>
@@ -249,7 +246,7 @@ export default function Dashboard() {
           </div>
 
           {/* Travel CTA card */}
-          <div className="relative rounded-2xl overflow-hidden h-48">
+          <div className="relative rounded-panel overflow-hidden h-48">
             <img
               src="/images/sections/dash-cta-travel.jpg"
               alt="Travel"

@@ -96,7 +96,7 @@ export default function TermsOfService() {
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#08A9E0]/40 to-transparent" />
         <div className="absolute -top-24 right-[-4rem] w-80 h-80 rounded-full bg-[#08A9E0]/10 blur-3xl pointer-events-none" />
         <div className="site-gutter relative z-10 w-full text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#08A9E0]/15 border border-[#08A9E0]/25 flex items-center justify-center mx-auto mb-5">
+          <div className="w-14 h-14 rounded-panel bg-[#08A9E0]/15 border border-[#08A9E0]/25 flex items-center justify-center mx-auto mb-5">
             <FileCheck size={24} className="text-[#08A9E0]" />
           </div>
           <span className="inline-flex items-center gap-2 accent-text text-xs font-bold tracking-[0.18em] uppercase mb-3">
@@ -121,7 +121,7 @@ export default function TermsOfService() {
 
             {/* ── Quick nav ── */}
             <div className="lg:order-2 flex flex-col gap-4">
-              <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm lg:sticky lg:top-24">
+              <div className="card-surface p-5 lg:sticky lg:top-24">
                 <p className="text-xs font-bold text-[#101B46] uppercase tracking-wide mb-3">On This Page</p>
                 <ul className="flex flex-col gap-1">
                   {sections.map(({ id, title, icon: Icon }) => (
@@ -139,7 +139,7 @@ export default function TermsOfService() {
               </div>
 
               {/* Contact card */}
-              <div className="bg-gradient-to-br from-[#101B46] to-[#0D2260] rounded-2xl p-6 text-white shadow-xl">
+              <div className="bg-gradient-to-br from-[#101B46] to-[#0D2260] rounded-panel p-6 text-white shadow-panel">
                 <h3 className="font-display font-bold text-base mb-1.5">Questions about these terms?</h3>
                 <p className="text-white/55 text-sm leading-relaxed mb-4">
                   Our team is happy to walk you through anything before you book.
@@ -161,7 +161,7 @@ export default function TermsOfService() {
             {/* ── Sections ── */}
             <div className="lg:col-span-2 lg:order-1 flex flex-col gap-5">
               {sections.map(({ id, icon: Icon, title, body }, i) => (
-                <div key={id} id={id} className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm scroll-mt-24">
+                <div key={id} id={id} className="card-surface p-6 sm:p-8 scroll-mt-24">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="w-1 h-5 rounded-full bg-[#08A9E0] shrink-0" />
                     <span className="text-[10px] font-bold text-[#08A9E0] tabular-nums">{String(i + 1).padStart(2, '0')}</span>
@@ -179,7 +179,7 @@ export default function TermsOfService() {
               ))}
 
               {/* Related */}
-              <div className="bg-white rounded-2xl border border-gray-100 p-6 flex items-center justify-between gap-4 shadow-sm">
+              <div className="card-surface p-6 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
                     <FaWhatsapp size={16} className="text-[#08A9E0]" />

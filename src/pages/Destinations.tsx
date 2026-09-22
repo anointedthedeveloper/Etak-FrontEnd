@@ -104,10 +104,10 @@ export default function Destinations() {
                 <div
                   key={dest.id}
                   id={dest.id}
-                  className={`reveal stagger-${(i % 6) + 1} group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col`}
+                  className={`reveal stagger-${(i % 6) + 1} group bg-white rounded-panel overflow-hidden border border-gray-100 hover:shadow-panel hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col`}
                   onClick={() => setSelected(selected === dest.id ? null : dest.id)}
                 >
-                  <div className="relative h-52 overflow-hidden rounded-t-2xl">
+                  <div className="relative h-52 overflow-hidden rounded-t-panel">
                     <img
                       src={dest.image}
                       alt={dest.name}
@@ -166,7 +166,7 @@ export default function Destinations() {
 
               {/* CTA card — fills the empty slot(s) in the last row when showing all destinations */}
               {!query && category === 'all' && (
-                <div className="sm:col-span-2 lg:col-span-2 xl:col-span-2 relative rounded-2xl overflow-hidden min-h-[220px] flex">
+                <div className="sm:col-span-2 lg:col-span-2 xl:col-span-2 relative rounded-panel overflow-hidden min-h-[220px] flex">
                   <img
                     src="/images/sections/dash-cta-travel.jpg"
                     alt=""

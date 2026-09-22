@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Users } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
+import { EmptyState } from '../../components/ui/States'
 
 export default function DashboardClients() {
   return (
@@ -10,17 +11,13 @@ export default function DashboardClients() {
         <p className="text-sm text-[#667085] mt-0.5">View and manage your travel clients</p>
       </div>
 
-      <div className="premium-card rounded-2xl p-4 sm:p-5 xl:p-12 flex flex-col items-center text-center">
-        <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
-          <Users size={26} className="text-gray-300" />
-        </div>
-        <p className="font-semibold text-[#172033] mb-1">No clients yet</p>
-        <p className="text-sm text-[#667085] max-w-sm mb-5">
-          Client records will appear here as you submit inquiries and Etak processes your bookings.
-        </p>
-        <Link to="/contact">
-          <Button variant="primary" size="sm">Submit an inquiry</Button>
-        </Link>
+      <div className="card-surface p-4 sm:p-5 xl:p-12">
+        <EmptyState
+          icon={Users}
+          title="No clients yet"
+          description="Client records will appear here as you submit inquiries and Etak processes your bookings."
+          action={<Link to="/contact"><Button variant="primary" size="sm">Submit an inquiry</Button></Link>}
+        />
       </div>
     </div>
   )

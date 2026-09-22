@@ -61,7 +61,7 @@ export default function DashboardSettings() {
 
       <div className="space-y-5 max-w-2xl">
         {sections.map(({ icon: Icon, title, items }) => (
-          <div key={title} className="premium-card rounded-2xl overflow-hidden">
+          <div key={title} className="card-surface overflow-hidden">
             <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100 bg-gray-50/50">
               <Icon size={16} className="text-[#08A9E0]" />
               <h2 className="font-semibold text-[#101B46] text-sm">{title}</h2>

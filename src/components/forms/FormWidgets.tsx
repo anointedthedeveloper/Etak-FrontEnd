@@ -139,7 +139,7 @@ export function LocationInput({ label, value, onChange, placeholder, autoDetect,
           onFocus={() => setOpen(true)}
           placeholder={placeholder}
           required={required}
-          className={`w-full pl-8 pr-8 py-2.5 text-sm rounded-xl border focus:outline-none focus:ring-2 bg-white text-[#172033] placeholder-[#9CA3AF] ${
+          className={`w-full pl-8 pr-8 py-2.5 text-sm rounded-control border focus:outline-none focus:ring-2 bg-white text-[#172033] placeholder-[#9CA3AF] ${
             error ? 'border-red-400 focus:ring-red-300' : 'border-gray-200 focus:ring-[#08A9E0]'
           }`}
         />
@@ -161,7 +161,7 @@ export function LocationInput({ label, value, onChange, placeholder, autoDetect,
       <DropdownPortal anchorRef={anchorRef} open={showDropdown}>
         <div
           data-location-dropdown
-          className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden"
+          className="bg-white rounded-card shadow-float border border-gray-100 overflow-hidden"
           style={{ maxHeight: 300, overflowY: 'auto' }}
         >
           {!query.trim() && (
@@ -304,7 +304,7 @@ export function DatePicker({ label, value, onChange, min, required, error }: Dat
         ref={anchorRef}
         type="button"
         onClick={() => setOpen(v => !v)}
-        className={`w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-xl border focus:outline-none focus:ring-2 bg-white text-left ${
+        className={`w-full flex items-center justify-between px-3 py-2.5 text-sm rounded-control border focus:outline-none focus:ring-2 bg-white text-left ${
           error ? 'border-red-400 focus:ring-red-300' : 'border-gray-200 focus:ring-[#08A9E0]'
         }`}
       >
@@ -316,7 +316,7 @@ export function DatePicker({ label, value, onChange, min, required, error }: Dat
       {error && <p className="text-[10px] text-red-500 mt-0.5">{error}</p>}
 
       <DropdownPortal anchorRef={anchorRef} open={open}>
-        <div data-datepicker-dropdown className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 w-64">
+        <div data-datepicker-dropdown className="bg-white rounded-card shadow-float border border-gray-100 p-3 w-64">
           <div className="flex items-center justify-between mb-3">
             <button type="button" onClick={prevMonth} className="p-1.5 rounded-lg hover:bg-gray-100 text-[#667085]">
               <ChevronLeft size={15} />
@@ -453,7 +453,7 @@ export function TravellerSelector({ value, onChange, showClass = true }: Travell
         ref={anchorRef}
         type="button"
         onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center gap-2 px-3 py-2.5 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#08A9E0] bg-white text-left"
+        className="w-full flex items-center gap-2 px-3 py-2.5 text-sm rounded-control border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#08A9E0] bg-white text-left"
       >
         <Users size={13} className="text-[#667085] shrink-0" />
         <span className="flex-1 text-[#172033] truncate text-xs">{summary}</span>
@@ -462,7 +462,7 @@ export function TravellerSelector({ value, onChange, showClass = true }: Travell
       </button>
 
       <DropdownPortal anchorRef={anchorRef} open={open}>
-        <div data-traveller-dropdown className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-4">
+        <div data-traveller-dropdown className="bg-white rounded-card shadow-float border border-gray-100 p-4">
           <Counter label="Adults"   sub="Age 12+"       val={value.adults}   min={1}            onInc={() => set('adults',   value.adults + 1)}   onDec={() => set('adults',   value.adults - 1)} />
           <Counter label="Children" sub="Age 2–11"      val={value.children}                    onInc={() => set('children', value.children + 1)} onDec={() => set('children', value.children - 1)} />
           <Counter label="Infants"  sub="Under 2 (lap)" val={value.infants}  max={value.adults} onInc={() => set('infants',  value.infants + 1)}  onDec={() => set('infants',  value.infants - 1)} />
@@ -473,7 +473,7 @@ export function TravellerSelector({ value, onChange, showClass = true }: Travell
               <div className="grid grid-cols-2 gap-1.5">
                 {CLASSES.map(c => (
                   <button key={c.value} type="button" onClick={() => set('class', c.value)}
-                    className={`px-3 py-2 rounded-xl text-xs font-medium text-left transition-colors ${
+                    className={`px-3 py-2 rounded-control text-xs font-medium text-left transition-colors ${
                       value.class === c.value ? 'bg-[#101B46] text-white' : 'bg-gray-50 text-[#667085] hover:bg-[#EAF8FD] hover:text-[#08A9E0]'
                     }`}>
                     {c.label}
@@ -484,7 +484,7 @@ export function TravellerSelector({ value, onChange, showClass = true }: Travell
           )}
 
           <button type="button" onClick={() => setOpen(false)}
-            className="mt-3 w-full py-2 rounded-xl bg-[#08A9E0] text-white text-sm font-semibold hover:bg-[#0798C8] transition-colors">
+            className="mt-3 w-full py-2 rounded-control bg-[#08A9E0] text-white text-sm font-semibold hover:bg-[#0798C8] transition-colors">
             Done
           </button>
         </div>

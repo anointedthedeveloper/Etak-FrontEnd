@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Bell, MessageSquare, CheckCheck, Trash2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { EmptyState, LoadingState, ErrorState } from '../../components/ui/States'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
 
@@ -92,23 +93,19 @@ export default function DashboardNotifications() {
         )}
       </div>
 
-      <div className="premium-card rounded-2xl overflow-hidden">
+      <div className="card-surface overflow-hidden">
         {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <div className="h-8 w-8 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
-          </div>
+          <LoadingState />
         ) : loadError ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center px-6">
-            <p className="text-sm text-red-500">Couldn't load your notifications. Please try again shortly.</p>
+          <div className="p-6">
+            <ErrorState message="Couldn't load your notifications. Please try again shortly." />
           </div>
         ) : notifications.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center px-6">
-            <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
-              <Bell size={26} className="text-gray-300" />
-            </div>
-            <p className="font-semibold text-[#172033] mb-1">No notifications yet</p>
-            <p className="text-sm text-[#667085]">You'll be notified when Etak Travels replies to your enquiries.</p>
-          </div>
+          <EmptyState
+            icon={Bell}
+            title="No notifications yet"
+            description="You'll be notified when Etak Travels replies to your enquiries."
+          />
         ) : (
           <div className="divide-y divide-gray-100">
             {notifications.map(n => {
