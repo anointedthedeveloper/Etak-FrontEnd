@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase'
+import type { Session } from '@supabase/supabase-js'
 
 export interface User {
   id: string
@@ -54,11 +55,12 @@ export const authService = {
     email: string
     phone: string
     password: string
-  }): Promise<{ user: User }> {
+  }): Promise<{ user: User; session: Session | null; existingAccount: boolean }> {
     const { data: result, error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
         data: {
           first_name: data.firstName,
           last_name: data.lastName,
@@ -67,10 +69,20 @@ export const authService = {
       },
     })
 
-    if (error) throw new Error(error.message)
+    if (error) {
+      const message = error.message.toLowerCase()
+      if (message.includes('already registered') || message.includes('already exists') || message.includes('user already')) {
+        throw new Error('An account already exists with this email. Please log in instead.')
+      }
+      throw new Error(error.message)
+    }
     if (!result.user) throw new Error('Registration failed. Please try again.')
 
-    return { user: mapUser(result.user) }
+    return {
+      user: mapUser(result.user),
+      session: result.session,
+      existingAccount: result.user.identities?.length === 0,
+    }
   },
 
   async login(email: string, password: string): Promise<{ user: User }> {

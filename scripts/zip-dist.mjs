@@ -139,10 +139,10 @@ if (!fs.existsSync(DIST_DIR)) {
   process.exit(1)
 }
 
-console.log('📦  Zipping dist...')
+console.log('Zipping dist...')
 const entries = walk(DIST_DIR)
 const zip     = buildZip(entries)
 fs.writeFileSync(OUT_ZIP, zip)
 
 const kb = (zip.length / 1024).toFixed(1)
-console.log(`✅  dist.zip created (${kb} KB, ${entries.length} files)`)
+console.log(`dist.zip created (${kb} KB, ${entries.length} files)`)

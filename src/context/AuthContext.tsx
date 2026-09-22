@@ -9,7 +9,7 @@ interface AuthContextType {
   isAuthenticated: boolean
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
-  register: (data: { firstName: string; lastName: string; email: string; phone: string; password: string }) => Promise<void>
+  register: (data: { firstName: string; lastName: string; email: string; phone: string; password: string }) => Promise<{ requiresEmailConfirmation: boolean; existingAccount: boolean }>
   logout: () => Promise<void>
   updateProfile: (data: Partial<User>) => Promise<void>
   signInWithGoogle: () => Promise<void>
@@ -84,9 +84,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const register = async (data: { firstName: string; lastName: string; email: string; phone: string; password: string }) => {
-    const { user } = await authService.register(data)
-    setUser(user)
-    await apiService.claimPendingInquiries(user.id)
+    const { user, session, existingAccount } = await authService.register(data)
+    if (session) {
+      setUser(user)
+      await apiService.claimPendingInquiries(user.id)
+    }
+    return { requiresEmailConfirmation: !session, existingAccount }
   }
 
   const logout = async () => {

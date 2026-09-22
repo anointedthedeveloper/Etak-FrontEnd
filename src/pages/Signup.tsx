@@ -40,10 +40,12 @@ export default function Signup() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(false)
   const [verifyEmail, setVerifyEmail] = useState('')
+  const [accountExists, setAccountExists] = useState(false)
 
   const set = (k: string, v: string | boolean) => {
     setForm(f => ({ ...f, [k]: v }))
     setErrors(e => ({ ...e, [k]: '', general: '' }))
+    setAccountExists(false)
   }
 
   const validate = () => {
@@ -60,18 +62,27 @@ export default function Signup() {
     return e
   }
 
-  const [verifyEmail, setVerifyEmail] = useState('')
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const errs = validate()
     if (Object.keys(errs).length) { setErrors(errs); return }
     setLoading(true)
     try {
-      await register({ firstName: form.firstName, lastName: form.lastName, email: form.email, phone: form.phone, password: form.password })
-      setVerifyEmail(form.email)
+      const result = await register({ firstName: form.firstName, lastName: form.lastName, email: form.email, phone: form.phone, password: form.password })
+      if (result.existingAccount) {
+        setAccountExists(true)
+      } else if (result.requiresEmailConfirmation) {
+        setVerifyEmail(form.email)
+      } else {
+        navigate('/dashboard', { replace: true })
+      }
     } catch (err: unknown) {
-      setErrors({ general: err instanceof Error ? err.message : 'Registration failed. Please try again.' })
+      const message = err instanceof Error ? err.message : 'Registration failed. Please try again.'
+      if (message.toLowerCase().includes('already exists') || message.toLowerCase().includes('already registered')) {
+        setAccountExists(true)
+      } else {
+        setErrors({ general: message })
+      }
     } finally {
       setLoading(false)
     }
@@ -82,7 +93,23 @@ export default function Signup() {
 
   return (
     <AuthLayout>
-      {verifyEmail ? (
+      {accountExists ? (
+        <div className="flex flex-col items-center text-center py-8">
+          <div className="w-20 h-20 rounded-full bg-amber-50 flex items-center justify-center mb-5">
+            <AlertCircle size={34} className="text-amber-500" />
+          </div>
+          <h2 className="font-display text-xl font-bold text-[#101B46] mb-2">Account Already Exists</h2>
+          <p className="text-sm text-[#667085] leading-relaxed max-w-xs mb-6">
+            An account is already registered with this email address. Please log in to continue.
+          </p>
+          <Link to="/login" className="w-full rounded-xl bg-[#08A9E0] py-3 text-sm font-bold text-white hover:bg-[#0798C8] transition-colors">
+            Go to Login
+          </Link>
+          <button onClick={() => setAccountExists(false)} className="mt-4 text-xs font-semibold text-[#08A9E0] hover:underline">
+            Use a different email
+          </button>
+        </div>
+      ) : verifyEmail ? (
         /* ── Email verification screen ── */
         <div className="flex flex-col items-center text-center py-4">
           {/* Animated envelope */}
