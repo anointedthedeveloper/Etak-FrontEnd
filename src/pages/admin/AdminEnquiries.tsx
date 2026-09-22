@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { MessageSquare, CheckCircle, Clock, Reply, Search } from 'lucide-react'
+import { MessageSquare, Reply, Search } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { Textarea } from '../../components/ui/FormFields'
+import { StatusBadge } from '../../components/ui/index'
 import { supabase } from '../../lib/supabase'
 
 interface Enquiry {
@@ -137,13 +138,7 @@ export default function AdminEnquiries() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-medium text-[#101B46] truncate">{enquiry.name}</span>
-                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full shrink-0 ${
-                        enquiry.status === 'new' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
-                      }`}>
-                        {enquiry.status === 'new'
-                          ? <span className="flex items-center gap-1"><Clock size={10} /> Pending</span>
-                          : <span className="flex items-center gap-1"><CheckCircle size={10} /> Responded</span>}
-                      </span>
+                      <span className="shrink-0"><StatusBadge status={enquiry.status === 'new' ? 'new' : 'responded'} /></span>
                     </div>
                     <p className="text-sm text-[#667085] truncate">{enquiry.service ?? 'General'}</p>
                     <p className="text-xs text-[#667085] mt-1">{new Date(enquiry.created_at).toLocaleDateString()}</p>

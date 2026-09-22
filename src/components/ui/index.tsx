@@ -43,6 +43,10 @@ interface StatusBadgeProps {
 
 export function StatusBadge({ status }: StatusBadgeProps) {
   const map: Record<string, { label: string; variant: BadgeProps['variant'] }> = {
+    new: { label: 'New', variant: 'orange' },
+    in_progress: { label: 'In Progress', variant: 'blue' },
+    responded: { label: 'Responded', variant: 'green' },
+    resolved: { label: 'Resolved', variant: 'green' },
     draft: { label: 'Draft', variant: 'gray' },
     submitted: { label: 'Submitted', variant: 'blue' },
     under_review: { label: 'Under Review', variant: 'orange' },

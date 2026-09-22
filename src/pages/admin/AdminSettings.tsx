@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Lock, CheckCircle2, AlertCircle, Eye, EyeOff, Shield } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
+import { Input } from '../../components/ui/FormFields'
 import { supabase } from '../../lib/supabase'
 
 export default function AdminSettings() {
@@ -34,35 +35,32 @@ export default function AdminSettings() {
       </div>
 
       <div className="max-w-md">
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="premium-card rounded-2xl p-6">
           <div className="flex items-center gap-2 mb-5">
             <Lock size={16} className="text-[#08A9E0]" />
             <h2 className="font-semibold text-[#101B46]">Change Admin Password</h2>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="relative">
-              <label className="block text-sm font-medium text-[#172033] mb-1.5">New Password</label>
-              <input
+              <Input
+                label="New Password"
                 type={showPw ? 'text' : 'password'}
                 value={form.next}
                 onChange={e => setForm(f => ({ ...f, next: e.target.value }))}
                 placeholder="Min. 8 characters"
-                className="w-full px-4 py-3 pr-11 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]"
+                className="pr-11"
               />
-              <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-[34px] text-[#667085]">
+              <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-[34px] text-[#667085] hover:text-[#08A9E0]">
                 {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-[#172033] mb-1.5">Confirm Password</label>
-              <input
-                type={showPw ? 'text' : 'password'}
-                value={form.confirm}
-                onChange={e => setForm(f => ({ ...f, confirm: e.target.value }))}
-                placeholder="Repeat password"
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]"
-              />
-            </div>
+            <Input
+              label="Confirm Password"
+              type={showPw ? 'text' : 'password'}
+              value={form.confirm}
+              onChange={e => setForm(f => ({ ...f, confirm: e.target.value }))}
+              placeholder="Repeat password"
+            />
             {error && (
               <div className="flex items-center gap-2 p-3 bg-red-50 rounded-lg border border-red-200">
                 <AlertCircle size={15} className="text-red-500 shrink-0" />

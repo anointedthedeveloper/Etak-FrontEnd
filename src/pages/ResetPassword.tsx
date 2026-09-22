@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, CheckCircle2, AlertCircle } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { Button } from '../components/ui/Button'
+import { Input } from '../components/ui/FormFields'
 
 function getPasswordStrength(pw: string): { score: number; label: string; color: string } {
   let score = 0
@@ -90,29 +91,28 @@ export default function ResetPassword() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* New password */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-[#172033]">
-                  New Password <span className="text-red-500">*</span>
-                </label>
+              <div>
                 <div className="relative">
-                  <input
+                  <Input
+                    label="New Password"
                     type={showPw ? 'text' : 'password'}
                     placeholder="Enter new password"
                     value={password}
                     onChange={e => { setPassword(e.target.value); setError('') }}
                     autoComplete="new-password"
-                    className="w-full px-4 py-3 pr-11 rounded-lg border border-gray-200 text-sm text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] focus:border-transparent"
+                    required
+                    className="pr-11"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPw(v => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#667085] hover:text-[#172033]"
+                    className="absolute right-3 top-[34px] text-[#667085] hover:text-[#172033]"
                   >
                     {showPw ? <EyeOff size={17} /> : <Eye size={17} />}
                   </button>
                 </div>
                 {password && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 mt-1.5">
                     <div className="flex gap-1 flex-1">
                       {[1,2,3,4].map(i => (
                         <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i <= strength.score ? strength.color : 'bg-gray-200'}`} />
@@ -124,23 +124,20 @@ export default function ResetPassword() {
               </div>
 
               {/* Confirm password */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-[#172033]">
-                  Confirm Password <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPw ? 'text' : 'password'}
-                    placeholder="Confirm new password"
-                    value={confirm}
-                    onChange={e => { setConfirm(e.target.value); setError('') }}
-                    autoComplete="new-password"
-                    className="w-full px-4 py-3 pr-11 rounded-lg border border-gray-200 text-sm text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] focus:border-transparent"
-                  />
-                  {confirm && password === confirm && (
-                    <CheckCircle2 size={17} className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500" />
-                  )}
-                </div>
+              <div className="relative">
+                <Input
+                  label="Confirm Password"
+                  type={showPw ? 'text' : 'password'}
+                  placeholder="Confirm new password"
+                  value={confirm}
+                  onChange={e => { setConfirm(e.target.value); setError('') }}
+                  autoComplete="new-password"
+                  required
+                  className="pr-11"
+                />
+                {confirm && password === confirm && (
+                  <CheckCircle2 size={17} className="absolute right-3 top-[34px] text-green-500" />
+                )}
               </div>
 
               {error && (
