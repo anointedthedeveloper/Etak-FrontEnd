@@ -86,9 +86,6 @@ export default function AdminEnquiries() {
   })
   const visible = filtered.slice(0, visibleCount)
 
-  // Reset the visible page whenever the search or filter changes
-  useEffect(() => { setVisibleCount(20) }, [searchTerm, filter])
-
   const handleRespond = async () => {
     if (!selected || !responseText.trim()) return
     setSubmitting(true)
@@ -141,13 +138,13 @@ export default function AdminEnquiries() {
             type="text"
             placeholder="Search enquiries..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => { setSearchTerm(e.target.value); setVisibleCount(20) }}
             className="w-full pl-9 pr-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
           />
         </div>
         <select
           value={filter}
-          onChange={(e) => setFilter(e.target.value as typeof filter)}
+          onChange={(e) => { setFilter(e.target.value as typeof filter); setVisibleCount(20) }}
           className="px-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
         >
           <option value="all">All Enquiries</option>
