@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Users, MessageSquare, TrendingUp, ArrowRight, CheckCircle2,
-  Settings, AlertCircle, Sun, Sunrise, Moon,
+  Users, MessageSquare, ArrowRight, CheckCircle2,
+  Settings, AlertCircle, Sun, Sunrise, Moon, BarChart2,
 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { StatusBadge } from '../../components/ui/index'
@@ -14,6 +14,14 @@ interface RecentEnquiry {
   service: string | null
   created_at: string
   status: string
+}
+
+interface DayBucket {
+  key: string
+  day: string
+  date: string
+  count: number
+  isToday: boolean
 }
 
 function getGreeting(): { text: string; Icon: React.ElementType } {
@@ -39,6 +47,124 @@ function timeAgo(iso: string) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })
 }
 
+function buildWeekBuckets(rows: { created_at: string }[]): DayBucket[] {
+  const days: DayBucket[] = []
+  const today = new Date(); today.setHours(0, 0, 0, 0)
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today)
+    d.setDate(d.getDate() - i)
+    days.push({
+      key: d.toISOString().slice(0, 10),
+      day: d.toLocaleDateString('en-GB', { weekday: 'short' }),
+      date: d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }),
+      count: 0,
+      isToday: i === 0,
+    })
+  }
+  const byKey = new Map(days.map(d => [d.key, d]))
+  for (const row of rows) {
+    const key = row.created_at.slice(0, 10)
+    const bucket = byKey.get(key)
+    if (bucket) bucket.count++
+  }
+  return days
+}
+
+/** Thin, single-hue weekly volume chart — bars grow from one baseline,
+    the current day reads in the full accent, the rest in a lighter step. */
+function WeeklyTrendChart({ data }: { data: DayBucket[] }) {
+  const max = Math.max(...data.map(d => d.count), 1)
+  const total = data.reduce((sum, d) => sum + d.count, 0)
+
+  return (
+    <div className="premium-card rounded-2xl p-5 flex flex-col">
+      <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+            <BarChart2 size={16} className="text-blue-500" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-[#101B46] text-sm">Enquiry Volume</h3>
+            <p className="text-xs text-[#667085]">Last 7 days</p>
+          </div>
+        </div>
+        <p className="text-2xl font-bold text-[#101B46] tabular-nums">{total}</p>
+      </div>
+
+      <div className="flex items-end gap-2.5 h-28 mt-5 border-b border-gray-100">
+        {data.map(d => (
+          <div key={d.key} className="group relative flex-1 flex flex-col items-center h-full justify-end">
+            {/* Tooltip */}
+            <div
+              role="tooltip"
+              className="pointer-events-none absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-lg bg-[#101B46] text-white text-[11px] font-semibold px-2.5 py-1.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-150 z-10 shadow-lg"
+            >
+              {d.count} {d.count === 1 ? 'enquiry' : 'enquiries'}
+              <span className="block text-white/60 font-normal">{d.date}</span>
+            </div>
+            <button
+              type="button"
+              aria-label={`${d.count} enquiries on ${d.date}`}
+              className={`w-full max-w-[28px] rounded-t-[4px] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/40 cursor-default ${
+                d.isToday ? 'bg-[#08A9E0]' : 'bg-[#08A9E0]/25 group-hover:bg-[#08A9E0]/45'
+              }`}
+              style={{ height: `${Math.max((d.count / max) * 100, d.count > 0 ? 8 : 2)}%` }}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="flex gap-2.5 mt-2">
+        {data.map(d => (
+          <span key={d.key} className={`flex-1 text-center text-[10px] font-medium ${d.isToday ? 'text-[#101B46] font-bold' : 'text-[#667085]'}`}>
+            {d.day}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/** Categorical magnitude breakdown — one hue, ordered by count, matching
+    the same bar pattern used on the customer-facing Reports page. */
+function ServiceBreakdown({ counts }: { counts: [string, number][] }) {
+  const total = counts.reduce((sum, [, c]) => sum + c, 0)
+
+  return (
+    <div className="premium-card rounded-2xl p-5 flex flex-col">
+      <div className="flex items-center gap-2 mb-5">
+        <div className="w-9 h-9 rounded-xl bg-violet-50 flex items-center justify-center shrink-0">
+          <MessageSquare size={16} className="text-violet-500" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-[#101B46] text-sm">By Service Type</h3>
+          <p className="text-xs text-[#667085]">All-time distribution</p>
+        </div>
+      </div>
+
+      {counts.length === 0 ? (
+        <p className="text-sm text-[#667085] flex-1 flex items-center justify-center">No data yet.</p>
+      ) : (
+        <div className="flex flex-col gap-3.5 flex-1 justify-center">
+          {counts.slice(0, 5).map(([service, count]) => (
+            <div key={service}>
+              <div className="flex items-center justify-between text-xs mb-1.5">
+                <span className="font-medium text-[#172033] capitalize">{service}</span>
+                <span className="text-[#667085] tabular-nums">{count} · {Math.round((count / total) * 100)}%</span>
+              </div>
+              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#08A9E0] rounded-full transition-all duration-500"
+                  style={{ width: `${Math.round((count / total) * 100)}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 const quickActions = [
   { to: '/admin/enquiries', label: 'View Enquiries', desc: 'Respond to customer inquiries', icon: MessageSquare, bg: 'bg-blue-50',   fg: 'text-blue-500' },
   { to: '/admin/users',     label: 'Manage Users',    desc: 'View all registered users',   icon: Users,          bg: 'bg-violet-50', fg: 'text-violet-500' },
@@ -50,26 +176,46 @@ export default function AdminDashboard() {
   const [totalEnquiries, setTotalEnquiries] = useState(0)
   const [pendingCount, setPendingCount] = useState(0)
   const [recentEnquiries, setRecentEnquiries] = useState<RecentEnquiry[]>([])
+  const [weekBuckets, setWeekBuckets] = useState<DayBucket[]>([])
+  const [serviceCounts, setServiceCounts] = useState<[string, number][]>([])
   const [loading, setLoading] = useState(true)
   const greeting = getGreeting()
 
   useEffect(() => {
     async function load() {
+      const sevenDaysAgo = new Date()
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6)
+      sevenDaysAgo.setHours(0, 0, 0, 0)
+
       const [
         { count: users },
         { count: enquiries },
         { count: pending },
         { data: recent },
+        { data: weekRows },
+        { data: allServices },
       ] = await Promise.all([
         supabase.from('profiles').select('*', { count: 'exact', head: true }),
         supabase.from('inquiries').select('*', { count: 'exact', head: true }),
         supabase.from('inquiries').select('*', { count: 'exact', head: true }).eq('status', 'new'),
         supabase.from('inquiries').select('id, name, email, service, created_at, status').order('created_at', { ascending: false }).limit(6),
+        supabase.from('inquiries').select('created_at').gte('created_at', sevenDaysAgo.toISOString()),
+        supabase.from('inquiries').select('service'),
       ])
+
       setTotalUsers(users ?? 0)
       setTotalEnquiries(enquiries ?? 0)
       setPendingCount(pending ?? 0)
       setRecentEnquiries(recent ?? [])
+      setWeekBuckets(buildWeekBuckets(weekRows ?? []))
+
+      const serviceMap: Record<string, number> = {}
+      for (const row of allServices ?? []) {
+        const key = row.service ?? 'General'
+        serviceMap[key] = (serviceMap[key] ?? 0) + 1
+      }
+      setServiceCounts(Object.entries(serviceMap).sort((a, b) => b[1] - a[1]))
+
       setLoading(false)
     }
     load()
@@ -85,13 +231,9 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6 animate-fade-up">
       {/* Greeting */}
-      <div>
-        <p className="text-sm text-[#08A9E0] font-medium flex items-center gap-1.5 mb-1">
-          <greeting.Icon size={14} /> {greeting.text}, Admin
-        </p>
-        <h1 className="font-display text-2xl font-bold text-[#101B46]">Overview</h1>
-        <p className="text-sm text-[#667085] mt-0.5">Here's what's happening across the platform today.</p>
-      </div>
+      <p className="text-sm text-[#08A9E0] font-medium flex items-center gap-1.5">
+        <greeting.Icon size={14} /> {greeting.text}, Admin — here's what's happening today.
+      </p>
 
       {/* Pending alert */}
       {!loading && pendingCount > 0 && (
@@ -128,6 +270,14 @@ export default function AdminDashboard() {
           </div>
         ))}
       </div>
+
+      {/* Charts */}
+      {!loading && totalEnquiries > 0 && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <WeeklyTrendChart data={weekBuckets} />
+          <ServiceBreakdown counts={serviceCounts} />
+        </div>
+      )}
 
       {/* Quick actions */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -193,14 +343,6 @@ export default function AdminDashboard() {
           ))}
         </div>
       </div>
-
-      {/* Trend footer note */}
-      {!loading && totalEnquiries > 0 && (
-        <div className="flex items-center gap-2 text-xs text-[#667085] px-1">
-          <TrendingUp size={13} className="text-green-500" />
-          {Math.round(((totalEnquiries - pendingCount) / totalEnquiries) * 100)}% of all enquiries have been responded to
-        </div>
-      )}
     </div>
   )
 }

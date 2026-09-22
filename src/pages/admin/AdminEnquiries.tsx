@@ -80,35 +80,26 @@ export default function AdminEnquiries() {
 
   return (
     <div className="space-y-5 sm:space-y-6 animate-fade-up">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-[#08A9E0] text-white flex items-center justify-center shadow-md shadow-[#08A9E0]/20"><MessageSquare size={17} /></div>
-            <h1 className="font-display text-2xl font-bold text-[#101B46]">Enquiries</h1>
-          </div>
-          <p className="text-sm text-[#667085] mt-0.5">View and respond to customer inquiries</p>
+      <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-2">
+        <div className="relative flex-1">
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#667085]" />
+          <input
+            type="text"
+            placeholder="Search enquiries..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-9 pr-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
+          />
         </div>
-        <div className="flex flex-col xs:flex-row items-stretch xs:items-center gap-2 w-full sm:w-auto">
-          <div className="relative flex-1">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#667085]" />
-            <input
-              type="text"
-              placeholder="Search enquiries..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
-            />
-          </div>
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value as 'all' | 'new' | 'responded')}
-            className="px-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
-          >
-            <option value="all">All Enquiries</option>
-            <option value="new">Pending</option>
-            <option value="responded">Responded</option>
-          </select>
-        </div>
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value as 'all' | 'new' | 'responded')}
+          className="px-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
+        >
+          <option value="all">All Enquiries</option>
+          <option value="new">Pending</option>
+          <option value="responded">Responded</option>
+        </select>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-5 lg:gap-6">

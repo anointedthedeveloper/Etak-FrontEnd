@@ -37,14 +37,7 @@ export default function AdminUsers() {
 
   return (
     <div className="space-y-6 animate-fade-up">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-[#08A9E0] text-white flex items-center justify-center shadow-md shadow-[#08A9E0]/20"><Users size={17} /></div>
-            <h1 className="font-display text-2xl font-bold text-[#101B46]">Users</h1>
-          </div>
-          <p className="text-sm text-[#667085] mt-0.5">View and manage all registered users</p>
-        </div>
+      <div className="flex justify-end">
         <div className="relative w-full sm:w-auto">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#667085]" />
           <input
