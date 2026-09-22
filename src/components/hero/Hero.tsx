@@ -64,8 +64,9 @@ export default function Hero() {
       <div className="hero-main site-gutter relative z-10 w-full pt-16 sm:pt-20 lg:pt-[68px] xl:pt-[72px] 2xl:pt-20 pb-4 flex-1">
         <div className="hero-grid grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center max-w-[1600px] mx-auto">
 
-          {/* ── LEFT ── */}
-          <div className="hero-copy rounded-2xl bg-[#07102D]/42 p-4 pt-3 sm:p-5 lg:rounded-3xl lg:bg-[#07102D]/24 lg:p-6 lg:backdrop-blur-[2px] backdrop-blur-md border border-white/10">
+          {/* ── LEFT — text sits directly on the photography on desktop (a scrim
+               panel only on mobile, where the crop leaves less room to breathe) ── */}
+          <div className="hero-copy rounded-panel bg-[#07102D]/45 p-4 pt-3 sm:p-5 lg:rounded-none lg:bg-transparent lg:p-0 lg:border-0 backdrop-blur-md lg:backdrop-blur-none border border-white/10">
             <div className="hero-eyebrow flex items-center gap-2.5 mb-3">
               <span className="text-[#08A9E0] text-xs sm:text-sm font-extrabold uppercase tracking-widest drop-shadow-lg">
                 Your Journey Starts Here
@@ -93,18 +94,21 @@ export default function Hero() {
               From flight reservations and hotel stays to carefully planned tours, we make every journey easier to arrange — for business, leisure, education, and beyond.
             </p>
 
-            {/* Service icon strip */}
-            <div className="hero-icons grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-4 gap-2 sm:gap-3 mb-6 sm:mb-8">
-              {serviceIcons.map(({ icon: Icon, label, sub }) => (
-                <div
-                  key={label}
-                  className="flex flex-col items-center text-center gap-1.5 p-2.5 sm:p-3 rounded-2xl bg-white/[0.92] border border-white/60 shadow-sm backdrop-blur-md hover:bg-white hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
-                >
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
-                    <Icon size={16} className="text-[#08A9E0]" />
+            {/* Service list — an inline row of icon + label pairs rather than
+                four boxed mini-cards, so it reads as one editorial line. */}
+            <div className="hero-icons flex flex-wrap items-center gap-x-5 gap-y-3 mb-6 sm:mb-8">
+              {serviceIcons.map(({ icon: Icon, label }, i) => (
+                <div key={label} className="flex items-center gap-4">
+                  {i > 0 && <span className="hidden sm:block w-px h-8 bg-white/20 shrink-0" aria-hidden="true" />}
+                  <div className="flex items-center gap-2">
+                    <Icon size={16} className="text-[#08A9E0] shrink-0" />
+                    <span
+                      className="text-xs sm:text-sm font-semibold text-white leading-tight"
+                      style={{ textShadow: '0 1px 4px rgba(16,27,70,0.5)' }}
+                    >
+                      {label}
+                    </span>
                   </div>
-                  <span className="text-xs font-bold text-[#172033] leading-tight">{label}</span>
-                  <span className="text-xs text-[#667085] leading-tight hidden sm:block">{sub}</span>
                 </div>
               ))}
             </div>
@@ -113,13 +117,13 @@ export default function Hero() {
             <div className="hero-ctas flex flex-wrap gap-3">
               <button
                 onClick={() => navigate('/contact')}
-                className="group flex items-center gap-2 px-6 py-3 rounded-full bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-all flex-1 sm:flex-none justify-center shadow-lg hover:shadow-[#08A9E0]/40 hover:-translate-y-0.5"
+                className="group flex items-center gap-2 px-6 py-3 rounded-full bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-all flex-1 sm:flex-none justify-center shadow-panel hover:shadow-[#08A9E0]/40 hover:-translate-y-0.5"
               >
                 Plan Your Trip <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </button>
               <button
                 onClick={() => navigate('/services')}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-gray-50 text-[#172033] text-sm font-bold border border-gray-200 shadow-lg transition-all flex-1 sm:flex-none justify-center hover:-translate-y-0.5"
+                className="flex items-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-gray-50 text-[#172033] text-sm font-bold border border-gray-200 shadow-panel transition-all flex-1 sm:flex-none justify-center hover:-translate-y-0.5"
               >
                 <Building2 size={15} className="text-[#08A9E0]" /> Explore Services
               </button>
@@ -132,7 +136,7 @@ export default function Hero() {
                 { icon: Building2, label: 'Abuja, Nigeria' },
                 { icon: Phone, label: 'End-to-end support' },
               ].map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-2 rounded-xl bg-white/12 border border-white/15 px-2.5 py-2 text-white/90 backdrop-blur-sm">
+                <div key={label} className="flex items-center gap-2 rounded-control bg-white/12 border border-white/15 px-2.5 py-2 text-white/90 backdrop-blur-sm">
                   <Icon size={13} className="text-[#08A9E0] shrink-0" />
                   <span className="text-[11px] font-semibold leading-tight">{label}</span>
                 </div>
@@ -142,9 +146,9 @@ export default function Hero() {
 
           {/* ── RIGHT — Inquiry panel ── */}
           <div className="hero-panel pb-6 lg:pt-6">
-            <div className="bg-white/[0.96] rounded-2xl shadow-2xl shadow-[#07102D]/25 border border-white/70 backdrop-blur-xl hover:shadow-2xl transition-shadow duration-500">
+            <div className="bg-white/[0.96] rounded-panel shadow-float border border-white/70 backdrop-blur-xl">
               {/* Tabs */}
-              <div className="grid grid-cols-4 border-b border-gray-100 rounded-t-2xl overflow-hidden">
+              <div className="grid grid-cols-4 border-b border-gray-100 rounded-t-panel overflow-hidden">
                 {tabs.map(({ id, label, icon: Icon }) => (
                   <button
                     key={id}
@@ -173,7 +177,7 @@ export default function Hero() {
 
       {/* ── Trust bar ── */}
       <div id="trust" className="hero-trust site-gutter relative z-10 pb-4 sm:pb-6 mt-auto pt-3 sm:pt-4">
-        <div className="bg-white/[0.94] rounded-2xl shadow-lg shadow-[#07102D]/20 border border-white/70 px-4 sm:px-10 py-4 sm:py-5 max-w-[1600px] mx-auto backdrop-blur-xl">
+        <div className="bg-white/[0.94] rounded-panel shadow-panel border border-white/70 px-4 sm:px-10 py-4 sm:py-5 max-w-[1600px] mx-auto backdrop-blur-xl">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-0 overflow-x-auto overflow-y-hidden pb-1 sm:pb-0 w-full sm:w-auto scrollbar-hide">
               {[

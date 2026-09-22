@@ -75,7 +75,7 @@ export default function Dashboard() {
         <div className="space-y-5 min-w-0">
 
           {/* Hero banner — matches screenshot */}
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#101B46] via-[#087EAF] to-[#08A9E0] h-[200px] flex items-center shadow-xl shadow-[#08A9E0]/20 animate-fade-up">
+          <div className="relative rounded-panel overflow-hidden bg-gradient-to-r from-[#101B46] via-[#087EAF] to-[#08A9E0] h-[200px] flex items-center shadow-panel animate-fade-up">
             {/* subtle texture */}
             <div className="absolute inset-0 opacity-10"
               style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")" }}

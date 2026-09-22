@@ -96,7 +96,7 @@ export default function AuthLayout({ children }: Props) {
          * py padding gives breathing room when scrolling is needed.
          */}
         <div className="min-h-full flex items-center justify-center p-5 sm:p-8 lg:p-10">
-          <div className="w-full max-w-md rounded-3xl border border-white/70 bg-white/75 p-5 sm:p-7 shadow-2xl shadow-[#087EAF]/10 backdrop-blur-2xl animate-fade-up">
+          <div className="w-full max-w-md rounded-panel border border-white/70 bg-white/75 p-5 sm:p-7 shadow-float backdrop-blur-2xl animate-fade-up">
             {children}
           </div>
         </div>
