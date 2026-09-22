@@ -66,6 +66,33 @@ export default function About() {
         description="Learn about Etak Travels & Tours Expert Limited — Abuja's trusted travel management company. CAC registered (RC 898792), IATA affiliated, serving individuals, families and corporates."
         keywords="about Etak Travels, Etak Limited history, Abuja travel company, CAC registered travel agency Nigeria, IATA member Nigeria"
         url="/about"
+        image="/images/headers/about.jpg"
+        images={[
+          { url: '/images/headers/about.jpg', alt: 'About Etak Travels & Tours Expert Limited — Est. 2010, Abuja Nigeria' },
+          { url: '/images/sections/why-travel.jpg', alt: 'Travel planning at Etak Travels Abuja' },
+          { url: '/credentials/CAC.png', alt: 'CAC Registration Certificate RC 898792 — Etak Travels Nigeria' },
+          { url: '/credentials/IATA.png', alt: 'IATA Membership Certificate — Etak Travels Nigeria' },
+          { url: '/credentials/FIRS.png', alt: 'FIRS Registration — Etak Travels Nigeria' },
+          { url: '/brand/logo.png', alt: 'Etak Travels & Tours Expert Limited Logo' },
+        ]}
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'AboutPage',
+          name: 'About Etak Travels & Tours Expert Limited',
+          url: 'https://etaktravels.com/about',
+          description: 'Etak Travels & Tours Expert Limited — CAC registered (RC 898792), IATA affiliated travel management company based in Abuja, Nigeria. Established 2010.',
+          mainEntity: {
+            '@type': 'TravelAgency',
+            name: 'Etak Travels & Tours Expert Limited',
+            foundingDate: '2010',
+            identifier: 'RC 898792',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi',
+              addressLocality: 'Abuja', addressRegion: 'FCT', addressCountry: 'NG',
+            },
+          },
+        }}
       />
       {/* Header */}
       <PageHeader

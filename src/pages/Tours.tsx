@@ -33,6 +33,20 @@ export default function Tours() {
         keywords="Etak tour packages, Dubai tour Nigeria, Istanbul tour Abuja, London package Nigeria, Accra tour Nigeria, group tours Nigeria, holiday packages Abuja"
         url="/tours"
         image="/images/headers/tours.jpg"
+        images={[
+          { url: '/images/headers/tours.jpg', alt: 'Tour Packages from Nigeria — Etak Travels' },
+          { url: '/images/tours/dubai.jpg', alt: 'Dubai Discovery Package — Etak Travels Nigeria' },
+          { url: '/images/tours/istanbul.jpg', alt: 'Istanbul Cultural Experience — Etak Travels Nigeria' },
+          { url: '/images/tours/london.jpg', alt: 'London Business & Leisure Package — Etak Travels Nigeria' },
+          { url: '/images/tours/accra.jpg', alt: 'West Africa Explorer — Accra Ghana Tour — Etak Travels' },
+        ]}
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'Tours & Travel Packages — Etak Travels Nigeria',
+          url: 'https://etaktravels.com/tours',
+          description: 'Carefully planned tour packages for individuals, families and groups departing from Nigeria.',
+        }}
       />
       {/* Header */}
       <PageHeader

@@ -65,6 +65,17 @@ export default function Contact() {
         description="Contact Etak Travels & Tours Expert Limited for flight bookings, hotel reservations, tour packages and visa assistance. Based in Abuja, Nigeria. Call +234 803 206 2242."
         keywords="contact Etak Travels, Etak Abuja phone number, travel inquiry Nigeria, book flight Abuja"
         url="/contact"
+        image="/images/headers/contact.jpg"
+        images={[
+          { url: '/images/headers/contact.jpg', alt: 'Contact Etak Travels — Abuja Nigeria' },
+        ]}
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'ContactPage',
+          name: 'Contact Etak Travels',
+          url: 'https://etaktravels.com/contact',
+          description: 'Contact Etak Travels & Tours Expert Limited for flight bookings, hotel reservations, tour packages and visa assistance.',
+        }}
       />
       {/* Header */}
       <PageHeader

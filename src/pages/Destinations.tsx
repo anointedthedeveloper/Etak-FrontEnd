@@ -46,6 +46,24 @@ export default function Destinations() {
         keywords="travel destinations Nigeria, Dubai from Abuja, London from Nigeria, Istanbul tour Nigeria, Paris travel Nigeria, Accra from Abuja, international travel Nigeria"
         url="/destinations"
         image="/images/headers/destinations.jpg"
+        images={[
+          { url: '/images/headers/destinations.jpg', alt: 'Travel Destinations from Nigeria — Etak Travels' },
+          { url: '/images/tours/dubai.jpg', alt: 'Dubai UAE — Travel from Nigeria with Etak Travels' },
+          { url: '/images/tours/london.jpg', alt: 'London UK — Travel from Nigeria with Etak Travels' },
+          { url: '/images/tours/istanbul.jpg', alt: 'Istanbul Turkey — Travel from Nigeria with Etak Travels' },
+          { url: '/images/tours/accra.jpg', alt: 'Accra Ghana — Travel from Nigeria with Etak Travels' },
+          { url: '/images/destinations/paris.jpg', alt: 'Paris France — Travel from Nigeria with Etak Travels' },
+          { url: '/images/destinations/new-york.jpg', alt: 'New York USA — Travel from Nigeria with Etak Travels' },
+          { url: '/images/destinations/nairobi.jpg', alt: 'Nairobi Kenya — Travel from Nigeria with Etak Travels' },
+          { url: '/images/destinations/johannesburg.jpg', alt: 'Johannesburg South Africa — Travel from Nigeria with Etak Travels' },
+        ]}
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'Travel Destinations from Nigeria — Etak Travels',
+          url: 'https://etaktravels.com/destinations',
+          description: 'Popular travel destinations for Nigerian travellers — Dubai, London, Istanbul, Paris, New York, Accra, Nairobi and more.',
+        }}
       />
       {/* Header */}
       <PageHeader

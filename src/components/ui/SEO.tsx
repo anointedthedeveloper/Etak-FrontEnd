@@ -5,14 +5,62 @@ interface SEOProps {
   description?: string
   keywords?: string
   image?: string
+  images?: { url: string; alt: string }[]  // extra images for ImageObject schema
   url?: string
   type?: 'website' | 'article'
   noIndex?: boolean
+  schema?: object  // page-specific JSON-LD to merge/replace
 }
 
 const SITE_NAME = 'Etak Travels & Tours Expert Limited'
 const BASE_URL  = 'https://etaktravels.com'
 const DEFAULT_IMG = `${BASE_URL}/brand/logo.png`
+
+const ORG_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'TravelAgency',
+  '@id': `${BASE_URL}/#organization`,
+  name: SITE_NAME,
+  url: BASE_URL,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${BASE_URL}/brand/logo.png`,
+    width: 512,
+    height: 512,
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi',
+    addressLocality: 'Abuja',
+    addressRegion: 'FCT',
+    addressCountry: 'NG',
+  },
+  telephone: '+234-803-206-2242',
+  email: 'etaktravels15@gmail.com',
+  foundingDate: '2010',
+  contactPoint: [
+    { '@type': 'ContactPoint', telephone: '+234-803-206-2242', contactType: 'customer service', availableLanguage: 'English', hoursAvailable: 'Mo-Su 00:00-23:59' },
+    { '@type': 'ContactPoint', telephone: '+234-817-358-8783', contactType: 'customer service', availableLanguage: 'English' },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Travel Services',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Flight Booking & Ticketing' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Hotel Reservations' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Tour Packages' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Visa Assistance' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Medical Travel Insurance' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate & Conference Travel' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Airport Logistics Assistance' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Holiday Packages' } },
+    ],
+  },
+  sameAs: [
+    'https://www.facebook.com/etaktravelsandtours',
+    'https://www.instagram.com/etaktravelsandtours',
+  ],
+}
 
 const DEFAULT_KEYWORDS = [
   'Etak', 'Etak Travels', 'Etak Tours', 'Etak Limited', 'Etak travel',
@@ -35,22 +83,22 @@ export default function SEO({
   description,
   keywords,
   image = DEFAULT_IMG,
+  images = [],
   url,
   type = 'website',
   noIndex = false,
+  schema,
 }: SEOProps) {
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Travel Management in Abuja`
+  const fullTitle       = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Travel Management in Abuja`
   const fullDescription = description ??
-    'Etak Travels & Tours Expert Limited — Abuja\'s trusted travel management company. Flight booking, hotel reservations, tour packages, visa assistance, and corporate travel support across Nigeria and beyond.'
-  const fullUrl   = url ? `${BASE_URL}${url}` : BASE_URL
-  const fullImage = image.startsWith('http') ? image : `${BASE_URL}${image}`
+    "Etak Travels & Tours Expert Limited — Abuja's trusted travel management company. Flight booking, hotel reservations, tour packages, visa assistance, and corporate travel support across Nigeria and beyond."
+  const fullUrl      = url ? `${BASE_URL}${url}` : BASE_URL
+  const fullImage    = image.startsWith('http') ? image : `${BASE_URL}${image}`
   const fullKeywords = keywords ? `${DEFAULT_KEYWORDS}, ${keywords}` : DEFAULT_KEYWORDS
 
   useEffect(() => {
-    // Title
     document.title = fullTitle
 
-    // Helpers
     const setMeta = (selector: string, attr: string, value: string) => {
       let el = document.querySelector(selector) as HTMLMetaElement | null
       if (!el) {
@@ -87,65 +135,54 @@ export default function SEO({
     }
     canonical.href = fullUrl
 
-    // Structured data (JSON-LD)
-    const existingLD = document.getElementById('ld-json')
-    if (existingLD) existingLD.remove()
-    const script = document.createElement('script')
-    script.id   = 'ld-json'
-    script.type = 'application/ld+json'
-    script.text = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'TravelAgency',
-      name: SITE_NAME,
-      url: BASE_URL,
-      logo: `${BASE_URL}/brand/logo.png`,
-      description: fullDescription,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi',
-        addressLocality: 'Abuja',
-        addressRegion: 'FCT',
-        addressCountry: 'NG',
-      },
-      telephone: '+234-803-206-2242',
-      email: 'etaktravels15@gmail.com',
-      foundingDate: '2010',
-      contactPoint: [
-        {
-          '@type': 'ContactPoint',
-          telephone: '+234-803-206-2242',
-          contactType: 'customer service',
-          availableLanguage: 'English',
-          hoursAvailable: 'Mo-Su 00:00-23:59',
+    // ── JSON-LD: always emit the org schema + a page-level WebPage node
+    // plus any page-specific schema passed via the `schema` prop.
+    // Extra images are emitted as ImageObject nodes so Google Image Search
+    // can index them independently of the page.
+    document.querySelectorAll('script[data-ld]').forEach(s => s.remove())
+
+    const graphs: object[] = [
+      ORG_SCHEMA,
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        '@id': `${fullUrl}#webpage`,
+        url: fullUrl,
+        name: fullTitle,
+        description: fullDescription,
+        isPartOf: { '@id': `${BASE_URL}/#organization` },
+        primaryImageOfPage: {
+          '@type': 'ImageObject',
+          url: fullImage,
+          contentUrl: fullImage,
         },
-        {
-          '@type': 'ContactPoint',
-          telephone: '+234-817-358-8783',
-          contactType: 'customer service',
-          availableLanguage: 'English',
-        },
-      ],
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: 'Travel Services',
-        itemListElement: [
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Flight Booking & Ticketing' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Hotel Reservations' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Tour Packages' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Visa Assistance' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Medical Travel Insurance' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate & Conference Travel' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Airport Logistics Assistance' } },
-          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Holiday Packages' } },
-        ],
       },
-      sameAs: [
-        'https://www.facebook.com/etaktravelsandtours',
-        'https://www.instagram.com/etaktravelsandtours',
-      ],
+    ]
+
+    // Extra images as standalone ImageObject nodes
+    images.forEach(img => {
+      const absUrl = img.url.startsWith('http') ? img.url : `${BASE_URL}${img.url}`
+      graphs.push({
+        '@context': 'https://schema.org',
+        '@type': 'ImageObject',
+        url: absUrl,
+        contentUrl: absUrl,
+        name: img.alt,
+        description: img.alt,
+        representativeOfPage: false,
+      })
     })
-    document.head.appendChild(script)
-  }, [fullTitle, fullDescription, fullKeywords, fullImage, fullUrl, type, noIndex])
+
+    if (schema) graphs.push(schema)
+
+    graphs.forEach((graph, i) => {
+      const s = document.createElement('script')
+      s.setAttribute('data-ld', String(i))
+      s.type = 'application/ld+json'
+      s.text = JSON.stringify(graph)
+      document.head.appendChild(s)
+    })
+  }, [fullTitle, fullDescription, fullKeywords, fullImage, fullUrl, type, noIndex, images, schema])
 
   return null
 }

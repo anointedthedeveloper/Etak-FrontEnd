@@ -20,6 +20,20 @@ export default function Services() {
         description="Etak Travels offers flight booking, hotel reservations, tour packages, visa assistance, travel insurance, airport logistics and corporate travel management from Abuja, Nigeria."
         keywords="flight booking Nigeria, hotel reservations Abuja, visa assistance Dubai, tour packages Nigeria, corporate travel Abuja, travel insurance Nigeria, airport transfers Abuja"
         url="/services"
+        image="/images/headers/flights.jpg"
+        images={[
+          { url: '/images/headers/flights.jpg', alt: 'Travel Services — Etak Travels Abuja Nigeria' },
+          { url: '/images/services/flight.jpg', alt: 'Flight Booking & Ticketing — Etak Travels' },
+          { url: '/images/services/hotel.jpg', alt: 'Hotel Reservations — Etak Travels' },
+          { url: '/images/services/tours.jpg', alt: 'Tour Packages — Etak Travels' },
+          { url: '/images/services/visa.jpg', alt: 'Visa Assistance — Etak Travels Nigeria' },
+          { url: '/images/services/insurance.jpg', alt: 'Medical Travel Insurance — Etak Travels' },
+          { url: '/images/services/corporate.jpg', alt: 'Corporate Travel Management — Etak Travels' },
+          { url: '/images/services/airport.jpg', alt: 'Airport Logistics Assistance — Etak Travels' },
+          { url: '/images/services/holiday.jpg', alt: 'Holiday Packages — Etak Travels Nigeria' },
+          { url: '/images/services/consulting.jpg', alt: 'Travel Consulting — Etak Travels Abuja' },
+          { url: '/images/services/support.jpg', alt: 'Pre & Post-Travel Support — Etak Travels' },
+        ]}
       />
       <PageHeader
         eyebrow="Our Services"

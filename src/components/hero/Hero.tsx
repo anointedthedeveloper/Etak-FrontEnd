@@ -178,23 +178,23 @@ export default function Hero() {
       {/* ── Trust bar ── */}
       <div id="trust" className="hero-trust site-gutter relative z-10 pb-4 sm:pb-6 mt-auto pt-3 sm:pt-4">
         <div className="bg-white/[0.94] rounded-panel shadow-panel border border-white/70 px-4 sm:px-10 py-4 sm:py-5 max-w-[1600px] mx-auto backdrop-blur-xl">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-0 overflow-x-auto overflow-y-hidden pb-1 sm:pb-0 w-full sm:w-auto scrollbar-hide">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+            <div className="grid grid-cols-3 sm:flex sm:items-center gap-3 sm:gap-0 w-full sm:w-auto">
               {[
                 { icon: MapPin,    title: 'CAC Registered',        sub: 'RC 898792' },
                 { icon: Building2, title: 'Based in Abuja',         sub: 'FCT, Nigeria' },
                 { icon: Phone,     title: 'Full Travel Management', sub: 'End-to-end support' },
               ].map(({ icon: Icon, title, sub }, idx) => (
-                <div key={title} className="trust-item flex items-center shrink-0">
-                  {idx > 0 && <div className="trust-item-line w-10 h-0.5 bg-[#08A9E0] rounded-full mx-6 shrink-0" />}
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-10 h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
-                      <Icon size={16} className="text-[#08A9E0]" />
+                <div key={title} className="trust-item flex items-center sm:shrink-0">
+                  {idx > 0 && <div className="trust-item-line hidden sm:block w-10 h-0.5 bg-[#08A9E0] rounded-full mx-4 xl:mx-6 shrink-0" />}
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                      <Icon size={14} className="text-[#08A9E0] sm:w-4 sm:h-4" />
                       <span className="absolute inset-0 rounded-full bg-[#08A9E0]/20 animate-[pulse-ring_2.5s_ease-out_infinite]" />
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-[#101B46] whitespace-nowrap">{title}</p>
-                      <p className="text-xs text-[#667085] mt-0.5">{sub}</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm font-bold text-[#101B46] leading-tight">{title}</p>
+                      <p className="text-[10px] sm:text-xs text-[#667085] mt-0.5">{sub}</p>
                     </div>
                   </div>
                 </div>

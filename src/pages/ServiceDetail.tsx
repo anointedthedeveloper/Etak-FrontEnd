@@ -151,7 +151,25 @@ export default function ServiceDetail() {
 
   return (
     <>
-      <SEO title={service.title} description={service.shortDesc} url={`/services/${service.id}`} />
+      <SEO
+        title={service.title}
+        description={service.shortDesc}
+        image={service.image}
+        images={[
+          { url: service.image, alt: `${service.title} — Etak Travels Nigeria` },
+        ]}
+        url={`/services/${service.id}`}
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: service.title,
+          description: service.description,
+          provider: { '@type': 'TravelAgency', name: 'Etak Travels & Tours Expert Limited', url: 'https://etaktravels.com' },
+          areaServed: { '@type': 'Country', name: 'Nigeria' },
+          image: `https://etaktravels.com${service.image}`,
+          url: `https://etaktravels.com/services/${service.id}`,
+        }}
+      />
 
       {/* ── Hero ── */}
       <div className="relative h-[380px] sm:h-[460px] overflow-hidden bg-[#0D1640]">
