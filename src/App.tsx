@@ -7,6 +7,7 @@ import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
 import Home from './pages/Home'
 import Services from './pages/Services'
+import ServiceDetail from './pages/ServiceDetail'
 import Destinations from './pages/Destinations'
 import Tours from './pages/Tours'
 import About from './pages/About'
@@ -59,6 +60,7 @@ function AppRoutes() {
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/services/:serviceId" element={<ServiceDetail />} />
           <Route path="/destinations" element={<Destinations />} />
           <Route path="/tours" element={<Tours />} />
           <Route path="/about" element={<About />} />

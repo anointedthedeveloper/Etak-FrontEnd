@@ -88,7 +88,7 @@ export default function Contact() {
                     <div>
                       <div className="text-xs font-semibold text-[#101B46] mb-1">Office Address</div>
                       <p className="text-sm text-[#667085] leading-relaxed">
-                        Block C2, 2014, ACCI Ultra Modern Shopping Centre, Along Umaru Musa Yar'Adua (Airport Road), Piwoyi, Abuja, FCT, Nigeria.
+                        Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi, Abuja, FCT, Nigeria.
                       </p>
                     </div>
                   </div>
@@ -98,7 +98,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <div className="text-xs font-semibold text-[#101B46] mb-1">Email</div>
-                      <a href="mailto:info@etaktravels.com" className="text-sm text-[#08A9E0] hover:underline">info@etaktravels.com</a>
+                      <a href="mailto:etaktravels15@gmail.com" className="text-sm text-[#08A9E0] hover:underline">etaktravels15@gmail.com</a>
                     </div>
                   </div>
                   <div className="flex gap-3">
@@ -138,7 +138,7 @@ export default function Contact() {
               <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
                 <iframe
                   title="Etak Travels location map"
-                  src="https://www.google.com/maps?q=Piwoyi%20Abuja%20FCT%20Nigeria&output=embed"
+                  src="https://www.google.com/maps?q=ACCI+Ultra+Modern+Shopping+Centre+Piwoyi+Abuja+Nigeria&output=embed"
                   className="w-full h-52 border-0"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -146,7 +146,7 @@ export default function Contact() {
                 <div className="p-4 border-t border-gray-100">
                   <p className="text-sm font-medium text-[#101B46]">Piwoyi, Abuja, FCT, Nigeria</p>
                   <a
-                    href="https://www.google.com/maps/search/?api=1&query=Piwoyi%20Abuja%20FCT%20Nigeria"
+                    href="https://www.google.com/maps/search/?api=1&query=ACCI+Ultra+Modern+Shopping+Centre+Piwoyi+Abuja+Nigeria"
                     target="_blank"
                     rel="noreferrer"
                     className="mt-2 inline-block text-sm text-[#08A9E0] hover:underline"

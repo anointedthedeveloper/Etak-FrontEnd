@@ -35,6 +35,7 @@ export default function AdminLogin() {
         title="Admin Login"
         description="Admin login for Etak Travels management"
         url="/adlog"
+        noIndex
       />
       <div className="min-h-screen flex">
         {/* Left Side - Branding */}

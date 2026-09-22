@@ -1,14 +1,116 @@
+# ── Etak Travels & Tours Expert Limited ──────────────────────────────────────
+# robots.txt — https://etaktravels.com/robots.txt
+
+# ── All crawlers (default) ────────────────────────────────────────────────────
 User-agent: *
 Allow: /
+Allow: /services
+Allow: /services/
+Allow: /destinations
+Allow: /tours
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /terms
+Allow: /images/
+Allow: /brand/
+Allow: /credentials/
+Allow: /partners/
 
-# Sitemaps
-Sitemap: https://etaktravels.com/sitemap.xml
+# Block auth & admin routes from all crawlers
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /auth/
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
 
-# Crawl-delay for polite bots
-Crawl-delay: 10
+# Block API
+Disallow: /api/
 
-# Allow image indexing
+# ── Google ────────────────────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Disallow: /login
+Disallow: /signup
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /auth/
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
+Disallow: /api/
+
 User-agent: Googlebot-Image
 Allow: /brand/
 Allow: /images/
 Allow: /credentials/
+Allow: /partners/
+
+# ── Bing ──────────────────────────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Disallow: /login
+Disallow: /signup
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
+Disallow: /api/
+
+# ── AI crawlers — explicitly allowed on all public pages ─────────────────────
+User-agent: GPTBot
+Allow: /
+Allow: /services
+Allow: /services/
+Allow: /destinations
+Allow: /tours
+Allow: /about
+Allow: /contact
+Disallow: /login
+Disallow: /signup
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
+
+User-agent: cohere-ai
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
+
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /adlog
+
+# ── Sitemap ───────────────────────────────────────────────────────────────────
+Sitemap: https://etaktravels.com/sitemap.xml

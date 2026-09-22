@@ -131,15 +131,15 @@ export default function Footer() {
                   <MapPin size={14} className="text-[#08A9E0]" />
                 </div>
                 <span className="text-blue-200/70 text-sm leading-relaxed">
-                  Block C2, 2014, ACCI Ultra Modern Shopping Centre, Along Umaru Musa Yar'Adua (Airport Road), Piwoyi, Abuja, FCT, Nigeria.
+                  Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi, Abuja, FCT, Nigeria.
                 </span>
               </li>
               <li className="flex gap-3 items-center">
                 <div className="w-8 h-8 rounded-lg bg-[#08A9E0]/10 flex items-center justify-center shrink-0">
                   <Mail size={14} className="text-[#08A9E0]" />
                 </div>
-                <a href="mailto:info@etaktravels.com" className="text-blue-200/70 hover:text-[#08A9E0] text-sm transition-colors">
-                  info@etaktravels.com
+                <a href="mailto:etaktravels15@gmail.com" className="text-blue-200/70 hover:text-[#08A9E0] text-sm transition-colors">
+                  etaktravels15@gmail.com
                 </a>
               </li>
               <li className="flex gap-3 items-center">
@@ -166,7 +166,7 @@ export default function Footer() {
         {/* ── Divider ── */}
         <div className="border-t border-white/8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-blue-300/50 text-xs text-center sm:text-left">
-            © {new Date().getFullYear()} Etak Travels & Tours Expert Limited. All rights reserved. RC 898792.
+            © {new Date().getFullYear()} Etak Travels & Tours Expert Limited. All rights reserved. RC 898792 · Est. 2010.
           </div>
           <div className="flex items-center gap-4">
             <Link to="/privacy" className="text-blue-300/50 hover:text-[#08A9E0] text-xs transition-colors">Privacy Policy</Link>

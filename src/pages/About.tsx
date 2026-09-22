@@ -67,7 +67,7 @@ export default function About() {
       <PageHeader
         eyebrow="About Us"
         title="Etak Travels & Tours Expert Limited"
-        subtitle="A professional travel management company based in Abuja, Nigeria — providing reliable travel solutions for business, education, leisure, and international travel."
+        subtitle="Established in 2010 — over 16 years of professional travel management from Abuja, Nigeria, serving individuals, businesses, and organisations across the world."
         image="/images/headers/about.jpg"
       />
 
@@ -77,18 +77,33 @@ export default function About() {
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div>
               <SectionHeader eyebrow="Who We Are" title="Your Reliable Travel Bridge to the World" />
+
+              {/* Stats strip */}
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                {[
+                  { value: '16+', label: 'Years in Business' },
+                  { value: '500+', label: 'Happy Clients' },
+                  { value: '24/7', label: 'Always Available' },
+                ].map(({ value, label }) => (
+                  <div key={label} className="bg-[#F8FAFC] rounded-xl border border-gray-100 p-3 text-center">
+                    <p className="font-display font-bold text-[#08A9E0] text-2xl">{value}</p>
+                    <p className="text-[#667085] text-xs mt-0.5">{label}</p>
+                  </div>
+                ))}
+              </div>
+
               <div className="flex flex-col gap-4 text-[#667085] leading-relaxed">
                 <p>
-                  Etak Travels & Tours Expert Limited is an Abuja-based travel management company providing comprehensive travel solutions for individuals, families, businesses, and organisations across Nigeria and beyond.
+                  Etak Travels & Tours Expert Limited is a travel management company that offers world-class travel solutions. Founded in 2010 and with over 16 years of experience, we deliver professional service for business, education and leisure travels — including car hire and hotels for both local and international travel.
                 </p>
                 <p>
-                  We specialise in flight booking and ticketing, hotel reservations, tour packaging, visa assistance, travel consulting, and a range of support services designed to make every journey easier to arrange and more enjoyable to experience.
+                  Our business approach has always been to offer small, medium and large companies a personal business and leisure service that only an independent travel agent can offer — while providing the same range of services and buying ability as the largest corporate travel agents.
                 </p>
                 <p>
-                  Whether you are travelling for business, attending a conference, pursuing education abroad, or planning a family holiday, our team is committed to providing professional, personalised travel management from your first inquiry to your safe return.
+                  We work 24 hours a day, 7 days a week and 365 days a year to ensure that every travel arrangement we make is exactly as required, guaranteeing a hitch-free, enjoyable journey for all our clients. We serve government, civil societies, corporate and privately owned firms, international communities, and individuals.
                 </p>
                 <p>
-                  We are registered with the Corporate Affairs Commission of Nigeria (RC 898792) and operate from our office in Abuja, FCT.
+                  We are registered with the Corporate Affairs Commission of Nigeria (RC 898792), IATA affiliated, and operate from our office in Piwoyi, Abuja, FCT.
                 </p>
               </div>
             </div>
@@ -118,7 +133,7 @@ export default function About() {
                   <h3 className="font-display font-bold text-[#101B46] text-xl">Our Mission</h3>
                 </div>
                 <p className="text-[#667085] text-sm leading-relaxed">
-                  To provide reliable, professional, and customer-focused travel management services that make every journey — whether for business, education, or leisure — easier to plan and more rewarding to experience.
+                  To continually work efficiently to provide quality services that meet the needs of all our clients.
                 </p>
               </div>
 
@@ -131,7 +146,7 @@ export default function About() {
                   <h3 className="font-display font-bold text-[#101B46] text-xl">Our Vision</h3>
                 </div>
                 <p className="text-[#667085] text-sm leading-relaxed">
-                  To be the most trusted travel management company in Nigeria — known for our integrity, quality of service, and genuine commitment to the travel success of every client we serve.
+                  To be the best global service provider with integrity in West Africa in the next half a decade.
                 </p>
               </div>
             </div>
@@ -165,12 +180,16 @@ export default function About() {
             <div className="bg-[#F8FAFC] rounded-2xl border border-gray-100 overflow-hidden">
               {[
                 { label: 'Company Name', value: 'Etak Travels & Tours Expert Limited' },
+                { label: 'Founded', value: '2010 (16+ years in operation)' },
                 { label: 'CAC Registration', value: 'RC 898792' },
                 { label: 'Business Type', value: 'Travel Management Company' },
                 { label: 'Location', value: 'Abuja, FCT, Nigeria' },
-                { label: 'Office Address', value: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Along Umaru Musa Yar\'Adua (Airport Road), Piwoyi, Abuja, FCT, Nigeria' },
-                { label: 'Email', value: 'info@etaktravels.com' },
+                { label: 'Office Address', value: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi, Abuja, FCT, Nigeria' },
+                { label: 'Email', value: 'etaktravels15@gmail.com' },
                 { label: 'Phone', value: '+234 803 206 2242 / +234 817 358 8783' },
+                { label: 'TIN / VAT', value: '11490155-0001' },
+                { label: 'Bank', value: 'Zenith Bank PLC — 1014779982' },
+                { label: 'IATA Code', value: '59200503' },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4 px-6 py-4 border-b border-gray-100 last:border-0">
                   <span className="text-xs font-semibold text-[#667085] uppercase tracking-wide sm:w-40 shrink-0">{label}</span>
@@ -251,6 +270,55 @@ export default function About() {
                 </div>
               )
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="site-gutter w-full">
+          <SectionHeader eyebrow="Our People" title="Meet the Team" centered />
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+            {[
+              { name: 'Kate Aina Tabu',       role: 'Managing Director' },
+              { name: 'Victor Ernest',         role: 'Business Development' },
+              { name: 'Fautina Ugwu',          role: 'Ticketing & Reservations' },
+              { name: 'Glory Lisa Uche',       role: 'Accounts' },
+              { name: 'Charity Azebeokha',     role: 'Marketing Executive' },
+            ].map(({ name, role }) => (
+              <div key={name} className="bg-[#F8FAFC] rounded-2xl border border-gray-100 p-4 text-center">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-3">
+                  <span className="text-white font-bold text-sm">{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
+                </div>
+                <p className="font-semibold text-[#101B46] text-sm leading-snug">{name}</p>
+                <p className="text-[#667085] text-xs mt-1">{role}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Objectives */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
+        <div className="site-gutter w-full">
+          <SectionHeader eyebrow="Our Commitments" title="What We're Committed To" centered />
+          <div className="max-w-3xl mx-auto grid sm:grid-cols-2 gap-3">
+            {[
+              'To be one of the leading international travel and tour management companies in Nigeria.',
+              'To effectively review client expectations and create the required comfort through a clear understanding of their wants.',
+              'To effectively perform and carry out our services to the highest standard.',
+              'To manage our relationship with all customers with care and professionalism.',
+              'To meet our customers\' expectations consistently.',
+              'To apply the highest values of respect, integrity, and ethics in all our activities.',
+              'To deliver cost-effective, on-time services to every client.',
+            ].map((obj, i) => (
+              <div key={i} className="flex items-start gap-3 bg-white rounded-xl border border-gray-100 p-4">
+                <div className="w-6 h-6 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="text-white text-[10px] font-bold">{i + 1}</span>
+                </div>
+                <p className="text-sm text-[#667085] leading-relaxed">{obj}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

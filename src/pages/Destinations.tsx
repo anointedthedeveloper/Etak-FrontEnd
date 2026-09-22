@@ -161,6 +161,44 @@ export default function Destinations() {
                   )}
                 </div>
               ))}
+
+              {/* CTA card — fills the empty slot(s) in the last row when showing all destinations */}
+              {!query && category === 'all' && (
+                <div className="sm:col-span-2 lg:col-span-1 xl:col-span-2 relative rounded-2xl overflow-hidden min-h-[220px] flex">
+                  <img
+                    src="/images/sections/dash-cta-travel.jpg"
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#101B46]/95 via-[#101B46]/80 to-[#101B46]/50" />
+                  <div className="relative z-10 flex flex-col justify-between p-7 w-full">
+                    <div>
+                      <span className="inline-flex items-center gap-2 text-[#08A9E0] text-[11px] font-bold tracking-[0.18em] uppercase mb-3">
+                        <span className="w-4 h-px bg-[#08A9E0]" /> Your Destination Awaits
+                      </span>
+                      <h3 className="font-display font-bold text-white text-xl sm:text-2xl leading-tight mb-2">
+                        Don't See Your Destination?
+                      </h3>
+                      <p className="text-white/55 text-sm leading-relaxed max-w-sm">
+                        We arrange travel worldwide — not just the destinations listed here. Tell us where you want to go and we'll handle flights, hotels, and everything in between.
+                      </p>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-2 mt-6">
+                      <Link to="/contact">
+                        <button className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-semibold transition-colors shadow-lg shadow-[#08A9E0]/25 whitespace-nowrap">
+                          Plan Any Trip <ArrowRight size={14} />
+                        </button>
+                      </Link>
+                      <a href="tel:+2348032062242">
+                        <button className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-white/20 text-white/70 hover:text-white hover:border-white/40 text-sm font-medium transition-colors whitespace-nowrap">
+                          +234 803 206 2242
+                        </button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

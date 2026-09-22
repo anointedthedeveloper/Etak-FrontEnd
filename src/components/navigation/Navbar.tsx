@@ -9,11 +9,12 @@ import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 import { destinations } from '../../data/destinations'
 import { tours } from '../../data/tours'
+import { services } from '../../data/services'
 
 const navLinks = [
   { to: '/',             label: 'Home',         icon: Home },
   { to: '/about',        label: 'About Us',     icon: Info },
-  { to: '/services',     label: 'Services',     icon: Briefcase },
+  { to: '/services',     label: 'Services',     icon: Briefcase, hasDropdown: true },
   { to: '/destinations', label: 'Destinations', icon: Globe },
   { to: '/tours',        label: 'Tours',        icon: Map },
   { to: '/contact',      label: 'Contact',      icon: Mail },
@@ -254,21 +255,55 @@ export default function Navbar() {
 
             {/* Desktop nav */}
             <nav className="hidden lg:flex items-center gap-0.5 rounded-full bg-[#F2FAFD]/90 p-1 ring-1 ring-[#08A9E0]/12">
-              {navLinks.map(({ to, label }) => (
-                <NavLink
-                  key={to}
-                  to={to}
-                  end={to === '/'}
-                  className={({ isActive }) =>
-                    `relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
-                      isActive
-                        ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
-                        : 'text-[#565873] hover:text-[#087EAF] hover:bg-white'
-                    }`
-                  }
-                >
-                  {label}
-                </NavLink>
+              {navLinks.map(({ to, label, hasDropdown }) => (
+                hasDropdown ? (
+                  <div key={to} className="relative group">
+                    <NavLink
+                      to={to}
+                      end={to === '/'}
+                      className={({ isActive }) =>
+                        `relative flex items-center gap-1 px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
+                          isActive
+                            ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
+                            : 'text-[#565873] hover:text-[#087EAF] hover:bg-white'
+                        }`
+                      }
+                    >
+                      {label}
+                      <ChevronDown size={13} className="transition-transform group-hover:rotate-180" />
+                    </NavLink>
+                    {/* Dropdown */}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-2 w-64">
+                        {services.map(s => (
+                          <Link
+                            key={s.id}
+                            to={`/services/${s.id}`}
+                            className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-[#374151] hover:bg-[#EAF8FD] hover:text-[#087EAF] transition-colors"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#08A9E0] shrink-0" />
+                            {s.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <NavLink
+                    key={to}
+                    to={to}
+                    end={to === '/'}
+                    className={({ isActive }) =>
+                      `relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
+                        isActive
+                          ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
+                          : 'text-[#565873] hover:text-[#087EAF] hover:bg-white'
+                      }`
+                    }
+                  >
+                    {label}
+                  </NavLink>
+                )
               ))}
             </nav>
 
@@ -396,27 +431,64 @@ export default function Navbar() {
           </div>
 
           <nav className="flex-1 p-4 flex flex-col gap-0.5 overflow-y-auto mt-1">
-            {navLinks.map(({ to, label }) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={to === '/'}
-                onClick={() => setMobileOpen(false)}
-                className={({ isActive }) =>
-                  `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-[#EAF8FD] text-[#08A9E0] font-semibold'
-                      : 'text-[#374151] hover:bg-gray-50 hover:text-[#101B46]'
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    {isActive && <span className="w-1 h-4 rounded-full bg-[#08A9E0] mr-3 shrink-0" />}
-                    {label}
-                  </>
-                )}
-              </NavLink>
+            {navLinks.map(({ to, label, hasDropdown }) => (
+              hasDropdown ? (
+                <div key={to}>
+                  <NavLink
+                    to={to}
+                    end={to === '/'}
+                    onClick={() => setMobileOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                        isActive
+                          ? 'bg-[#EAF8FD] text-[#08A9E0] font-semibold'
+                          : 'text-[#374151] hover:bg-gray-50 hover:text-[#101B46]'
+                      }`
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {isActive && <span className="w-1 h-4 rounded-full bg-[#08A9E0] mr-3 shrink-0" />}
+                        {label}
+                      </>
+                    )}
+                  </NavLink>
+                  <div className="ml-4 mt-0.5 flex flex-col gap-0.5">
+                    {services.map(s => (
+                      <Link
+                        key={s.id}
+                        to={`/services/${s.id}`}
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs text-[#667085] hover:bg-[#EAF8FD] hover:text-[#087EAF] transition-colors"
+                      >
+                        <span className="w-1 h-1 rounded-full bg-[#08A9E0] shrink-0" />
+                        {s.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <NavLink
+                  key={to}
+                  to={to}
+                  end={to === '/'}
+                  onClick={() => setMobileOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-[#EAF8FD] text-[#08A9E0] font-semibold'
+                        : 'text-[#374151] hover:bg-gray-50 hover:text-[#101B46]'
+                    }`
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      {isActive && <span className="w-1 h-4 rounded-full bg-[#08A9E0] mr-3 shrink-0" />}
+                      {label}
+                    </>
+                  )}
+                </NavLink>
+              )
             ))}
           </nav>
 

@@ -123,7 +123,7 @@ export default function ServicesShowcase() {
               </ul>
             </div>
 
-            <Link to={`/services#${activeService.id}`}>
+              <Link to={`/services/${activeService.id}`}>
               <Button variant="primary" className="w-full sm:w-auto">Request This Service</Button>
             </Link>
           </div>

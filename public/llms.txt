@@ -1,0 +1,42 @@
+# Etak Travels & Tours Expert Limited
+# https://etaktravels.com
+# llms.txt — AI-readable site summary
+
+## About
+Etak Travels & Tours Expert Limited is a CAC-registered (RC 898792), IATA-affiliated travel management company based in Abuja, Nigeria. Founded in 2010, we have over 16 years of experience providing professional travel services for individuals, families, businesses, and organisations across Nigeria and beyond.
+
+## Contact
+- Address: Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi, Abuja, FCT, Nigeria
+- Phone: +234 803 206 2242 / +234 817 358 8783
+- Email: etaktravels15@gmail.com
+- WhatsApp: https://wa.me/2348032062242
+- Available: 24 hours a day, 7 days a week, 365 days a year
+
+## Services
+- Flight Booking & Ticketing: https://etaktravels.com/services/flight-booking
+- Hotel Reservations: https://etaktravels.com/services/hotel-reservations
+- Tour Packages: https://etaktravels.com/services/tour-packages
+- Visa Assistance (Dubai focus): https://etaktravels.com/services/visa-assistance
+- Medical Travel Insurance: https://etaktravels.com/services/travel-insurance
+- Travel Consulting: https://etaktravels.com/services/travel-consulting
+- Airport Logistics Assistance: https://etaktravels.com/services/airport-logistics
+- Corporate & Conference Travel: https://etaktravels.com/services/corporate-travel
+- Holiday Packages: https://etaktravels.com/services/holiday-packages
+- Pre & Post-Travel Support: https://etaktravels.com/services/pre-post-travel
+
+## Key Pages
+- Home: https://etaktravels.com/
+- Services: https://etaktravels.com/services
+- Destinations: https://etaktravels.com/destinations
+- Tours: https://etaktravels.com/tours
+- About Us: https://etaktravels.com/about
+- Contact: https://etaktravels.com/contact
+
+## Credentials
+- CAC Registration: RC 898792 (Corporate Affairs Commission, Nigeria)
+- IATA Numeric Code: 59200503
+- TIN/VAT: 11490155-0001
+- NANTA Member: 2016
+
+## Sitemap
+https://etaktravels.com/sitemap.xml

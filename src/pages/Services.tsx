@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation, Headphones, Sunset, Briefcase, ArrowRight, CheckCircle2 } from 'lucide-react'
+import { Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation, Headphones, Sunset, Briefcase, ArrowRight } from 'lucide-react'
 import { services } from '../data/services'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
@@ -12,8 +11,6 @@ const iconMap: Record<string, React.ElementType> = {
 }
 
 export default function Services() {
-  const [selected, setSelected] = useState<string | null>(null)
-
   return (
     <>
       <SEO
@@ -22,7 +19,6 @@ export default function Services() {
         keywords="flight booking Nigeria, hotel reservations Abuja, visa assistance Dubai, tour packages Nigeria, corporate travel Abuja, travel insurance Nigeria, airport transfers Abuja"
         url="/services"
       />
-      {/* Page header */}
       <PageHeader
         eyebrow="Our Services"
         title="Complete Travel Management"
@@ -31,98 +27,147 @@ export default function Services() {
         centered
       />
 
-      {/* Services grid */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
+      <section className="py-12 sm:py-16 bg-[#F8FAFC]">
         <div className="site-gutter w-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {services.map(service => {
+
+          {/* intro strip */}
+          <div className="flex items-center gap-4 mb-8">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+            <p className="text-xs font-semibold text-[#667085] uppercase tracking-widest shrink-0">10 Services Available</p>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            {services.map((service, i) => {  
               const Icon = iconMap[service.icon] ?? Plane
               return (
                 <div
                   key={service.id}
-                  id={service.id}
-                  className="bg-white rounded-2xl border border-gray-100 hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col"
+                  className="group relative bg-white rounded-2xl border border-gray-100 hover:border-[#08A9E0]/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
+                  style={{ animationDelay: `${i * 0.05}s` }}
                 >
-                  <div className="h-52 relative overflow-hidden">
+                  {/* Image */}
+                  <div className="relative h-44 overflow-hidden shrink-0">
                     <img
                       src={service.image}
                       alt={service.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
-                    <div className="absolute top-4 left-4">
-                      <div className="w-11 h-11 rounded-xl bg-[#101B46] flex items-center justify-center shadow-lg">
-                        <Icon size={20} className="text-[#08A9E0]" />
-                      </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#101B46]/70 via-[#101B46]/20 to-transparent" />
+
+                    {/* Icon badge */}
+                    <div className="absolute top-3 right-3 w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                      <Icon size={16} className="text-white" />
+                    </div>
+
+                    {/* Number */}
+                    <div className="absolute top-3 left-3 w-7 h-7 rounded-lg bg-[#08A9E0] flex items-center justify-center">
+                      <span className="text-white text-[10px] font-bold">{String(i + 1).padStart(2, '0')}</span>
+                    </div>
+
+                    {/* Title on image */}
+                    <div className="absolute bottom-3 left-4 right-4">
+                      <h3 className="font-display font-bold text-white text-base leading-snug">{service.title}</h3>
                     </div>
                   </div>
 
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="font-display font-bold text-[#101B46] text-xl mb-2">{service.title}</h3>
-                    <p className="text-[#667085] text-sm leading-relaxed mb-4 flex-1">{service.shortDesc}</p>
+                  {/* Body */}
+                  <div className="p-4 flex flex-col flex-1">
+                    <p className="text-[#667085] text-xs leading-relaxed line-clamp-3 flex-1">{service.shortDesc}</p>
 
-                    <div className="mb-5">
-                      <h4 className="text-xs font-semibold text-[#101B46] uppercase tracking-wide mb-2">Benefits</h4>
-                      <ul className="flex flex-col gap-1.5">
-                        {service.benefits.slice(0, 3).map(b => (
-                          <li key={b} className="flex items-center gap-2 text-xs text-[#667085]">
-                            <CheckCircle2 size={12} className="text-[#08A9E0] shrink-0" />{b}
-                          </li>
-                        ))}
-                      </ul>
+                    {/* Top 3 benefits */}
+                    <div className="flex flex-wrap gap-1.5 mt-3 mb-4">
+                      {service.benefits.slice(0, 3).map(b => (
+                        <span key={b} className="text-[10px] font-medium text-[#087EAF] bg-[#EAF8FD] px-2 py-0.5 rounded-full">{b}</span>
+                      ))}
                     </div>
 
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => setSelected(selected === service.id ? null : service.id)}
-                        className="flex-1 text-sm font-medium text-[#08A9E0] hover:text-[#0798C8] transition-colors py-2 border border-[#08A9E0] rounded-lg hover:bg-[#EAF8FD]"
-                      >
-                        {selected === service.id ? 'Close' : 'Learn More'}
-                      </button>
+                    {/* Actions */}
+                    <div className="flex gap-2 pt-3 border-t border-gray-50">
+                      <Link to={`/services/${service.id}`} className="flex-1">
+                        <button className="w-full text-xs font-semibold text-[#08A9E0] py-2 border border-[#08A9E0]/30 rounded-lg hover:bg-[#EAF8FD] hover:border-[#08A9E0] transition-all">
+                          View Details
+                        </button>
+                      </Link>
                       <Link to="/contact" state={{ service: service.id }} className="flex-1">
-                        <Button variant="primary" size="sm" className="w-full">Request <ArrowRight size={13} /></Button>
+                        <button className="w-full text-xs font-semibold text-white bg-[#08A9E0] hover:bg-[#0798C8] py-2 rounded-lg transition-colors flex items-center justify-center gap-1">
+                          Request <ArrowRight size={11} />
+                        </button>
                       </Link>
                     </div>
                   </div>
-
-                  {/* Expanded detail */}
-                  {selected === service.id && (
-                    <div className="border-t border-gray-100 p-6 bg-[#F8FAFC]">
-                      <p className="text-sm text-[#172033] leading-relaxed mb-4">{service.description}</p>
-                      <div>
-                        <h4 className="text-xs font-semibold text-[#101B46] uppercase tracking-wide mb-2">Best for</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {service.travelerTypes.map(t => (
-                            <span key={t} className="px-2.5 py-1 bg-white border border-gray-200 rounded-full text-xs text-[#667085]">{t}</span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
               )
             })}
+
+            {/* 11th slot — spans 2 columns to fill the last row */}
+            <div className="sm:col-span-2 xl:col-span-2 relative rounded-2xl overflow-hidden min-h-[220px] flex">
+              {/* Background image */}
+              <img
+                src="/images/sections/cta-bg.jpg"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#101B46]/95 via-[#101B46]/80 to-[#101B46]/40" />
+
+              {/* Content */}
+              <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6 w-full p-8 sm:p-10">
+                <div className="flex-1">
+                  <span className="inline-flex items-center gap-2 text-[#08A9E0] text-[11px] font-bold tracking-[0.18em] uppercase mb-3">
+                    <span className="w-4 h-px bg-[#08A9E0]" /> Trusted Since 2010
+                  </span>
+                  <h3 className="font-display font-bold text-white text-2xl sm:text-3xl leading-tight mb-2">
+                    Not Sure Which Service You Need?
+                  </h3>
+                  <p className="text-white/55 text-sm leading-relaxed max-w-md">
+                    Over 15 years of helping travellers across Nigeria and beyond. Our team is available 24/7, 365 days a year — tell us your plans and we'll handle the rest.
+                  </p>
+                  {/* Stats row */}
+                  <div className="flex items-center gap-6 mt-5">
+                    {[['500+', 'Happy Clients'], ['16+', 'Years Experience'], ['24/7', 'Support']].map(([val, lbl]) => (
+                      <div key={lbl}>
+                        <p className="font-display font-bold text-white text-xl">{val}</p>
+                        <p className="text-white/40 text-[10px] uppercase tracking-wide">{lbl}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 shrink-0 w-full sm:w-auto">
+                  <Link to="/contact">
+                    <button className="w-full sm:w-48 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-semibold transition-colors shadow-lg shadow-[#08A9E0]/25">
+                      Talk to Our Team <ArrowRight size={15} />
+                    </button>
+                  </Link>
+                  <a href="tel:+2348032062242">
+                    <button className="w-full sm:w-48 flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-white/20 text-white/70 hover:text-white hover:border-white/40 text-sm font-medium transition-colors">
+                      +234 803 206 2242
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="relative py-14 sm:py-20 bg-white overflow-hidden">
-        {/* Decorative background */}
         <div className="absolute inset-0 dot-grid opacity-30 pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-
         <div className="site-gutter relative z-10 w-full">
           <div className="max-w-3xl mx-auto text-center">
-            {/* Icon */}
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-6 shadow-lg">
-              <MessageSquare size={28} className="text-[#08A9E0]" />
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-5 shadow-lg">
+              <MessageSquare size={24} className="text-[#08A9E0]" />
             </div>
-            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#101B46] mb-4">
+            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#101B46] mb-3">
               Not Sure Which Service You Need?
             </h2>
-            <p className="text-[#667085] text-sm sm:text-base mb-8 max-w-xl mx-auto leading-relaxed">
-              Contact our team and we'll help you figure out the best travel arrangement for your situation.
+            <p className="text-[#667085] text-sm sm:text-base mb-7 max-w-xl mx-auto leading-relaxed">
+              Our team is available 24/7, 365 days a year. Contact us and we'll help you figure out the best travel arrangement for your situation.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/contact">

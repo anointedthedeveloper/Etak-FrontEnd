@@ -107,10 +107,37 @@ export default function SEO({
         addressRegion: 'FCT',
         addressCountry: 'NG',
       },
-      contactPoint: {
-        '@type': 'ContactPoint',
-        telephone: '+234-803-206-2242',
-        contactType: 'customer service',
+      telephone: '+234-803-206-2242',
+      email: 'etaktravels15@gmail.com',
+      foundingDate: '2010',
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          telephone: '+234-803-206-2242',
+          contactType: 'customer service',
+          availableLanguage: 'English',
+          hoursAvailable: 'Mo-Su 00:00-23:59',
+        },
+        {
+          '@type': 'ContactPoint',
+          telephone: '+234-817-358-8783',
+          contactType: 'customer service',
+          availableLanguage: 'English',
+        },
+      ],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Travel Services',
+        itemListElement: [
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Flight Booking & Ticketing' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Hotel Reservations' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Tour Packages' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Visa Assistance' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Medical Travel Insurance' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate & Conference Travel' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Airport Logistics Assistance' } },
+          { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Holiday Packages' } },
+        ],
       },
       sameAs: [
         'https://www.facebook.com/etaktravelsandtours',

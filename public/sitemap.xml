@@ -2,194 +2,243 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-  <!-- Home -->
+  <!-- ── Home ── -->
   <url>
     <loc>https://etaktravels.com/</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://etaktravels.com/brand/logo.png</image:loc>
-      <image:title>Etak Travels &amp; Tours Expert Limited</image:title>
-      <image:caption>Etak Travels — Abuja travel management company</image:caption>
+      <image:loc>https://etaktravels.com/brand/og-image.jpg</image:loc>
+      <image:title>Etak Travels &amp; Tours Expert Limited — Travel Agency Abuja Nigeria</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://etaktravels.com/brand/hero.png</image:loc>
-      <image:title>Etak Travels Hero Banner</image:title>
+      <image:loc>https://etaktravels.com/brand/logo.png</image:loc>
+      <image:title>Etak Travels Logo</image:title>
     </image:image>
   </url>
 
-  <!-- Services -->
+  <!-- ── Services (listing) ── -->
   <url>
     <loc>https://etaktravels.com/services</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://etaktravels.com/images/headers/flights.jpg</image:loc>
-      <image:title>Travel Services - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/flight.jpg</image:loc>
-      <image:title>Flight Booking &amp; Ticketing - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/hotel.jpg</image:loc>
-      <image:title>Hotel Reservations - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/visa.jpg</image:loc>
-      <image:title>Visa Assistance - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/tours.jpg</image:loc>
-      <image:title>Tour Packages - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/insurance.jpg</image:loc>
-      <image:title>Travel Insurance - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/airport.jpg</image:loc>
-      <image:title>Airport Logistics Assistance - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/corporate.jpg</image:loc>
-      <image:title>Corporate &amp; Conference Travel - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/consulting.jpg</image:loc>
-      <image:title>Travel Consulting - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/holiday.jpg</image:loc>
-      <image:title>Holiday Packages - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/services/support.jpg</image:loc>
-      <image:title>Pre &amp; Post Travel Support - Etak Travels</image:title>
+      <image:title>Travel Services — Etak Travels Abuja</image:title>
     </image:image>
   </url>
 
-  <!-- Destinations -->
+  <!-- ── Service detail pages ── -->
+  <url>
+    <loc>https://etaktravels.com/services/flight-booking</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/flight.jpg</image:loc>
+      <image:title>Flight Booking &amp; Ticketing — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services/hotel-reservations</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/hotel.jpg</image:loc>
+      <image:title>Hotel Reservations — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services/tour-packages</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/tours.jpg</image:loc>
+      <image:title>Tour Packages — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services/visa-assistance</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/visa.jpg</image:loc>
+      <image:title>Visa Assistance Dubai — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services/travel-insurance</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/insurance.jpg</image:loc>
+      <image:title>Medical Travel Insurance — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services/travel-consulting</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/consulting.jpg</image:loc>
+      <image:title>Travel Consulting — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services/airport-logistics</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/airport.jpg</image:loc>
+      <image:title>Airport Logistics Assistance — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services/corporate-travel</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/corporate.jpg</image:loc>
+      <image:title>Corporate &amp; Conference Travel — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services/holiday-packages</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/holiday.jpg</image:loc>
+      <image:title>Holiday Packages — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://etaktravels.com/services/pre-post-travel</loc>
+    <lastmod>2025-01-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://etaktravels.com/images/services/support.jpg</image:loc>
+      <image:title>Pre &amp; Post-Travel Support — Etak Travels Nigeria</image:title>
+    </image:image>
+  </url>
+
+  <!-- ── Destinations ── -->
   <url>
     <loc>https://etaktravels.com/destinations</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://etaktravels.com/images/headers/destinations.jpg</image:loc>
-      <image:title>Travel Destinations from Nigeria - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/destinations/dubai.jpg</image:loc>
-      <image:title>Dubai - Etak Travels</image:title>
-      <image:caption>Dubai travel packages from Abuja Nigeria</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/destinations/london.jpg</image:loc>
-      <image:title>London - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/destinations/istanbul.jpg</image:loc>
-      <image:title>Istanbul - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/images/destinations/accra.jpg</image:loc>
-      <image:title>Accra Ghana - Etak Travels</image:title>
+      <image:title>Travel Destinations from Nigeria — Etak Travels</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/images/destinations/paris.jpg</image:loc>
-      <image:title>Paris France - Etak Travels</image:title>
+      <image:title>Paris France — Etak Travels</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/images/destinations/new-york.jpg</image:loc>
-      <image:title>New York USA - Etak Travels</image:title>
+      <image:title>New York USA — Etak Travels</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/images/destinations/nairobi.jpg</image:loc>
-      <image:title>Nairobi Kenya - Etak Travels</image:title>
+      <image:title>Nairobi Kenya — Etak Travels</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/images/destinations/johannesburg.jpg</image:loc>
-      <image:title>Johannesburg South Africa - Etak Travels</image:title>
+      <image:title>Johannesburg South Africa — Etak Travels</image:title>
     </image:image>
   </url>
 
-  <!-- Tours -->
+  <!-- ── Tours ── -->
   <url>
     <loc>https://etaktravels.com/tours</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://etaktravels.com/images/headers/tours.jpg</image:loc>
-      <image:title>Tour Packages - Etak Travels</image:title>
+      <image:title>Tour Packages from Nigeria — Etak Travels</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/images/tours/dubai.jpg</image:loc>
-      <image:title>Dubai Discovery Package - Etak Travels</image:title>
+      <image:title>Dubai Tour Package — Etak Travels</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/images/tours/istanbul.jpg</image:loc>
-      <image:title>Istanbul Cultural Experience - Etak Travels</image:title>
+      <image:title>Istanbul Tour Package — Etak Travels</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/images/tours/london.jpg</image:loc>
-      <image:title>London Business &amp; Leisure - Etak Travels</image:title>
+      <image:title>London Tour Package — Etak Travels</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/images/tours/accra.jpg</image:loc>
-      <image:title>West Africa Explorer - Etak Travels</image:title>
+      <image:title>Accra Tour Package — Etak Travels</image:title>
     </image:image>
   </url>
 
-  <!-- About -->
+  <!-- ── About ── -->
   <url>
     <loc>https://etaktravels.com/about</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://etaktravels.com/images/headers/about.jpg</image:loc>
-      <image:title>About Etak Travels &amp; Tours Expert Limited</image:title>
+      <image:title>About Etak Travels &amp; Tours Expert Limited — Est. 2010</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/credentials/CAC.png</image:loc>
-      <image:title>CAC Registration Certificate - Etak Travels RC 898792</image:title>
+      <image:title>CAC Registration Certificate RC 898792 — Etak Travels</image:title>
     </image:image>
     <image:image>
       <image:loc>https://etaktravels.com/credentials/IATA.png</image:loc>
-      <image:title>IATA Membership - Etak Travels</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://etaktravels.com/credentials/FIRS.png</image:loc>
-      <image:title>FIRS Registration - Etak Travels</image:title>
+      <image:title>IATA Membership — Etak Travels</image:title>
     </image:image>
   </url>
 
-  <!-- Contact -->
+  <!-- ── Contact ── -->
   <url>
     <loc>https://etaktravels.com/contact</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://etaktravels.com/images/headers/contact.jpg</image:loc>
-      <image:title>Contact Etak Travels - Abuja Nigeria</image:title>
+      <image:title>Contact Etak Travels — Abuja Nigeria</image:title>
     </image:image>
   </url>
 
-  <!-- Privacy & Terms -->
+  <!-- ── Legal ── -->
   <url>
     <loc>https://etaktravels.com/privacy</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://etaktravels.com/terms</loc>
-    <lastmod>2026-09-17</lastmod>
+    <lastmod>2025-01-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
