@@ -49,6 +49,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser]               = useState<User | null>(null)
   const [isLoading, setIsLoading]     = useState(true)
   const [needsProfile, setNeedsProfile] = useState(false)
+  const [isOAuth, setIsOAuth]           = useState(false)
 
   useEffect(() => {
     authService.getSession().then(u => {
@@ -60,12 +61,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (session?.user) {
         const mapped = mapSession(session.user)
         setUser(mapped)
+        const oauth = session.user.app_metadata?.provider === 'google'
+        setIsOAuth(oauth)
         if (!mapped.phone) setNeedsProfile(true)
-        // Claim any guest inquiries submitted before login (covers OAuth flow)
         apiService.claimPendingInquiries(mapped.id)
       } else {
         setUser(null)
         setNeedsProfile(false)
+        setIsOAuth(false)
       }
       setIsLoading(false)
     })
@@ -115,6 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email={user.email}
           initialFirstName={user.firstName}
           initialLastName={user.lastName}
+          isOAuth={isOAuth}
           onComplete={handleProfileComplete}
         />
       )}

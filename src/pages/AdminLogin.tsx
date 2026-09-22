@@ -18,18 +18,35 @@ export default function AdminLogin() {
     setLoading(true)
 
     try {
-      const { data: profileId, error } = await supabase.rpc('admin_login', {
+      const { data: email, error: rpcError } = await supabase.rpc('admin_login', {
         p_username: credentials.username,
         p_password: credentials.password,
       })
 
-      if (error || !profileId) {
+      if (rpcError || !email) {
         setError('Invalid credentials. Please try again.')
-      } else {
-        localStorage.setItem('isAdmin', 'true')
-        localStorage.setItem('adminTimestamp', Date.now().toString())
-        navigate('/admin/dashboard')
+        setLoading(false)
+        return
       }
+
+      // Sign into Supabase Auth so auth.uid() is set and RLS policies work
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password: credentials.password,
+      })
+
+      if (authError) {
+        setError('Invalid credentials. Please try again.')
+        setLoading(false)
+        return
+      }
+
+      localStorage.setItem('isAdmin', 'true')
+      localStorage.setItem('adminTimestamp', Date.now().toString())
+      // Debug: confirm session is set
+      const { data: { session } } = await supabase.auth.getSession()
+      console.log('Admin session after login:', session?.user?.id, session?.user?.email)
+      navigate('/admin/dashboard')
     } catch {
       setError('Something went wrong. Please try again.')
     }

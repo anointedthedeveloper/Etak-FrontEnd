@@ -1,40 +1,80 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { MessageSquare, CheckCircle, Clock, Reply, Search } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { Textarea } from '../../components/ui/FormFields'
+import { supabase } from '../../lib/supabase'
+
+interface Enquiry {
+  id: string
+  name: string
+  email: string
+  phone: string | null
+  service: string | null
+  message: string
+  status: string
+  created_at: string
+  latestResponse?: string
+}
 
 export default function AdminEnquiries() {
-  const [enquiries, setEnquiries] = useState([
-    { id: 1, name: 'John Doe', email: 'john@example.com', phone: '+234 803 206 2242', subject: 'Flight Booking', message: 'I would like to book a flight from Abuja to London for next month. Please provide available options and pricing.', date: '2 hours ago', status: 'pending', response: '' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', phone: '+234 817 358 8783', subject: 'Tour Package', message: 'Interested in the Dubai tour package. How many days is it and what does it include?', date: '5 hours ago', status: 'pending', response: '' },
-    { id: 3, name: 'Mike Johnson', email: 'mike@example.com', phone: '+234 803 206 2242', subject: 'Visa Assistance', message: 'Need help with visa application for Canada travel. What documents are required?', date: '1 day ago', status: 'responded', response: 'Thank you for your inquiry. For Canada visa, you will need: valid passport, completed application form, photos, proof of funds, travel itinerary, and employment letter.' },
-    { id: 4, name: 'Sarah Williams', email: 'sarah@example.com', phone: '+234 817 358 8783', subject: 'Hotel Reservation', message: 'Looking for hotel accommodation in Lagos for 3 nights, checking in next week.', date: '2 days ago', status: 'responded', response: 'We have several excellent hotels available in Lagos. I will send you a detailed list with pricing shortly.' },
-  ])
-
-  const [selectedEnquiry, setSelectedEnquiry] = useState<typeof enquiries[0] | null>(null)
+  const [enquiries, setEnquiries] = useState<Enquiry[]>([])
+  const [loading, setLoading] = useState(true)
+  const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null)
   const [responseText, setResponseText] = useState('')
-  const [filter, setFilter] = useState<'all' | 'pending' | 'responded'>('all')
+  const [submitting, setSubmitting] = useState(false)
+  const [filter, setFilter] = useState<'all' | 'new' | 'responded'>('all')
   const [searchTerm, setSearchTerm] = useState('')
 
-  const filteredEnquiries = enquiries.filter(enquiry => {
-    const matchesFilter = filter === 'all' || enquiry.status === filter
-    const matchesSearch = enquiry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         enquiry.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         enquiry.subject.toLowerCase().includes(searchTerm.toLowerCase())
+  async function load() {
+    const { data: inqs } = await supabase
+      .from('inquiries')
+      .select('id, name, email, phone, service, message, status, created_at')
+      .order('created_at', { ascending: false })
+
+    if (!inqs) { setLoading(false); return }
+
+    // Fetch latest response for each inquiry
+    const { data: responses } = await supabase
+      .from('inquiry_responses')
+      .select('inquiry_id, message, created_at')
+      .order('created_at', { ascending: false })
+
+    const latestByInquiry: Record<string, string> = {}
+    for (const r of responses ?? []) {
+      if (!latestByInquiry[r.inquiry_id]) latestByInquiry[r.inquiry_id] = r.message
+    }
+
+    setEnquiries(inqs.map(i => ({ ...i, latestResponse: latestByInquiry[i.id] })))
+    setLoading(false)
+  }
+
+  useEffect(() => { load() }, [])
+
+  const filtered = enquiries.filter(e => {
+    const matchesFilter = filter === 'all' || e.status === filter
+    const matchesSearch =
+      e.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      e.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (e.service ?? '').toLowerCase().includes(searchTerm.toLowerCase())
     return matchesFilter && matchesSearch
   })
 
-  const handleRespond = () => {
+  const handleRespond = async () => {
     if (!selectedEnquiry || !responseText.trim()) return
+    setSubmitting(true)
 
-    setEnquiries(prev => prev.map(enquiry =>
-      enquiry.id === selectedEnquiry.id
-        ? { ...enquiry, status: 'responded' as const, response: responseText }
-        : enquiry
-    ))
+    await supabase.from('inquiry_responses').insert({
+      inquiry_id: selectedEnquiry.id,
+      message: responseText,
+      is_admin: true,
+    })
+
+    await supabase.from('inquiries').update({ status: 'responded' }).eq('id', selectedEnquiry.id)
 
     setResponseText('')
     setSelectedEnquiry(null)
+    await load()
+    setSubmitting(false)
   }
 
   return (
@@ -60,63 +100,61 @@ export default function AdminEnquiries() {
           </div>
           <select
             value={filter}
-            onChange={(e) => setFilter(e.target.value as 'all' | 'pending' | 'responded')}
+            onChange={(e) => setFilter(e.target.value as 'all' | 'new' | 'responded')}
             className="px-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
           >
             <option value="all">All Enquiries</option>
-            <option value="pending">Pending</option>
+            <option value="new">Pending</option>
             <option value="responded">Responded</option>
           </select>
         </div>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-5 lg:gap-6">
-        {/* Enquiries List */}
+        {/* List */}
         <div className="premium-card rounded-2xl overflow-hidden">
           <div className="p-4 border-b border-[#08A9E0]/10 flex items-center justify-between">
             <h3 className="font-semibold text-[#101B46]">All Enquiries</h3>
-            <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{filteredEnquiries.length}</span>
+            <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{filtered.length}</span>
           </div>
           <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
-            {filteredEnquiries.length === 0 ? (
+            {loading ? (
+              <p className="p-8 text-center text-sm text-[#667085]">Loading...</p>
+            ) : filtered.length === 0 ? (
               <div className="p-8 text-center text-[#667085]">
                 <MessageSquare size={32} className="mx-auto mb-2 text-gray-300" />
                 <p>No enquiries found</p>
               </div>
-            ) : (
-              filteredEnquiries.map((enquiry) => (
-                <div
-                  key={enquiry.id}
-                  onClick={() => setSelectedEnquiry(enquiry)}
-                  className={`p-4 cursor-pointer transition-all ${
-                    selectedEnquiry?.id === enquiry.id ? 'bg-[#EAF8FD] border-l-4 border-[#08A9E0]' : 'hover:bg-[#F8FCFE]'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium text-[#101B46] truncate">{enquiry.name}</span>
-                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full shrink-0 ${
-                          enquiry.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
-                        }`}>
-                          {enquiry.status === 'pending' ? (
-                            <span className="flex items-center gap-1"><Clock size={10} /> Pending</span>
-                          ) : (
-                            <span className="flex items-center gap-1"><CheckCircle size={10} /> Responded</span>
-                          )}
-                        </span>
-                      </div>
-                      <p className="text-sm text-[#667085] truncate">{enquiry.subject}</p>
-                      <p className="text-xs text-[#667085] mt-1">{enquiry.date}</p>
+            ) : filtered.map((enquiry) => (
+              <div
+                key={enquiry.id}
+                onClick={() => { setSelectedEnquiry(enquiry); setResponseText('') }}
+                className={`p-4 cursor-pointer transition-all ${
+                  selectedEnquiry?.id === enquiry.id ? 'bg-[#EAF8FD] border-l-4 border-[#08A9E0]' : 'hover:bg-[#F8FCFE]'
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-medium text-[#101B46] truncate">{enquiry.name}</span>
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full shrink-0 ${
+                        enquiry.status === 'new' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
+                      }`}>
+                        {enquiry.status === 'new'
+                          ? <span className="flex items-center gap-1"><Clock size={10} /> Pending</span>
+                          : <span className="flex items-center gap-1"><CheckCircle size={10} /> Responded</span>}
+                      </span>
                     </div>
+                    <p className="text-sm text-[#667085] truncate">{enquiry.service ?? 'General'}</p>
+                    <p className="text-xs text-[#667085] mt-1">{new Date(enquiry.created_at).toLocaleDateString()}</p>
                   </div>
                 </div>
-              ))
-            )}
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Enquiry Details & Response */}
+        {/* Detail */}
         <div className="premium-card rounded-2xl overflow-hidden min-h-[420px]">
           {selectedEnquiry ? (
             <div className="h-full flex flex-col">
@@ -128,20 +166,20 @@ export default function AdminEnquiries() {
                   <label className="text-xs font-semibold text-[#667085] uppercase tracking-wide">From</label>
                   <p className="text-sm font-medium text-[#101B46] mt-1">{selectedEnquiry.name}</p>
                   <p className="text-sm text-[#667085]">{selectedEnquiry.email}</p>
-                  <p className="text-sm text-[#667085]">{selectedEnquiry.phone}</p>
+                  {selectedEnquiry.phone && <p className="text-sm text-[#667085]">{selectedEnquiry.phone}</p>}
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-[#667085] uppercase tracking-wide">Subject</label>
-                  <p className="text-sm font-medium text-[#101B46] mt-1">{selectedEnquiry.subject}</p>
+                  <label className="text-xs font-semibold text-[#667085] uppercase tracking-wide">Service</label>
+                  <p className="text-sm font-medium text-[#101B46] mt-1">{selectedEnquiry.service ?? 'General'}</p>
                 </div>
                 <div>
                   <label className="text-xs font-semibold text-[#667085] uppercase tracking-wide">Message</label>
                   <p className="text-sm text-[#667085] mt-1 leading-relaxed">{selectedEnquiry.message}</p>
                 </div>
-                {selectedEnquiry.response && (
+                {selectedEnquiry.latestResponse && (
                   <div className="bg-green-50 rounded-lg p-4 border border-green-200">
-                    <label className="text-xs font-semibold text-green-700 uppercase tracking-wide">Your Response</label>
-                    <p className="text-sm text-green-800 mt-1 leading-relaxed">{selectedEnquiry.response}</p>
+                    <label className="text-xs font-semibold text-green-700 uppercase tracking-wide">Last Response</label>
+                    <p className="text-sm text-green-800 mt-1 leading-relaxed">{selectedEnquiry.latestResponse}</p>
                   </div>
                 )}
               </div>
@@ -152,20 +190,18 @@ export default function AdminEnquiries() {
                   value={responseText}
                   onChange={(e) => setResponseText(e.target.value)}
                   rows={4}
-                  disabled={selectedEnquiry.status === 'responded'}
                 />
-                {selectedEnquiry.status === 'pending' && (
-                  <Button
-                    onClick={handleRespond}
-                    variant="primary"
-                    size="lg"
-                    className="w-full mt-3"
-                    disabled={!responseText.trim()}
-                  >
-                    <Reply size={16} className="mr-2" />
-                    Send Response
-                  </Button>
-                )}
+                <Button
+                  onClick={handleRespond}
+                  variant="primary"
+                  size="lg"
+                  className="w-full mt-3"
+                  disabled={!responseText.trim()}
+                  loading={submitting}
+                >
+                  <Reply size={16} className="mr-2" />
+                  Send Response
+                </Button>
               </div>
             </div>
           ) : (

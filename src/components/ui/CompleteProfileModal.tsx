@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CheckCircle2, AlertCircle } from 'lucide-react'
+import { CheckCircle2, AlertCircle, Eye, EyeOff } from 'lucide-react'
 import { Button } from './Button'
 import { Input } from './FormFields'
 import { supabase } from '../../lib/supabase'
@@ -8,15 +8,18 @@ interface Props {
   email: string
   initialFirstName?: string
   initialLastName?: string
+  isOAuth?: boolean
   onComplete: (data: { firstName: string; lastName: string; phone: string }) => void
 }
 
-export default function CompleteProfileModal({ email, initialFirstName, initialLastName, onComplete }: Props) {
+export default function CompleteProfileModal({ email, initialFirstName, initialLastName, isOAuth, onComplete }: Props) {
   const [form, setForm] = useState({
     firstName: initialFirstName ?? '',
     lastName:  initialLastName  ?? '',
     phone:     '',
+    password:  '',
   })
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError]     = useState('')
 
@@ -27,16 +30,23 @@ export default function CompleteProfileModal({ email, initialFirstName, initialL
     e.preventDefault()
     if (!form.firstName.trim()) { setError('First name is required.'); return }
     if (!form.phone.trim())     { setError('Phone number is required.'); return }
+    if (isOAuth && form.password.length < 8) { setError('Password must be at least 8 characters.'); return }
     setError('')
     setLoading(true)
 
-    const { error: err } = await supabase.auth.updateUser({
+    const updatePayload: Parameters<typeof supabase.auth.updateUser>[0] = {
       data: {
         first_name: form.firstName,
         last_name:  form.lastName,
         phone:      form.phone,
       },
-    })
+    }
+
+    if (isOAuth && form.password) {
+      updatePayload.password = form.password
+    }
+
+    const { error: err } = await supabase.auth.updateUser(updatePayload)
 
     setLoading(false)
     if (err) { setError(err.message); return }
@@ -45,16 +55,13 @@ export default function CompleteProfileModal({ email, initialFirstName, initialL
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center px-4">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-7">
-        {/* Header */}
         <div className="flex items-start justify-between mb-5">
           <div>
             <h2 className="font-display text-xl font-bold text-[#101B46]">Complete your profile</h2>
             <p className="text-sm text-[#667085] mt-0.5">
-              Just a few more details to finish setting up your account.
+              {isOAuth ? 'Set a password and fill in your details to finish setup.' : 'Just a few more details to finish setting up your account.'}
             </p>
           </div>
           <div className="w-9 h-9 rounded-full bg-[#EAF8FD] flex items-center justify-center shrink-0 ml-3">
@@ -62,7 +69,6 @@ export default function CompleteProfileModal({ email, initialFirstName, initialL
           </div>
         </div>
 
-        {/* Email — read only */}
         <div className="mb-4 px-4 py-3 bg-gray-50 rounded-xl border border-gray-100">
           <p className="text-xs text-[#667085] mb-0.5">Signed in as</p>
           <p className="text-sm font-medium text-[#172033]">{email}</p>
@@ -93,6 +99,26 @@ export default function CompleteProfileModal({ email, initialFirstName, initialL
             onChange={e => set('phone', e.target.value)}
             required
           />
+
+          {isOAuth && (
+            <div className="relative">
+              <Input
+                label="Set a password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Min. 8 characters"
+                value={form.password}
+                onChange={e => set('password', e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(v => !v)}
+                className="absolute right-3 top-[34px] text-[#667085] hover:text-[#08A9E0]"
+              >
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+              </button>
+            </div>
+          )}
 
           {error && (
             <div className="flex items-center gap-2 p-3 bg-red-50 rounded-lg border border-red-200">
