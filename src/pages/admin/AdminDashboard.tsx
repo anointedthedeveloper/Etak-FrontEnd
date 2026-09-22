@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { StatusBadge } from '../../components/ui/index'
+import { EmptyState, LoadingState } from '../../components/ui/States'
 
 interface RecentEnquiry {
   id: string
@@ -77,7 +78,7 @@ function WeeklyTrendChart({ data }: { data: DayBucket[] }) {
   const total = data.reduce((sum, d) => sum + d.count, 0)
 
   return (
-    <div className="premium-card rounded-2xl p-5 flex flex-col">
+    <div className="premium-card rounded-card p-5 flex flex-col">
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
@@ -130,7 +131,7 @@ function ServiceBreakdown({ counts }: { counts: [string, number][] }) {
   const total = counts.reduce((sum, [, c]) => sum + c, 0)
 
   return (
-    <div className="premium-card rounded-2xl p-5 flex flex-col">
+    <div className="premium-card rounded-card p-5 flex flex-col">
       <div className="flex items-center gap-2 mb-5">
         <div className="w-9 h-9 rounded-xl bg-violet-50 flex items-center justify-center shrink-0">
           <MessageSquare size={16} className="text-violet-500" />
@@ -239,7 +240,7 @@ export default function AdminDashboard() {
       {!loading && pendingCount > 0 && (
         <Link
           to="/admin/enquiries"
-          className="flex items-center gap-4 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 hover:bg-amber-100/60 transition-colors group"
+          className="flex items-center gap-4 rounded-card border border-amber-200 bg-amber-50 px-5 py-4 hover:bg-amber-100/60 transition-colors group"
         >
           <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
             <AlertCircle size={18} className="text-amber-600" />
@@ -257,7 +258,7 @@ export default function AdminDashboard() {
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="premium-card rounded-2xl p-5">
+          <div key={stat.label} className="premium-card rounded-card p-5">
             <div className="flex items-center gap-2.5 mb-4">
               <div className={`w-9 h-9 rounded-xl ${stat.bg} flex items-center justify-center shrink-0`}>
                 <stat.icon size={16} className={stat.fg} />
@@ -282,7 +283,7 @@ export default function AdminDashboard() {
       {/* Quick actions */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {quickActions.map(({ to, label, desc, icon: Icon, bg, fg }) => (
-          <Link key={to} to={to} className="premium-card rounded-2xl p-5 group">
+          <Link key={to} to={to} className="premium-card rounded-card p-5 group">
             <div className="flex items-center justify-between mb-3">
               <div className={`w-10 h-10 rounded-xl ${bg} flex items-center justify-center`}>
                 <Icon size={18} className={fg} />
@@ -296,7 +297,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent enquiries */}
-      <div className="premium-card rounded-2xl overflow-hidden">
+      <div className="premium-card rounded-card overflow-hidden">
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <div>
             <h3 className="font-semibold text-[#101B46]">Recent Enquiries</h3>
@@ -308,17 +309,13 @@ export default function AdminDashboard() {
         </div>
         <div className="divide-y divide-gray-50">
           {loading ? (
-            <div className="flex items-center justify-center py-16">
-              <div className="h-7 w-7 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
-            </div>
+            <LoadingState />
           ) : recentEnquiries.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-14 text-center px-6">
-              <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
-                <MessageSquare size={24} className="text-gray-300" />
-              </div>
-              <p className="font-semibold text-[#172033] mb-1">No enquiries yet</p>
-              <p className="text-sm text-[#667085]">New customer inquiries will appear here.</p>
-            </div>
+            <EmptyState
+              icon={MessageSquare}
+              title="No enquiries yet"
+              description="New customer inquiries will appear here."
+            />
           ) : recentEnquiries.map((enquiry) => (
             <Link
               key={enquiry.id}

@@ -3,6 +3,8 @@ import { useSearchParams } from 'react-router-dom'
 import { MessageSquare, Reply, Search, CheckCircle, Clock, Send, Trash2, Phone, Mail } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { StatusBadge } from '../../components/ui/index'
+import { EmptyState, LoadingState } from '../../components/ui/States'
+import { LoadMore } from '../../components/ui/Pagination'
 import { supabase } from '../../lib/supabase'
 
 interface Response {
@@ -156,26 +158,20 @@ export default function AdminEnquiries() {
 
       <div className="grid lg:grid-cols-2 gap-5 lg:gap-6 lg:h-[calc(100vh-220px)]">
         {/* List */}
-        <div className="premium-card rounded-2xl overflow-hidden flex flex-col">
+        <div className="premium-card rounded-card overflow-hidden flex flex-col">
           <div className="p-4 border-b border-[#08A9E0]/10 flex items-center justify-between shrink-0">
             <h3 className="font-semibold text-[#101B46]">All Enquiries</h3>
             <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{filtered.length}</span>
           </div>
           <div className="divide-y divide-gray-100 flex-1 overflow-y-auto">
             {loading ? (
-              <div className="flex items-center justify-center py-16">
-                <div className="h-7 w-7 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
-              </div>
+              <LoadingState />
             ) : filtered.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-14 px-6 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
-                  <MessageSquare size={24} className="text-gray-300" />
-                </div>
-                <p className="font-semibold text-[#172033] mb-1">No enquiries found</p>
-                <p className="text-sm text-[#667085]">
-                  {searchTerm || filter !== 'all' ? 'Try a different search or filter.' : 'New customer enquiries will appear here.'}
-                </p>
-              </div>
+              <EmptyState
+                icon={MessageSquare}
+                title="No enquiries found"
+                description={searchTerm || filter !== 'all' ? 'Try a different search or filter.' : 'New customer enquiries will appear here.'}
+              />
             ) : (
               <>
                 {visible.map((enquiry) => (
@@ -198,23 +194,19 @@ export default function AdminEnquiries() {
                     </div>
                   </div>
                 ))}
-                {visible.length < filtered.length && (
-                  <div className="p-3 text-center">
-                    <button
-                      onClick={() => setVisibleCount(v => v + 20)}
-                      className="text-xs font-semibold text-[#08A9E0] hover:underline"
-                    >
-                      Load more ({filtered.length - visible.length} remaining)
-                    </button>
-                  </div>
-                )}
+                <LoadMore
+                  shown={visible.length}
+                  total={filtered.length}
+                  onLoadMore={() => setVisibleCount(v => v + 20)}
+                  itemLabel="enquiries"
+                />
               </>
             )}
           </div>
         </div>
 
         {/* Detail / Chat */}
-        <div className="premium-card rounded-2xl overflow-hidden flex flex-col min-h-[500px]">
+        <div className="premium-card rounded-card overflow-hidden flex flex-col min-h-[500px]">
           {selected ? (
             <div className="flex flex-col h-full">
               {/* Header */}
@@ -263,9 +255,7 @@ export default function AdminEnquiries() {
               {/* Chat thread */}
               <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-0">
                 {!selected.responses ? (
-                  <div className="flex justify-center py-6">
-                    <div className="h-5 w-5 rounded-full border-2 border-gray-100 border-t-[#08A9E0] animate-spin" />
-                  </div>
+                  <LoadingState compact />
                 ) : selected.responses.length === 0 ? (
                   <p className="text-xs text-center text-[#667085] py-4">No replies yet.</p>
                 ) : selected.responses.map(r => (
@@ -318,12 +308,12 @@ export default function AdminEnquiries() {
               )}
             </div>
           ) : (
-            <div className="h-full flex flex-col items-center justify-center p-8 text-center">
-              <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
-                <MessageSquare size={24} className="text-gray-300" />
-              </div>
-              <p className="font-semibold text-[#172033] mb-1">No enquiry selected</p>
-              <p className="text-sm text-[#667085]">Choose an enquiry from the list to view and reply to the conversation.</p>
+            <div className="h-full flex items-center justify-center">
+              <EmptyState
+                icon={MessageSquare}
+                title="No enquiry selected"
+                description="Choose an enquiry from the list to view and reply to the conversation."
+              />
             </div>
           )}
         </div>
