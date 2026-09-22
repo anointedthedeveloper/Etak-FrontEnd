@@ -5,6 +5,7 @@ import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import PageHeader from '../components/ui/PageHeader'
+import { useRevealChildren } from '../hooks/useInView'
 
 // Airline partner logos — stored locally in public/partners/
 const AIRLINE_PARTNERS = [
@@ -34,7 +35,7 @@ function PartnerLogo({ name, logo }: { name: string; logo: string | null }) {
         <img
           src={logo}
           alt={`${name} logo`}
-          className="h-7 sm:h-10 w-auto max-w-[80px] sm:max-w-[120px] object-contain grayscale hover:grayscale-0 transition-all duration-300"
+          className="h-7 sm:h-10 w-auto max-w-[80px] sm:max-w-[120px] object-contain grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300"
           onError={() => setErrored(true)}
           loading="lazy"
         />
@@ -54,6 +55,9 @@ const values = [
 
 export default function About() {
   const [expanded, setExpanded] = useState<string | null>(null)
+  const valuesRef = useRevealChildren<HTMLDivElement>()
+  const credentialsRef = useRevealChildren<HTMLDivElement>()
+  const teamRef = useRevealChildren<HTMLDivElement>()
 
   return (
     <>
@@ -110,7 +114,7 @@ export default function About() {
 
             <div className="flex flex-col gap-6">
               {/* Intro image */}
-              <div className="relative rounded-2xl overflow-hidden h-56 sm:h-64 lg:h-52 xl:h-60 border border-gray-100 shadow-sm">
+              <div className="relative rounded-panel overflow-hidden h-56 sm:h-64 lg:h-52 xl:h-60 border border-gray-100 shadow-panel">
                 <img
                   src="/images/sections/why-travel.jpg"
                   alt="Travel planning at Etak Travels"
@@ -125,7 +129,7 @@ export default function About() {
               </div>
 
               {/* Mission */}
-              <div className="bg-[#F8FAFC] rounded-2xl p-6 border border-gray-100">
+              <div className="bg-[#F8FAFC] rounded-card p-6 border border-gray-100">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl bg-[#101B46] flex items-center justify-center">
                     <Target size={18} className="text-[#08A9E0]" />
@@ -138,7 +142,7 @@ export default function About() {
               </div>
 
               {/* Vision */}
-              <div className="bg-[#F8FAFC] rounded-2xl p-6 border border-gray-100">
+              <div className="bg-[#F8FAFC] rounded-card p-6 border border-gray-100">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl bg-[#087EAF] flex items-center justify-center">
                     <Eye size={18} className="text-white" />
@@ -158,10 +162,10 @@ export default function About() {
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="site-gutter w-full">
           <SectionHeader eyebrow="Core Values" title="What We Stand For" centered />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white rounded-2xl p-6 border border-gray-100 text-center">
-                <div className="w-14 h-14 rounded-2xl bg-[#EAF8FD] flex items-center justify-center mx-auto mb-4">
+          <div ref={valuesRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {values.map(({ icon: Icon, title, desc }, i) => (
+              <div key={title} className={`reveal stagger-${i + 1} premium-card p-6 text-center`}>
+                <div className="w-14 h-14 rounded-card bg-[#EAF8FD] flex items-center justify-center mx-auto mb-4">
                   <Icon size={24} className="text-[#08A9E0]" />
                 </div>
                 <h3 className="font-display font-bold text-[#101B46] text-xl mb-2">{title}</h3>
@@ -177,7 +181,7 @@ export default function About() {
         <div className="site-gutter w-full">
           <SectionHeader eyebrow="Company Information" title="Verified Company Details" centered />
           <div className="max-w-2xl mx-auto">
-            <div className="bg-[#F8FAFC] rounded-2xl border border-gray-100 overflow-hidden">
+            <div className="bg-[#F8FAFC] rounded-card border border-gray-100 overflow-hidden">
               {[
                 { label: 'Company Name', value: 'Etak Travels & Tours Expert Limited' },
                 { label: 'Founded', value: '2010 (16+ years in operation)' },
@@ -204,7 +208,7 @@ export default function About() {
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="site-gutter w-full">
           <SectionHeader eyebrow="Membership & Credentials" title="Our Accreditations" centered />
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-10">
+          <div ref={credentialsRef} className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-10">
             {[
               {
                 img: '/credentials/CAC.png',
@@ -227,12 +231,12 @@ export default function About() {
                 desc: 'Registered with the Federal Inland Revenue Service in compliance with Nigerian tax regulations.',
                 extra: 'The Federal Inland Revenue Service (FIRS) is the agency of the Nigerian federal government responsible for assessing, collecting and accounting for tax and other revenues. Etak Travels is fully registered and tax-compliant.',
               },
-            ].map(({ img, name, detail, desc, extra }) => {
+            ].map(({ img, name, detail, desc, extra }, i) => {
               const open = expanded === name
               return (
                 <div
                   key={name}
-                  className={`rounded-2xl border bg-white shadow-sm flex flex-col overflow-hidden transition-all duration-300 ${open ? 'border-[#08A9E0] shadow-md' : 'border-gray-200 hover:border-[#08A9E0]/40 hover:shadow-md'}`}
+                  className={`reveal-scale stagger-${i + 1} rounded-card border bg-white shadow-card flex flex-col overflow-hidden transition-all duration-300 ${open ? 'border-[#08A9E0] shadow-panel' : 'border-gray-200 hover:border-[#08A9E0]/40 hover:shadow-panel'}`}
                 >
                   {/* Image — click to expand */}
                   <button
@@ -278,17 +282,17 @@ export default function About() {
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="site-gutter w-full">
           <SectionHeader eyebrow="Our People" title="Meet the Team" centered />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+          <div ref={teamRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
             {[
               { name: 'Kate Aina Tabu',       role: 'Managing Director' },
               { name: 'Victor Ernest',         role: 'Business Development' },
               { name: 'Fautina Ugwu',          role: 'Ticketing & Reservations' },
               { name: 'Glory Lisa Uche',       role: 'Accounts' },
               { name: 'Charity Azebeokha',     role: 'Marketing Executive' },
-            ].map(({ name, role }) => (
-              <div key={name} className="bg-[#F8FAFC] rounded-2xl border border-gray-100 p-4 text-center">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white font-bold text-sm">{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
+            ].map(({ name, role }, i) => (
+              <div key={name} className={`reveal stagger-${i + 1} group bg-[#F8FAFC] rounded-card border border-gray-100 p-4 text-center transition-all duration-200 hover:border-[#08A9E0]/30 hover:-translate-y-0.5 hover:shadow-card`}>
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-3 ring-4 ring-white shadow-sm transition-transform duration-200 group-hover:scale-105">
+                  <span className="text-white font-bold text-base">{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
                 </div>
                 <p className="font-semibold text-[#101B46] text-sm leading-snug">{name}</p>
                 <p className="text-[#667085] text-xs mt-1">{role}</p>
@@ -312,7 +316,7 @@ export default function About() {
               'To apply the highest values of respect, integrity, and ethics in all our activities.',
               'To deliver cost-effective, on-time services to every client.',
             ].map((obj, i) => (
-              <div key={i} className="flex items-start gap-3 bg-white rounded-xl border border-gray-100 p-4">
+              <div key={i} className="flex items-start gap-3 bg-white rounded-card border border-gray-100 p-4">
                 <div className="w-6 h-6 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-white text-[10px] font-bold">{i + 1}</span>
                 </div>
@@ -347,7 +351,7 @@ export default function About() {
       {/* CTA */}
       <section className="py-14 sm:py-20 bg-white border-t border-gray-100">
         <div className="site-gutter w-full">
-          <div className="max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 p-8 sm:p-10 rounded-2xl border border-gray-200 bg-[#F8FAFC]">
+          <div className="max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 p-8 sm:p-10 rounded-panel border border-gray-200 bg-[#F8FAFC]">
             <div className="text-center lg:text-left">
               <div className="w-10 h-1 bg-[#08A9E0] rounded-full mb-4 mx-auto lg:mx-0" />
               <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#101B46] mb-2">Ready to Travel with Etak?</h2>

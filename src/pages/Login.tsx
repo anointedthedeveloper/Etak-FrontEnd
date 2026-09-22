@@ -17,7 +17,7 @@ const GoogleIcon = () => (
 /** Branded spinner shown over the form card while signing in */
 function FormLoader({ message = 'Signing you in…' }: { message?: string }) {
   return (
-    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-2xl bg-white/90 backdrop-blur-sm">
+    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center rounded-panel bg-white/90 backdrop-blur-sm">
       {/* Animated rings */}
       <div className="relative w-16 h-16 mb-5">
         <span className="absolute inset-0 rounded-full border-4 border-[#EAF8FD]" />

@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { User, Mail, Phone, CheckCircle2, AlertCircle, Eye, EyeOff, Lock } from 'lucide-react'
+import { User, Mail, Phone, CheckCircle2, Eye, EyeOff, Lock } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/FormFields'
+import { ErrorState } from '../../components/ui/States'
 import { useAuth } from '../../context/AuthContext'
 import Avatar from '../../components/ui/Avatar'
 import { supabase } from '../../lib/supabase'
@@ -53,7 +54,7 @@ export default function DashboardProfile() {
   }
 
   return (
-    <div className="p-4 sm:p-5 xl:p-7 space-y-6">
+    <div className="p-4 sm:p-5 xl:p-6 space-y-6">
       <div>
         <h1 className="font-display text-2xl font-bold text-[#101B46]">Profile</h1>
         <p className="text-sm text-[#667085] mt-0.5">Manage your personal information</p>
@@ -61,7 +62,7 @@ export default function DashboardProfile() {
 
       <div className="grid xl:grid-cols-[300px_1fr] gap-6 max-w-4xl">
         {/* Avatar card */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col items-center text-center gap-4">
+        <div className="card-surface p-6 flex flex-col items-center text-center gap-4">
           <div className="w-20 h-20 rounded-full overflow-hidden">
             <Avatar avatarUrl={user?.avatarUrl} firstName={user?.firstName} lastName={user?.lastName} size={80} />
           </div>
@@ -89,7 +90,7 @@ export default function DashboardProfile() {
 
         {/* Edit form */}
         <div className="space-y-5">
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <div className="card-surface p-6">
             <h2 className="font-display font-bold text-[#101B46] text-lg mb-5">Edit information</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
@@ -102,12 +103,7 @@ export default function DashboardProfile() {
                 <p className="text-xs text-[#667085] mt-1">Email cannot be changed here.</p>
               </div>
               <Input label="Phone number" type="tel" value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+234 xxx xxx xxxx" />
-              {status === 'error' && error && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 rounded-lg border border-red-200">
-                  <AlertCircle size={15} className="text-red-500 shrink-0" />
-                  <p className="text-sm text-red-600">{error}</p>
-                </div>
-              )}
+              {status === 'error' && error && <ErrorState message={error} />}
               <div className="flex items-center gap-3 pt-2">
                 <Button type="submit" variant="primary" size="md" loading={status === 'loading'}>Save changes</Button>
                 {status === 'success' && (
@@ -118,7 +114,7 @@ export default function DashboardProfile() {
           </div>
 
           {/* Change password */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <div className="card-surface p-6">
             <div className="flex items-center gap-2 mb-5">
               <Lock size={16} className="text-[#08A9E0]" />
               <h2 className="font-display font-bold text-[#101B46] text-lg">Change Password</h2>
@@ -131,12 +127,7 @@ export default function DashboardProfile() {
                 </button>
               </div>
               <Input label="Confirm new password" type={showPw ? 'text' : 'password'} value={pwForm.confirm} onChange={e => setPwForm(f => ({ ...f, confirm: e.target.value }))} placeholder="Repeat password" />
-              {pwError && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 rounded-lg border border-red-200">
-                  <AlertCircle size={15} className="text-red-500 shrink-0" />
-                  <p className="text-sm text-red-600">{pwError}</p>
-                </div>
-              )}
+              {pwError && <ErrorState message={pwError} />}
               <div className="flex items-center gap-3 pt-2">
                 <Button type="submit" variant="primary" size="md" loading={pwStatus === 'loading'}>Update password</Button>
                 {pwStatus === 'success' && (

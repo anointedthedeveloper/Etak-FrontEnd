@@ -152,7 +152,7 @@ function SearchBox({ onClose, mobile = false }: { onClose: () => void; mobile?: 
 
       {/* Suggestions dropdown */}
       {suggestions.length > 0 && (
-        <div className={`absolute top-full mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 ${mobile ? 'left-0 right-0' : 'left-0 w-80'}`}>
+        <div className={`absolute top-full mt-2 bg-white rounded-card shadow-float border border-gray-100 overflow-hidden z-50 ${mobile ? 'left-0 right-0' : 'left-0 w-80'}`}>
           {suggestions.map((s, i) => (
             <button
               key={s.id}
@@ -266,7 +266,7 @@ export default function Navbar() {
                       to={to}
                       end={to === '/'}
                       className={({ isActive }) =>
-                        `relative flex items-center gap-1 px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
+                        `nav-underline relative flex items-center gap-1 px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
                           isActive
                             ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
                             : 'text-[#565873] hover:text-[#087EAF] hover:bg-white hover:-translate-y-0.5 hover:shadow-sm'
@@ -279,7 +279,7 @@ export default function Navbar() {
                     {/* Dropdown */}
                     {servicesDropdown && (
                       <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-[999]">
-                        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 w-72">
+                        <div className="bg-white rounded-card shadow-float border border-gray-100 p-2 w-72">
                           {services.map(s => {
                             const SIcon = serviceIconMap[s.icon] ?? Plane
                             return (
@@ -306,7 +306,7 @@ export default function Navbar() {
                     to={to}
                     end={to === '/'}
                     className={({ isActive }) =>
-                      `relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
+                      `nav-underline relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
                         isActive
                           ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
                           : 'text-[#565873] hover:text-[#087EAF] hover:bg-white hover:-translate-y-0.5 hover:shadow-sm'
@@ -354,7 +354,7 @@ export default function Navbar() {
                     <ChevronDown size={13} className={`text-[#667085] transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {userMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-2xl shadow-lg border border-gray-100 py-1 z-50">
+                    <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-card shadow-panel border border-gray-100 py-1 z-50">
                       <div className="px-4 py-2.5 border-b border-gray-100">
                         <p className="text-sm font-semibold text-[#172033] truncate">{user?.firstName} {user?.lastName}</p>
                         <p className="text-xs text-[#667085] truncate">{user?.email}</p>
@@ -413,7 +413,7 @@ export default function Navbar() {
           </div>
         </div>
         {searchOpen && (
-          <div className="hidden lg:block absolute right-14 xl:right-20 2xl:right-28 top-[calc(100%+10px)] rounded-2xl bg-white/95 p-2 shadow-2xl shadow-[#101B46]/15 ring-1 ring-[#08A9E0]/15 backdrop-blur-xl">
+          <div className="animate-search-expand hidden lg:block absolute right-14 xl:right-20 2xl:right-28 top-[calc(100%+10px)] rounded-card bg-white/95 p-2 shadow-float ring-1 ring-[#08A9E0]/15 backdrop-blur-xl">
             <SearchBox onClose={() => setSearchOpen(false)} />
           </div>
         )}
@@ -523,7 +523,7 @@ export default function Navbar() {
           <div className="p-4 border-t border-gray-100 flex flex-col gap-2.5 shrink-0">
             {isAuthenticated ? (
               <>
-                <div className="flex items-center gap-3 p-3 bg-[#EAF8FD] rounded-2xl">
+                <div className="flex items-center gap-3 p-3 bg-[#EAF8FD] rounded-card">
                   <Avatar avatarUrl={user?.avatarUrl} firstName={user?.firstName} lastName={user?.lastName} size={36} />
                   <div className="min-w-0">
                     <div className="text-sm font-semibold text-[#101B46] truncate">{user?.firstName} {user?.lastName}</div>
@@ -571,7 +571,7 @@ export default function Navbar() {
           <div className="flex-1 overflow-y-auto p-4">
             {items.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center gap-3 py-16">
-                <div className="w-16 h-16 rounded-full bg-[#F8FAFC] flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-[#F8FAFC] flex items-center justify-center animate-breathe">
                   <Heart size={28} className="text-gray-300" />
                 </div>
                 <p className="text-[#667085] text-sm">No saved items yet.</p>

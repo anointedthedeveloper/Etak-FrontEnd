@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import Breadcrumbs from './Breadcrumbs'
 
 interface PageHeaderProps {
   eyebrow: string
@@ -6,6 +7,9 @@ interface PageHeaderProps {
   subtitle?: string
   image: string
   centered?: boolean
+  /** Reduced vertical padding — for pages where the header shouldn't dominate the fold. */
+  compact?: boolean
+  breadcrumbs?: { label: string; to?: string }[]
   children?: React.ReactNode
 }
 
@@ -15,6 +19,8 @@ export default function PageHeader({
   subtitle,
   image,
   centered = false,
+  compact = false,
+  breadcrumbs,
   children,
 }: PageHeaderProps) {
   const [loaded, setLoaded] = useState(false)
@@ -25,7 +31,7 @@ export default function PageHeader({
   }, [])
 
   return (
-    <div className="relative bg-[#0D1640] pb-14 sm:pb-20 overflow-hidden">
+    <div className={`relative bg-[#0D1640] overflow-hidden ${compact ? 'pb-8 sm:pb-10' : 'pb-14 sm:pb-20'}`}>
 
       {/* Background photo — clearly visible, slow zoom on load */}
       <img
@@ -54,6 +60,12 @@ export default function PageHeader({
       {/* Content */}
       <div className={`site-gutter relative z-10 w-full ${centered ? 'text-center' : ''}`}>
         <div className={centered ? 'max-w-3xl mx-auto' : 'max-w-2xl'}>
+
+          {breadcrumbs && (
+            <div className={`mb-4 ${centered ? 'flex justify-center' : ''}`}>
+              <Breadcrumbs items={breadcrumbs} light />
+            </div>
+          )}
 
           {/* Eyebrow */}
           <span className="inline-flex items-center gap-2 accent-text text-xs font-bold tracking-[0.18em] uppercase mb-4 animate-fade-in">

@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Mail, Phone, Calendar, MessageSquare, ChevronRight } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import Avatar from '../../components/ui/Avatar'
-import { StatusBadge } from '../../components/ui/index'
+import { StatusBadge, Badge } from '../../components/ui/index'
+import { EmptyState, LoadingState } from '../../components/ui/States'
 
 interface UserDetail {
   id: string
@@ -52,14 +53,22 @@ export default function AdminUserDetail() {
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 
-  if (loading) return (
-    <div className="flex items-center justify-center py-20">
-      <div className="h-8 w-8 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
-    </div>
-  )
+  if (loading) return <LoadingState />
 
   if (!user) return (
-    <div className="text-center py-20 text-[#667085]">User not found.</div>
+    <EmptyState
+      icon={ArrowLeft}
+      title="User not found"
+      description="This user may have been removed."
+      action={
+        <button
+          onClick={() => navigate('/admin/users')}
+          className="flex items-center gap-2 text-sm font-semibold text-[#08A9E0] hover:underline"
+        >
+          <ArrowLeft size={15} /> Back to Users
+        </button>
+      }
+    />
   )
 
   return (
@@ -72,7 +81,7 @@ export default function AdminUserDetail() {
       </button>
 
       {/* Profile card */}
-      <div className="premium-card rounded-2xl p-6">
+      <div className="premium-card rounded-card p-6">
         <div className="flex items-start gap-5">
           <Avatar
             avatarUrl={user.avatar_url ?? undefined}
@@ -86,8 +95,8 @@ export default function AdminUserDetail() {
                 ? `${user.first_name} ${user.last_name}`.trim()
                 : user.email.split('@')[0]}
             </h2>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize bg-gray-100 text-[#667085] mt-1">
-              {user.role}
+            <span className="capitalize inline-block mt-1">
+              <Badge variant={user.role === 'admin' ? 'blue' : user.role === 'staff' ? 'purple' : 'gray'}>{user.role || 'user'}</Badge>
             </span>
           </div>
         </div>
@@ -124,7 +133,7 @@ export default function AdminUserDetail() {
       </div>
 
       {/* Enquiries */}
-      <div className="premium-card rounded-2xl overflow-hidden">
+      <div className="premium-card rounded-card overflow-hidden">
         <div className="p-4 border-b border-[#08A9E0]/10 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MessageSquare size={16} className="text-[#08A9E0]" />
@@ -133,10 +142,11 @@ export default function AdminUserDetail() {
           <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{enquiries.length}</span>
         </div>
         {enquiries.length === 0 ? (
-          <div className="p-10 text-center text-[#667085]">
-            <MessageSquare size={32} className="mx-auto mb-2 text-gray-300" />
-            <p>No enquiries submitted yet.</p>
-          </div>
+          <EmptyState
+            icon={MessageSquare}
+            title="No enquiries yet"
+            description="This user hasn't submitted any enquiries."
+          />
         ) : (
           <div className="divide-y divide-gray-100">
             {enquiries.map(e => (

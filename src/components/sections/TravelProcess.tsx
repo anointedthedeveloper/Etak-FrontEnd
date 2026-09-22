@@ -39,9 +39,9 @@ export default function TravelProcess() {
             {steps.map(({ icon: Icon, step, title, desc }, i) => (
               <div key={step} className={`reveal stagger-${i + 1} flex flex-col items-center text-center pt-8`}>
                 {/* Number dot sits on the line */}
-                <div className="relative w-16 h-16 rounded-full bg-white/8 border border-white/15 flex items-center justify-center mb-5 -mt-8">
+                <div className="reveal-scale relative w-16 h-16 rounded-full bg-white/8 border border-white/15 flex items-center justify-center mb-5 -mt-8">
                   <Icon size={24} className="text-[#08A9E0]" />
-                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#08A9E0] text-white text-[10px] font-bold flex items-center justify-center">
+                  <span className="glow-brand absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#08A9E0] text-white text-[10px] font-bold flex items-center justify-center">
                     {parseInt(step)}
                   </span>
                 </div>

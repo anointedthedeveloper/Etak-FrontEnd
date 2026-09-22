@@ -8,6 +8,7 @@ import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import { apiService } from '../services/api'
 import PageHeader from '../components/ui/PageHeader'
+import { useRevealChildren } from '../hooks/useInView'
 
 interface FormState {
   name: string; email: string; phone: string; service: string
@@ -27,6 +28,7 @@ export default function Contact() {
   })
   const [errors, setErrors] = useState<Partial<FormState>>({})
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const factsRef = useRevealChildren<HTMLDivElement>()
 
   const set = (k: keyof FormState, v: string) => {
     setForm(f => ({ ...f, [k]: v }))
@@ -76,13 +78,13 @@ export default function Contact() {
       {/* Quick facts strip */}
       <section className="bg-white border-b border-gray-100">
         <div className="site-gutter w-full py-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div ref={factsRef} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { icon: Zap,         title: '< 24h Response',  sub: 'We reply to every inquiry fast' },
               { icon: Headphones,  title: '24/7 Availability', sub: 'Support whenever you need us' },
               { icon: ShieldCheck, title: 'CAC Registered',  sub: 'RC 898792 · Abuja, Nigeria' },
-            ].map(({ icon: Icon, title, sub }) => (
-              <div key={title} className="flex items-center gap-3">
+            ].map(({ icon: Icon, title, sub }, i) => (
+              <div key={title} className={`reveal stagger-${i + 1} flex items-center gap-3`}>
                 <div className="w-11 h-11 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
                   <Icon size={18} className="text-[#08A9E0]" />
                 </div>
@@ -104,7 +106,7 @@ export default function Contact() {
               <div>
                 <h3 className="font-display font-bold text-[#101B46] text-xl mb-4">Get in Touch</h3>
                 <div className="grid grid-cols-2 gap-3">
-                  <a href="tel:+2348032062242" className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-[#08A9E0]/40 hover:shadow-md transition-all">
+                  <a href="tel:+2348032062242" className="bg-white rounded-card border border-gray-100 p-4 hover:border-[#08A9E0]/40 hover:shadow-card transition-all">
                     <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center mb-3">
                       <Phone size={16} className="text-[#08A9E0]" />
                     </div>
@@ -112,21 +114,21 @@ export default function Contact() {
                     <p className="text-xs text-[#667085] leading-relaxed">+234 803 206 2242</p>
                     <p className="text-xs text-[#667085] leading-relaxed">+234 817 358 8783</p>
                   </a>
-                  <a href="mailto:etaktravels15@gmail.com" className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-[#08A9E0]/40 hover:shadow-md transition-all">
+                  <a href="mailto:etaktravels15@gmail.com" className="bg-white rounded-card border border-gray-100 p-4 hover:border-[#08A9E0]/40 hover:shadow-card transition-all">
                     <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center mb-3">
                       <Mail size={16} className="text-[#08A9E0]" />
                     </div>
                     <div className="text-xs font-semibold text-[#101B46] mb-1">Email</div>
                     <p className="text-xs text-[#667085] leading-relaxed break-all">etaktravels15@gmail.com</p>
                   </a>
-                  <a href="https://wa.me/2348032062242" target="_blank" rel="noopener noreferrer" className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-[#25D366]/40 hover:shadow-md transition-all">
+                  <a href="https://wa.me/2348032062242" target="_blank" rel="noopener noreferrer" className="bg-white rounded-card border border-gray-100 p-4 hover:border-[#25D366]/40 hover:shadow-card transition-all">
                     <div className="w-9 h-9 rounded-xl bg-[#25D366]/10 flex items-center justify-center mb-3">
                       <FaWhatsapp size={16} className="text-[#25D366]" />
                     </div>
                     <div className="text-xs font-semibold text-[#101B46] mb-1">WhatsApp</div>
                     <p className="text-xs text-[#667085] leading-relaxed">Chat with our team</p>
                   </a>
-                  <div className="bg-white rounded-2xl border border-gray-100 p-4">
+                  <div className="bg-white rounded-card border border-gray-100 p-4">
                     <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center mb-3">
                       <Clock size={16} className="text-[#08A9E0]" />
                     </div>
@@ -137,7 +139,7 @@ export default function Contact() {
                 </div>
 
                 {/* Address */}
-                <div className="bg-white rounded-2xl border border-gray-100 p-4 mt-3 flex gap-3">
+                <div className="bg-white rounded-card border border-gray-100 p-4 mt-3 flex gap-3">
                   <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
                     <MapPin size={16} className="text-[#08A9E0]" />
                   </div>
@@ -150,7 +152,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+              <div className="bg-white rounded-card border border-gray-100 overflow-hidden">
                 <iframe
                   title="Etak Travels location map"
                   src="https://www.google.com/maps?q=ACCI+Ultra+Modern+Shopping+Centre+Piwoyi+Abuja+Nigeria&output=embed"
@@ -173,7 +175,7 @@ export default function Contact() {
             </div>
 
             {/* Contact form */}
-            <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 p-8">
+            <div className="lg:col-span-2 bg-white rounded-panel border border-gray-100 p-8">
               <h3 className="font-display font-bold text-[#101B46] text-2xl mb-2">Send Us a Message</h3>
               <p className="text-[#667085] text-sm mb-6">Fill in the form below and our team will respond within 24 hours.</p>
 

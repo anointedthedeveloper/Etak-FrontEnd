@@ -25,7 +25,7 @@ export default function AdminSettings() {
   return (
     <div className="space-y-6 animate-fade-up">
       <div className="max-w-md">
-        <div className="premium-card rounded-2xl p-6">
+        <div className="premium-card rounded-card p-6">
           <div className="flex items-center gap-2 mb-5">
             <Lock size={16} className="text-[#08A9E0]" />
             <h2 className="font-semibold text-[#101B46]">Change Admin Password</h2>

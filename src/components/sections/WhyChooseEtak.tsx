@@ -1,6 +1,7 @@
 import { CheckCircle2, Users, Globe, Clock, HeartHandshake, TrendingDown } from 'lucide-react'
 import { SectionHeader } from '../ui/index'
 import { useRevealChildren, useInView } from '../../hooks/useInView'
+import { useCountUp } from '../../hooks/useCountUp'
 
 const values = [
   { icon: CheckCircle2,   title: 'Professional Coordination', desc: 'Every arrangement handled with attention to detail, from first inquiry to your return.',      accent: '#08A9E0' },
@@ -18,6 +19,13 @@ const stats = [
   { value: '24/7', label: 'Support' },
 ]
 
+function StatValue({ value, start }: { value: string; start: boolean }) {
+  const match = value.match(/^(\d+)(.*)$/)
+  const count = useCountUp(match ? parseInt(match[1], 10) : 0, start && !!match)
+  if (!match) return <>{value}</>
+  return <>{start ? count : 0}{match[2]}</>
+}
+
 export default function WhyChooseEtak() {
   const gridRef = useRevealChildren<HTMLDivElement>()
   const { ref: statsRef, inView: statsVisible } = useInView<HTMLDivElement>({ threshold: 0.2 })
@@ -34,7 +42,7 @@ export default function WhyChooseEtak() {
         />
 
         {/* Value cards — clean white on light grey, no decorative noise */}
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-100 border border-gray-100 rounded-2xl overflow-hidden">
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-100 border border-gray-100 rounded-card overflow-hidden">
           {values.map(({ icon: Icon, title, desc, accent }, i) => (
             <div
               key={title}
@@ -57,7 +65,7 @@ export default function WhyChooseEtak() {
         {/* Stats strip — clean dark bar, no gradients inside each cell */}
         <div
           ref={statsRef}
-          className={`mt-10 grid grid-cols-2 sm:grid-cols-4 rounded-2xl overflow-hidden border border-[#101B46] transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`mt-10 grid grid-cols-2 sm:grid-cols-4 rounded-card overflow-hidden border border-[#101B46] transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
         >
           {stats.map(({ value, label }, i) => (
             <div
@@ -65,7 +73,9 @@ export default function WhyChooseEtak() {
               className={`flex flex-col items-center justify-center py-8 px-4 bg-[#101B46] ${i < stats.length - 1 ? 'border-r border-white/10' : ''}`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <span className="font-display text-3xl sm:text-4xl font-bold text-white mb-1">{value}</span>
+              <span className="font-display text-3xl sm:text-4xl font-bold text-white mb-1 tabular-nums">
+                <StatValue value={value} start={statsVisible} />
+              </span>
               <span className="text-[#08A9E0] text-xs font-medium tracking-wide uppercase">{label}</span>
             </div>
           ))}

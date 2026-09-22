@@ -56,7 +56,7 @@ export default function CompleteProfileModal({ email, initialFirstName, initialL
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center px-4">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-7">
+      <div className="relative bg-white rounded-panel shadow-float w-full max-w-md p-7">
         <div className="flex items-start justify-between mb-5">
           <div>
             <h2 className="font-display text-xl font-bold text-[#101B46]">Complete your profile</h2>

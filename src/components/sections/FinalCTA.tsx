@@ -11,7 +11,7 @@ export default function FinalCTA() {
       <div className="site-gutter w-full">
         <div
           ref={ref}
-          className={`relative rounded-2xl overflow-hidden min-h-72 sm:min-h-80 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`relative rounded-panel overflow-hidden min-h-72 sm:min-h-80 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
         >
           {/* Background photo */}
           <img

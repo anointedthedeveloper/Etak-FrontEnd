@@ -5,7 +5,7 @@ import { Button } from '../../components/ui/Button'
 
 export default function DashboardTours() {
   return (
-    <div className="p-4 sm:p-5 xl:p-7 space-y-6">
+    <div className="p-4 sm:p-5 xl:p-6 space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-2xl font-bold text-[#101B46]">Tours & Packages</h1>
@@ -18,7 +18,7 @@ export default function DashboardTours() {
 
       <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
         {tours.map(tour => (
-          <div key={tour.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+          <div key={tour.id} className="premium-card overflow-hidden flex flex-col">
             <div className="h-44 overflow-hidden">
               <img src={tour.image} alt={tour.title} className="w-full h-full object-cover" />
             </div>

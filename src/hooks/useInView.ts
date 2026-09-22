@@ -58,7 +58,7 @@ export function useRevealChildren<T extends HTMLElement = HTMLDivElement>(
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          const children = Array.from(el.querySelectorAll<HTMLElement>('.reveal, .reveal-left, .reveal-right, .reveal-scale'))
+          const children = Array.from(el.querySelectorAll<HTMLElement>('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-flip'))
           children.forEach((child, i) => {
             setTimeout(() => child.classList.add('visible'), i * 70)
           })

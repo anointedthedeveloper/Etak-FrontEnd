@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import Avatar from '../ui/Avatar'
+import SkipLink from '../ui/SkipLink'
 import { supabase } from '../../lib/supabase'
 
 const navItems = [
@@ -17,6 +18,16 @@ const navItems = [
   { to: '/dashboard/reports',   label: 'Reports',          icon: BarChart2 },
   { to: '/dashboard/settings',       label: 'Settings',         icon: Settings },
   { to: '/dashboard/notifications',   label: 'Notifications',    icon: Bell },
+]
+
+// The mobile bottom bar surfaces the 4 things used every day; everything
+// else (Clients, Tours, Reports, Settings) lives behind "More", which opens
+// the same full drawer used by the hamburger — one menu, two entry points.
+const bottomNavItems = [
+  { to: '/dashboard',              label: 'Home',   icon: LayoutDashboard, end: true },
+  { to: '/dashboard/inquiries',    label: 'Inquiries', icon: FileText },
+  { to: '/dashboard/bookings',     label: 'Bookings',  icon: Bookmark },
+  { to: '/dashboard/notifications', label: 'Alerts',   icon: Bell },
 ]
 
 function SidebarContent({
@@ -69,7 +80,7 @@ function SidebarContent({
       </nav>
 
       {/* Promo card */}
-      <div className="mx-3 mb-3 rounded-2xl bg-gradient-to-br from-[#101B46] to-[#087EAF] p-4 text-white shadow-lg shadow-[#08A9E0]/20 shrink-0">
+      <div className="mx-3 mb-3 rounded-panel bg-gradient-to-br from-[#101B46] to-[#087EAF] p-4 text-white shadow-panel shrink-0">
         <Plane size={20} className="text-[#08A9E0] mb-2" />
         <p className="font-bold text-sm leading-snug mb-1">Your journey<br />our priority</p>
         <p className="text-blue-200 text-xs">More destinations.<br />More possibilities.</p>
@@ -117,6 +128,7 @@ export default function DashboardLayout() {
 
   return (
     <div className="flex h-screen bg-[#F7F7FC] overflow-hidden">
+      <SkipLink />
 
       {/* ── Desktop sidebar (always visible lg+) ── */}
       <div className="hidden lg:flex flex-col w-56 xl:w-60 shrink-0 h-full">
@@ -222,12 +234,42 @@ export default function DashboardLayout() {
         </header>
 
         {/* Page content — scrollable */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto pb-16 lg:pb-0">
           <div className="app-shell">
             <Outlet />
           </div>
         </main>
       </div>
+
+      {/* ── Mobile bottom quick-nav — the primary daily actions stay one tap
+           away instead of behind the hamburger drawer ── */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-line flex items-stretch pb-[env(safe-area-inset-bottom)]">
+        {bottomNavItems.map(({ to, label, icon: Icon, end }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={end}
+            className={({ isActive }) =>
+              `relative flex-1 flex flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium transition-colors ${
+                isActive ? 'text-[#08A9E0]' : 'text-[#667085]'
+              }`
+            }
+          >
+            <Icon size={18} />
+            {label}
+            {label === 'Alerts' && !!unread && (
+              <span className="absolute top-1.5 right-[28%] w-1.5 h-1.5 rounded-full bg-red-500" />
+            )}
+          </NavLink>
+        ))}
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-medium text-[#667085]"
+        >
+          <Menu size={18} />
+          More
+        </button>
+      </nav>
     </div>
   )
 }

@@ -10,9 +10,48 @@
   --color-brand-text: #172033;
   --color-brand-muted: #667085;
 
+  /* Semantic surface/border/text tokens — reach for these instead of
+     scattering new hex values across components. */
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F8FAFC;
+  --color-surface-sunken: #F1F5F9;
+  --color-line-subtle: #EDF1F5;
+  --color-line: #E2E8F0;
+  --color-text-primary: #172033;
+  --color-text-secondary: #48506B;
+  --color-text-muted: #667085;
+  --color-success: #16A34A;
+  --color-warning: #D97706;
+  --color-error: #DC2626;
+  --color-focus: #08A9E0;
+
   --font-display: 'Playfair Display', Georgia, serif;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-script: 'Dancing Script', cursive;
+
+  /* Restrained radius scale — Tailwind v4 turns these into rounded-control /
+     rounded-card / rounded-panel utilities. Reserve rounded-full for true
+     pills (buttons, badges, avatars); everything else should pick one of
+     these three rather than defaulting to rounded-2xl/3xl everywhere. */
+  --radius-control: 0.625rem;  /* 10px — inputs, buttons, chips, small icons */
+  --radius-card: 0.75rem;      /* 12px — cards, list rows, table containers */
+  --radius-panel: 1.125rem;    /* 18px — hero/image panels, editorial blocks */
+
+  /* Restrained shadow scale — Tailwind v4 turns these into shadow-card /
+     shadow-panel / shadow-float utilities. Prefer a border + this over a
+     heavy blurred shadow on every surface. */
+  --shadow-card: 0 1px 2px rgba(16, 27, 70, 0.04), 0 2px 8px rgba(16, 27, 70, 0.06);
+  --shadow-panel: 0 8px 24px rgba(16, 27, 70, 0.10);
+  --shadow-float: 0 16px 40px rgba(16, 27, 70, 0.16);
+
+  /* Editorial type scale — used by SectionHeader/PageHeader so the same
+     hierarchy propagates across every page that uses them. */
+  --text-display: 2.75rem;
+  --text-display--line-height: 1.08;
+  --text-heading: 1.75rem;
+  --text-heading--line-height: 1.2;
+  --text-subheading: 1.125rem;
+  --text-subheading--line-height: 1.45;
 
   /* Custom breakpoints */
   --breakpoint-xs: 480px;
@@ -173,6 +212,96 @@ select:-webkit-autofill {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+/* Ken Burns — slow continuous zoom applied to a freshly-mounted slide image */
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+.animate-kenburns { animation-name: kenburns; animation-timing-function: linear; animation-fill-mode: forwards; }
+
+/* Counter pop when a stat becomes visible */
+@keyframes count-pop {
+  0%   { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-count-pop { animation: count-pop 0.5s ease both; }
+
+/* Card 3D reveal — used for testimonial-style cards on scroll-in */
+.reveal-flip {
+  opacity: 0;
+  transform: perspective(900px) rotateX(8deg) translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.3,1);
+}
+.reveal-flip.visible { opacity: 1; transform: perspective(900px) rotateX(0deg) translateY(0); }
+
+/* Shimmer skeleton — loading placeholder for images/blocks */
+@keyframes skeleton-sweep {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #EEF2F7 25%, #F7FAFC 37%, #EEF2F7 63%);
+  background-size: 200% 100%;
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+}
+
+/* Blur-up image loader — pair with a `loaded` class toggle once onLoad fires */
+.img-blur-up {
+  filter: blur(14px);
+  transform: scale(1.04);
+  opacity: 0.9;
+  transition: filter 0.5s ease, transform 0.5s ease, opacity 0.5s ease;
+}
+.img-blur-up.loaded {
+  filter: blur(0);
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Gentle rotation on hover — footer social icons etc. */
+.hover-rotate { transition: transform 0.25s ease, background-color 0.2s ease, color 0.2s ease; }
+.hover-rotate:hover { transform: rotate(12deg) translateY(-2px); }
+
+/* Left-border accent used for hoverable list items (services showcase etc.) */
+.accent-hover-left {
+  border-left: 2px solid transparent;
+  transition: border-color 0.2s ease, background-color 0.2s ease, padding-left 0.2s ease;
+}
+.accent-hover-left:hover { border-left-color: #08A9E0; }
+
+/* Decorative oversized quote mark behind testimonial text */
+.quote-mark {
+  position: absolute;
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1;
+  color: rgba(8, 169, 224, 0.10);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Soft glow used for step badges / selected elements against dark surfaces */
+.glow-brand { box-shadow: 0 0 0 4px rgba(8,169,224,0.12), 0 0 18px rgba(8,169,224,0.35); }
+
+/* Search box — expands from the right on open */
+@keyframes search-expand { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
+.animate-search-expand { transform-origin: right center; animation: search-expand 220ms ease-out both; }
+
+/* Nav link underline — slides in from the left on hover/focus */
+.nav-underline { position: relative; }
+.nav-underline::after {
+  content: '';
+  position: absolute;
+  left: 0.9rem; right: 0.9rem; bottom: 0.35rem;
+  height: 2px;
+  background: #08A9E0;
+  border-radius: 1px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-underline:hover::after,
+.nav-underline:focus-visible::after { transform: scaleX(1); }
 
 /* ═══════════════════════════════════════════════
    ANIMATION UTILITY CLASSES
@@ -365,15 +494,25 @@ select:-webkit-autofill {
 
 /* Premium shared surfaces and restrained motion used across customer and admin views. */
 .premium-card {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(8, 169, 224, 0.14);
-  box-shadow: 0 12px 32px rgba(33, 31, 82, 0.07);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
   transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
 }
 .premium-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(8, 169, 224, 0.3);
-  box-shadow: 0 18px 40px rgba(33, 31, 82, 0.12);
+  border-color: rgba(8, 169, 224, 0.35);
+  box-shadow: var(--shadow-panel);
+}
+
+/* Static (non-hover) surface for panels that don't need lift-on-hover —
+   settings sections, table containers, form cards. */
+.card-surface {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
 }
 .accent-gradient { background: linear-gradient(110deg, #08A9E0 0%, #0798C8 100%); }
 .accent-text {

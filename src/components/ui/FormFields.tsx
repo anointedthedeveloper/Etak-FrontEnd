@@ -26,7 +26,7 @@ interface SelectProps {
   className?: string
 }
 
-const inputBase = 'w-full px-4 py-3 rounded-lg border bg-white text-[#172033] placeholder-[#667085] transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#08A9E0] focus:border-transparent text-sm'
+const inputBase = 'w-full px-4 py-3 rounded-control border bg-white text-[#172033] placeholder-[#667085] transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#08A9E0] focus:border-transparent text-sm'
 const inputNormal = 'border-gray-200 hover:border-gray-300'
 const inputError = 'border-red-400 focus:ring-red-400'
 

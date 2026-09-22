@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Users, Search, Mail, Phone, Calendar, UserCheck, ChevronRight } from 'lucide-react'
+import { Users, Search, Phone, Calendar, UserCheck, ChevronRight } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import Avatar from '../../components/ui/Avatar'
+import { Badge } from '../../components/ui/index'
+import { EmptyState, LoadingState } from '../../components/ui/States'
+import { LoadMore } from '../../components/ui/Pagination'
 
 interface UserRow {
   id: string
@@ -20,6 +23,7 @@ export default function AdminUsers() {
   const [users, setUsers] = useState<UserRow[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
+  const [visibleCount, setVisibleCount] = useState(25)
 
   useEffect(() => {
     async function load() {
@@ -36,6 +40,9 @@ export default function AdminUsers() {
     return name.includes(searchTerm.toLowerCase()) ||
       (u.email ?? '').toLowerCase().includes(searchTerm.toLowerCase())
   })
+  const visible = filtered.slice(0, visibleCount)
+
+  const roleBadgeVariant = (role: string) => role === 'admin' ? 'blue' : role === 'staff' ? 'purple' : 'gray'
 
   return (
     <div className="space-y-6 animate-fade-up">
@@ -46,14 +53,14 @@ export default function AdminUsers() {
             type="text"
             placeholder="Search users..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => { setSearchTerm(e.target.value); setVisibleCount(25) }}
             className="w-full sm:w-64 pl-9 pr-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="premium-card rounded-2xl p-5">
+        <div className="premium-card rounded-card p-5">
           <div className="flex items-center gap-2.5 mb-4">
             <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
               <Users size={16} className="text-blue-500" />
@@ -62,7 +69,7 @@ export default function AdminUsers() {
           </div>
           <p className="text-4xl font-bold text-[#101B46] leading-none">{loading ? <span className="text-2xl text-gray-200">—</span> : users.length}</p>
         </div>
-        <div className="premium-card rounded-2xl p-5">
+        <div className="premium-card rounded-card p-5">
           <div className="flex items-center gap-2.5 mb-4">
             <div className="w-9 h-9 rounded-xl bg-green-50 flex items-center justify-center shrink-0">
               <UserCheck size={16} className="text-green-500" />
@@ -73,11 +80,12 @@ export default function AdminUsers() {
         </div>
       </div>
 
-      <div className="premium-card rounded-2xl overflow-hidden">
+      <div className="premium-card rounded-card overflow-hidden">
         <div className="p-4 border-b border-[#08A9E0]/10 flex items-center justify-between">
           <h3 className="font-semibold text-[#101B46]">All Users</h3>
           <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{filtered.length}</span>
         </div>
+        <p className="sm:hidden px-4 pt-2 text-[11px] text-[#667085]">Swipe left to see more →</p>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-100">
@@ -91,15 +99,22 @@ export default function AdminUsers() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {loading ? (
-                <tr><td colSpan={4} className="px-6 py-8 text-center text-[#667085]">Loading...</td></tr>
-              ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-8 text-center text-[#667085]">
-                    <Users size={32} className="mx-auto mb-2 text-gray-300" />
-                    <p>No users found</p>
+                  <td colSpan={5}>
+                    <LoadingState />
                   </td>
                 </tr>
-              ) : filtered.map((user) => (
+              ) : filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={5}>
+                    <EmptyState
+                      icon={Users}
+                      title="No users found"
+                      description={searchTerm ? 'Try a different search term.' : 'Registered users will appear here.'}
+                    />
+                  </td>
+                </tr>
+              ) : visible.map((user) => (
                 <tr key={user.id} onClick={() => navigate(`/admin/users/${user.id}`)} className="hover:bg-gray-50 transition-colors cursor-pointer">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -125,14 +140,12 @@ export default function AdminUsers() {
                         <Phone size={14} />{user.phone}
                       </div>
                     ) : (
-                      <div className="flex items-center gap-2 text-sm text-[#667085]">
-                        <Mail size={14} />—
-                      </div>
+                      <span className="text-sm text-[#667085]">No phone on file</span>
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize bg-gray-100 text-[#667085]">
-                      {user.role || 'user'}
+                    <span className="capitalize inline-block">
+                      <Badge variant={roleBadgeVariant(user.role)}>{user.role || 'user'}</Badge>
                     </span>
                   </td>
                   <td className="px-6 py-4">
@@ -149,6 +162,14 @@ export default function AdminUsers() {
             </tbody>
           </table>
         </div>
+        {!loading && (
+          <LoadMore
+            shown={visible.length}
+            total={filtered.length}
+            onLoadMore={() => setVisibleCount(v => v + 25)}
+            itemLabel="users"
+          />
+        )}
       </div>
     </div>
   )

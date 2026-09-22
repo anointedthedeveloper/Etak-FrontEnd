@@ -74,9 +74,9 @@ export default function ServicesShowcase() {
                 <button
                   key={service.id}
                   onClick={() => setActive(service.id)}
-                  className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-left transition-all duration-150 cursor-pointer ${
+                  className={`accent-hover-left flex items-center gap-3 pl-3.5 pr-4 py-3.5 rounded-xl text-left transition-all duration-150 cursor-pointer ${
                     active === service.id
-                      ? 'bg-[#101B46] text-white shadow-md'
+                      ? 'bg-[#101B46] text-white shadow-md border-l-2 border-transparent'
                       : 'hover:bg-gray-50 text-[#172033]'
                   }`}
                 >
@@ -92,9 +92,9 @@ export default function ServicesShowcase() {
           </div>
 
           {/* Active service detail */}
-          <div className="lg:col-span-3 bg-gradient-to-br from-[#EAF8FD] to-white rounded-2xl p-5 sm:p-8 flex flex-col gap-5 sm:gap-6">
+          <div className="lg:col-span-3 bg-gradient-to-br from-[#EAF8FD] to-white rounded-panel p-5 sm:p-8 flex flex-col gap-5 sm:gap-6">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#101B46] flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-card bg-[#101B46] flex items-center justify-center shrink-0">
                 <Icon size={22} className="text-[#08A9E0]" />
               </div>
               <div>

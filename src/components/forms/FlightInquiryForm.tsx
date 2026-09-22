@@ -62,7 +62,7 @@ function AirportInput({
           onChange={e => search(e.target.value)}
           onFocus={() => results.length > 0 && setOpen(true)}
           placeholder={placeholder}
-          className={`w-full pl-8 pr-10 py-2.5 text-sm rounded-xl border focus:outline-none focus:ring-2 bg-white text-[#172033] placeholder-[#9CA3AF] ${
+          className={`w-full pl-8 pr-10 py-2.5 text-sm rounded-control border focus:outline-none focus:ring-2 bg-white text-[#172033] placeholder-[#9CA3AF] ${
             error && !iataCode ? 'border-red-400 focus:ring-red-300' : 'border-gray-200 focus:ring-[#08A9E0]'
           }`}
         />
@@ -74,7 +74,7 @@ function AirportInput({
         <p className="text-[10px] text-red-500 mt-0.5">Select an airport from the list</p>
       )}
       {open && results.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden max-h-56 overflow-y-auto">
+        <div className="absolute z-50 mt-1 w-full bg-white rounded-card shadow-float border border-gray-100 overflow-hidden max-h-56 overflow-y-auto">
           {results.map((r, idx) => (
             <button
               key={`${r.code}-${idx}`}
@@ -214,7 +214,7 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
         </p>
       </div>
 
-      <div className="p-2.5 bg-[#EAF8FD] rounded-xl border border-[#08A9E0]/20 text-xs">
+      <div className="p-2.5 bg-[#EAF8FD] rounded-control border border-[#08A9E0]/20 text-xs">
         <p className="font-semibold text-[#101B46]">
           {fromDisplay} → {toDisplay}
         </p>

@@ -2,12 +2,13 @@ import { useParams, Link, Navigate } from 'react-router-dom'
 import {
   Plane, Building2, Map, MessageSquare, FileCheck, Shield,
   Navigation, Headphones, Sunset, Briefcase,
-  ArrowRight, CheckCircle2, ChevronRight, Phone,
+  ArrowRight, CheckCircle2, Phone,
 } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { services } from '../data/services'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
+import Breadcrumbs from '../components/ui/Breadcrumbs'
 
 const iconMap: Record<string, React.ElementType> = {
   Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation,
@@ -164,19 +165,20 @@ export default function ServiceDetail() {
 
         {/* Breadcrumb */}
         <div className="absolute top-[76px] left-0 right-0 site-gutter">
-          <nav className="flex items-center gap-1.5 text-xs text-white/40">
-            <Link to="/" className="hover:text-white/70 transition-colors">Home</Link>
-            <ChevronRight size={11} />
-            <Link to="/services" className="hover:text-white/70 transition-colors">Services</Link>
-            <ChevronRight size={11} />
-            <span className="text-white/70">{service.title}</span>
-          </nav>
+          <Breadcrumbs
+            light
+            items={[
+              { label: 'Home', to: '/' },
+              { label: 'Services', to: '/services' },
+              { label: service.title },
+            ]}
+          />
         </div>
 
         {/* Content */}
         <div className="absolute bottom-0 left-0 right-0 site-gutter pb-10">
           <div className="flex items-end gap-5 max-w-4xl">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#08A9E0] flex items-center justify-center shadow-2xl shrink-0 border-2 border-white/10">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-panel bg-[#08A9E0] flex items-center justify-center shadow-float shrink-0 border-2 border-white/10">
               <Icon size={30} className="text-white" />
             </div>
             <div>
@@ -199,7 +201,7 @@ export default function ServiceDetail() {
             <div className="lg:col-span-2 flex flex-col gap-5">
 
               {/* About */}
-              <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
+              <div className="card-surface p-6 sm:p-8">
                 <h2 className="font-display font-bold text-[#101B46] text-lg sm:text-xl mb-4 flex items-center gap-2.5">
                   <span className="w-1 h-5 rounded-full bg-[#08A9E0] shrink-0" />
                   About This Service
@@ -214,7 +216,7 @@ export default function ServiceDetail() {
 
               {/* What's included */}
               {extras?.highlights && (
-                <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
+                <div className="card-surface p-6 sm:p-8">
                   <h2 className="font-display font-bold text-[#101B46] text-lg sm:text-xl mb-5 flex items-center gap-2.5">
                     <span className="w-1 h-5 rounded-full bg-[#08A9E0] shrink-0" />
                     What's Included
@@ -234,7 +236,7 @@ export default function ServiceDetail() {
 
               {/* How it works */}
               {extras?.process && (
-                <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
+                <div className="card-surface p-6 sm:p-8">
                   <h2 className="font-display font-bold text-[#101B46] text-lg sm:text-xl mb-5 flex items-center gap-2.5">
                     <span className="w-1 h-5 rounded-full bg-[#08A9E0] shrink-0" />
                     How It Works
@@ -261,7 +263,7 @@ export default function ServiceDetail() {
               )}
 
               {/* Best for */}
-              <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
+              <div className="card-surface p-6 sm:p-8">
                 <h2 className="font-display font-bold text-[#101B46] text-lg sm:text-xl mb-4 flex items-center gap-2.5">
                   <span className="w-1 h-5 rounded-full bg-[#08A9E0] shrink-0" />
                   Best For
@@ -280,7 +282,7 @@ export default function ServiceDetail() {
             <div className="flex flex-col gap-4">
 
               {/* CTA card */}
-              <div className="bg-gradient-to-br from-[#101B46] to-[#0D2260] rounded-2xl p-6 text-white shadow-xl lg:sticky lg:top-24">
+              <div className="bg-gradient-to-br from-[#101B46] to-[#0D2260] rounded-panel p-6 text-white shadow-panel lg:sticky lg:top-24">
                 <div className="w-12 h-12 rounded-xl bg-[#08A9E0]/15 border border-[#08A9E0]/25 flex items-center justify-center mb-4">
                   <Icon size={22} className="text-[#08A9E0]" />
                 </div>
@@ -325,7 +327,7 @@ export default function ServiceDetail() {
               </Link>
 
               {/* Quick benefits */}
-              <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+              <div className="card-surface p-5">
                 <p className="text-xs font-bold text-[#101B46] uppercase tracking-wide mb-3">Key Benefits</p>
                 <ul className="flex flex-col gap-2">
                   {service.benefits.map(b => (
@@ -355,7 +357,7 @@ export default function ServiceDetail() {
                     <Link
                       key={s.id}
                       to={`/services/${s.id}`}
-                      className="group bg-white rounded-2xl border border-gray-100 hover:border-[#08A9E0]/30 hover:shadow-lg transition-all overflow-hidden"
+                      className="group premium-card overflow-hidden"
                     >
                       <div className="h-36 overflow-hidden relative">
                         <img src={s.image} alt={s.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />

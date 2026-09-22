@@ -4,6 +4,7 @@ import { services } from '../data/services'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import PageHeader from '../components/ui/PageHeader'
+import { useRevealChildren } from '../hooks/useInView'
 
 const iconMap: Record<string, React.ElementType> = {
   Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation,
@@ -11,6 +12,7 @@ const iconMap: Record<string, React.ElementType> = {
 }
 
 export default function Services() {
+  const gridRef = useRevealChildren<HTMLDivElement>()
   return (
     <>
       <SEO
@@ -37,14 +39,13 @@ export default function Services() {
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {services.map((service, i) => {  
+          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            {services.map((service, i) => {
               const Icon = iconMap[service.icon] ?? Plane
               return (
                 <div
                   key={service.id}
-                  className="group relative bg-white rounded-2xl border border-gray-100 hover:border-[#08A9E0]/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
-                  style={{ animationDelay: `${i * 0.05}s` }}
+                  className={`reveal stagger-${(i % 6) + 1} group relative bg-white rounded-card border border-gray-100 hover:border-[#08A9E0]/40 hover:shadow-panel transition-all duration-300 overflow-hidden flex flex-col`}
                 >
                   {/* Image */}
                   <div className="relative h-44 overflow-hidden shrink-0">
@@ -102,7 +103,7 @@ export default function Services() {
             })}
 
             {/* 11th slot — spans 2 columns to fill the last row */}
-            <div className="sm:col-span-2 xl:col-span-2 relative rounded-2xl overflow-hidden min-h-[220px] flex">
+            <div className="sm:col-span-2 xl:col-span-2 relative rounded-panel overflow-hidden min-h-[220px] flex">
               {/* Background image */}
               <img
                 src="/images/sections/cta-bg.jpg"
@@ -160,7 +161,7 @@ export default function Services() {
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
         <div className="site-gutter relative z-10 w-full">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-5 shadow-lg">
+            <div className="w-14 h-14 rounded-card bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-5 shadow-panel">
               <MessageSquare size={24} className="text-[#08A9E0]" />
             </div>
             <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-[#101B46] mb-3">

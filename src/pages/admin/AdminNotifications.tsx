@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Bell, MessageSquare, User, CheckCheck, Trash2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { EmptyState, LoadingState } from '../../components/ui/States'
 
 interface Notification {
   id: string
@@ -95,14 +96,15 @@ export default function AdminNotifications() {
         )}
       </div>
 
-      <div className="premium-card rounded-2xl overflow-hidden">
+      <div className="premium-card rounded-card overflow-hidden">
         {loading ? (
-          <p className="p-8 text-center text-sm text-[#667085]">Loading...</p>
+          <LoadingState />
         ) : notifications.length === 0 ? (
-          <div className="p-12 text-center">
-            <Bell size={40} className="mx-auto mb-3 text-gray-300" />
-            <p className="text-[#667085]">No notifications yet</p>
-          </div>
+          <EmptyState
+            icon={Bell}
+            title="No notifications"
+            description="New enquiries and client replies will show up here."
+          />
         ) : (
           <div className="divide-y divide-gray-100">
             {notifications.map(n => {

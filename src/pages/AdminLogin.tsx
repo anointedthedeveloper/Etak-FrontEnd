@@ -138,7 +138,7 @@ export default function AdminLogin() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+            <div className="bg-white rounded-panel shadow-panel border border-gray-100 p-8">
               {/* Header */}
               <div className="text-center mb-8">
                 <div className="hidden lg:flex items-center justify-center gap-3 mb-4">

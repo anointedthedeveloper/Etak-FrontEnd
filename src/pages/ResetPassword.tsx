@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, CheckCircle2, AlertCircle } from 'lucide-react'
+import { Eye, EyeOff, CheckCircle2, AlertCircle, ShieldCheck } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/FormFields'
+import AuthLayout from '../components/layout/AuthLayout'
 
 function getPasswordStrength(pw: string): { score: number; label: string; color: string } {
   let score = 0
@@ -56,18 +57,20 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#101B46] via-[#075D82] to-[#087EAF] px-4 py-12 flex items-center justify-center">
-      <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <Link to="/">
-            <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain mx-auto mb-4" />
-          </Link>
-          <h1 className="font-display text-3xl font-bold text-white">Set New Password</h1>
-          <p className="text-blue-200 text-sm mt-1">Choose a strong password for your account.</p>
+    <AuthLayout>
+      <div className="relative">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-7">
+          <div className="w-11 h-11 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0 shadow-md">
+            <ShieldCheck size={19} className="text-white" />
+          </div>
+          <div>
+            <h2 className="font-display text-xl font-bold text-[#101B46]">Set New Password</h2>
+            <p className="text-sm text-[#667085]">Choose a strong password for your account.</p>
+          </div>
         </div>
 
-        <div className="rounded-2xl bg-white p-8 shadow-2xl">
-          {done ? (
+        {done ? (
             <div className="text-center py-4">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
                 <CheckCircle2 size={32} className="text-green-600" />
@@ -152,8 +155,7 @@ export default function ResetPassword() {
               </Button>
             </form>
           )}
-        </div>
       </div>
-    </div>
+    </AuthLayout>
   )
 }

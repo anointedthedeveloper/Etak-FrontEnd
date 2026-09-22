@@ -30,7 +30,7 @@ export default function FeaturedPackages() {
           {featured.map((tour, i) => (
             <div
               key={tour.id}
-              className={`reveal stagger-${i + 1} group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col`}
+              className={`reveal stagger-${i + 1} group bg-white rounded-card overflow-hidden border border-gray-100 transition-all duration-300 flex flex-col hover:shadow-[0_0_0_2px_#08A9E0,0_18px_40px_rgba(16,27,70,0.12)]`}
             >
               {/* Image */}
               <div className="relative h-52 overflow-hidden">
