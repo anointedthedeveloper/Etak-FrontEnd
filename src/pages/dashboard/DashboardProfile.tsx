@@ -3,6 +3,7 @@ import { User, Mail, Phone, CheckCircle2, AlertCircle } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/FormFields'
 import { useAuth } from '../../context/AuthContext'
+import Avatar from '../../components/ui/Avatar'
 
 export default function DashboardProfile() {
   const { user, updateProfile } = useAuth()
@@ -13,7 +14,6 @@ export default function DashboardProfile() {
   })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [error, setError] = useState('')
-
   const set = (k: keyof typeof form, v: string) =>
     setForm(f => ({ ...f, [k]: v }))
 
@@ -34,8 +34,6 @@ export default function DashboardProfile() {
   const formatDate = (iso?: string) =>
     iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '—'
 
-  const initials = `${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase() || '?'
-
   return (
     <div className="p-4 sm:p-5 xl:p-7 space-y-6">
       <div>
@@ -46,8 +44,8 @@ export default function DashboardProfile() {
       <div className="grid xl:grid-cols-[300px_1fr] gap-6 max-w-4xl">
         {/* Avatar card */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col items-center text-center gap-4">
-          <div className="w-20 h-20 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-2xl font-bold">
-            {initials}
+          <div className="w-20 h-20 rounded-full overflow-hidden">
+            <Avatar avatarUrl={user?.avatarUrl} firstName={user?.firstName} lastName={user?.lastName} size={80} />
           </div>
           <div>
             <p className="font-semibold text-[#172033]">{user?.firstName} {user?.lastName}</p>

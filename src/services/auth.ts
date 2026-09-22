@@ -7,6 +7,7 @@ export interface User {
   email: string
   phone: string
   createdAt: string
+  avatarUrl?: string
 }
 
 // Map Supabase user metadata → our User shape
@@ -42,6 +43,7 @@ function mapUser(supabaseUser: import('@supabase/supabase-js').User): User {
     email: supabaseUser.email ?? '',
     phone: meta.phone ?? '',
     createdAt: supabaseUser.created_at,
+    avatarUrl: meta.avatar_url ?? meta.picture ?? undefined,
   }
 }
 

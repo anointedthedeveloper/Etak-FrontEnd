@@ -1,41 +1,42 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, lazy, Suspense } from 'react'
 import Layout from './components/layout/Layout'
 import DashboardLayout from './components/layout/DashboardLayout'
 import AdminLayout from './components/layout/AdminLayout'
 import { AuthProvider } from './context/AuthContext'
 import { CartProvider } from './context/CartContext'
-import Home from './pages/Home'
-import Services from './pages/Services'
-import ServiceDetail from './pages/ServiceDetail'
-import Destinations from './pages/Destinations'
-import Tours from './pages/Tours'
-import About from './pages/About'
-import Contact from './pages/Contact'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import ForgotPassword from './pages/ForgotPassword'
-import ResetPassword from './pages/ResetPassword'
-import AdminLogin from './pages/AdminLogin'
-import AdminDashboard from './pages/admin/AdminDashboard'
-import AdminEnquiries from './pages/admin/AdminEnquiries'
-import AdminUsers from './pages/admin/AdminUsers'
-import Dashboard from './pages/Dashboard'
-import DashboardInquiries from './pages/dashboard/DashboardInquiries'
-import DashboardBookings from './pages/dashboard/DashboardBookings'
-import DashboardClients from './pages/dashboard/DashboardClients'
-import DashboardTours from './pages/dashboard/DashboardTours'
-import DashboardReports from './pages/dashboard/DashboardReports'
-import DashboardSettings from './pages/dashboard/DashboardSettings'
-import DashboardProfile from './pages/dashboard/DashboardProfile'
-import PrivacyPolicy from './pages/PrivacyPolicy'
-import TermsOfService from './pages/TermsOfService'
 import { ProtectedRoute } from './routes/ProtectedRoute'
-import NotFound from './pages/NotFound'
-import AuthCallback from './pages/AuthCallback'
 import PageLoader from './components/ui/PageLoader'
 import { useRouteLoader } from './hooks/useRouteLoader'
 import { useScrollToTop } from './hooks/useScrollToTop'
+
+const Home               = lazy(() => import('./pages/Home'))
+const Services           = lazy(() => import('./pages/Services'))
+const ServiceDetail      = lazy(() => import('./pages/ServiceDetail'))
+const Destinations       = lazy(() => import('./pages/Destinations'))
+const Tours              = lazy(() => import('./pages/Tours'))
+const About              = lazy(() => import('./pages/About'))
+const Contact            = lazy(() => import('./pages/Contact'))
+const Login              = lazy(() => import('./pages/Login'))
+const Signup             = lazy(() => import('./pages/Signup'))
+const ForgotPassword     = lazy(() => import('./pages/ForgotPassword'))
+const ResetPassword      = lazy(() => import('./pages/ResetPassword'))
+const AdminLogin         = lazy(() => import('./pages/AdminLogin'))
+const AdminDashboard     = lazy(() => import('./pages/admin/AdminDashboard'))
+const AdminEnquiries     = lazy(() => import('./pages/admin/AdminEnquiries'))
+const AdminUsers         = lazy(() => import('./pages/admin/AdminUsers'))
+const Dashboard          = lazy(() => import('./pages/Dashboard'))
+const DashboardInquiries = lazy(() => import('./pages/dashboard/DashboardInquiries'))
+const DashboardBookings  = lazy(() => import('./pages/dashboard/DashboardBookings'))
+const DashboardClients   = lazy(() => import('./pages/dashboard/DashboardClients'))
+const DashboardTours     = lazy(() => import('./pages/dashboard/DashboardTours'))
+const DashboardReports   = lazy(() => import('./pages/dashboard/DashboardReports'))
+const DashboardSettings  = lazy(() => import('./pages/dashboard/DashboardSettings'))
+const DashboardProfile   = lazy(() => import('./pages/dashboard/DashboardProfile'))
+const PrivacyPolicy      = lazy(() => import('./pages/PrivacyPolicy'))
+const TermsOfService     = lazy(() => import('./pages/TermsOfService'))
+const NotFound           = lazy(() => import('./pages/NotFound'))
+const AuthCallback       = lazy(() => import('./pages/AuthCallback'))
 
 function AppRoutes() {
   const loading = useRouteLoader()
@@ -53,7 +54,7 @@ function AppRoutes() {
   }, [])
 
   return (
-    <>
+    <Suspense fallback={<PageLoader />}>
       {loading && <PageLoader />}
       <Routes>
         {/* ── Public site — Navbar + Footer ── */}
@@ -104,7 +105,7 @@ function AppRoutes() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </Suspense>
   )
 }
 

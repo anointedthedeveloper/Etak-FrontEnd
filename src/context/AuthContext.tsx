@@ -41,6 +41,7 @@ function mapSession(supabaseUser: import('@supabase/supabase-js').User): User {
     email: supabaseUser.email ?? '',
     phone: meta.phone ?? '',
     createdAt: supabaseUser.created_at,
+    avatarUrl: meta.avatar_url ?? meta.picture ?? undefined,
   }
 }
 

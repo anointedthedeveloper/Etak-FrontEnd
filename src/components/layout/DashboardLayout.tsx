@@ -5,6 +5,7 @@ import {
   Settings, LogOut, Plane, Bell, Search, Menu, X, ChevronDown,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
+import Avatar from '../ui/Avatar'
 
 const navItems = [
   { to: '/dashboard',           label: 'Dashboard',        icon: LayoutDashboard, end: true },
@@ -94,8 +95,6 @@ export default function DashboardLayout() {
     navigate('/')
   }
 
-  const initials = `${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase() || '?'
-
   return (
     <div className="flex h-screen bg-[#F7F7FC] overflow-hidden">
 
@@ -162,9 +161,7 @@ export default function DashboardLayout() {
                 onClick={() => setUserMenuOpen(v => !v)}
                 className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-xl hover:bg-gray-50 transition-colors"
               >
-                <div className="w-7 h-7 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-xs font-bold shrink-0">
-                  {initials}
-                </div>
+                <Avatar avatarUrl={user?.avatarUrl} firstName={user?.firstName} lastName={user?.lastName} size={28} />
                 <div className="hidden sm:block text-left">
                   <p className="text-xs font-semibold text-[#172033] leading-none max-w-[120px] truncate">
                     {user?.firstName} {user?.lastName}

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
+import Avatar from '../ui/Avatar'
 import { destinations } from '../../data/destinations'
 import { tours } from '../../data/tours'
 import { services } from '../../data/services'
@@ -326,9 +327,7 @@ export default function Navbar() {
                     onClick={() => setUserMenuOpen(v => !v)}
                     className="flex items-center gap-2 px-3 py-1.5 xl:px-4 xl:py-2 rounded-full text-sm xl:text-[15px] font-medium text-[#172033] hover:bg-gray-100 transition-colors border border-gray-200 hover:border-gray-300"
                   >
-                    <div className="w-7 h-7 xl:w-8 xl:h-8 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-xs font-bold">
-                      {user?.firstName?.[0]}{user?.lastName?.[0]}
-                    </div>
+                    <Avatar avatarUrl={user?.avatarUrl} firstName={user?.firstName} lastName={user?.lastName} size={28} />
                     <span className="max-w-[90px] xl:max-w-[110px] truncate">{user?.firstName}</span>
                     <ChevronDown size={13} className={`text-[#667085] transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
                   </button>
@@ -500,9 +499,7 @@ export default function Navbar() {
             {isAuthenticated ? (
               <>
                 <div className="flex items-center gap-3 p-3 bg-[#EAF8FD] rounded-2xl">
-                  <div className="w-9 h-9 rounded-full bg-[#08A9E0] flex items-center justify-center text-white text-sm font-bold shrink-0">
-                    {user?.firstName?.[0]}{user?.lastName?.[0]}
-                  </div>
+                  <Avatar avatarUrl={user?.avatarUrl} firstName={user?.firstName} lastName={user?.lastName} size={36} />
                   <div className="min-w-0">
                     <div className="text-sm font-semibold text-[#101B46] truncate">{user?.firstName} {user?.lastName}</div>
                     <div className="text-xs text-[#667085] truncate">{user?.email}</div>

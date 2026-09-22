@@ -4,6 +4,7 @@ import { AlertCircle, Plane, Globe, Shield, Headphones } from 'lucide-react'
 import { Input } from '../components/ui/FormFields'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
+import { supabase } from '../lib/supabase'
 
 export default function AdminLogin() {
   const navigate = useNavigate()
@@ -16,14 +17,21 @@ export default function AdminLogin() {
     setError('')
     setLoading(true)
 
-    // Simple admin authentication (in production, this should use a proper backend)
-    if (credentials.username === 'admin' && credentials.password === 'etakadmin2024') {
-      // Store admin session in localStorage
-      localStorage.setItem('isAdmin', 'true')
-      localStorage.setItem('adminTimestamp', Date.now().toString())
-      navigate('/admin/dashboard')
-    } else {
-      setError('Invalid credentials. Please try again.')
+    try {
+      const { data: profileId, error } = await supabase.rpc('admin_login', {
+        p_username: credentials.username,
+        p_password: credentials.password,
+      })
+
+      if (error || !profileId) {
+        setError('Invalid credentials. Please try again.')
+      } else {
+        localStorage.setItem('isAdmin', 'true')
+        localStorage.setItem('adminTimestamp', Date.now().toString())
+        navigate('/admin/dashboard')
+      }
+    } catch {
+      setError('Something went wrong. Please try again.')
     }
 
     setLoading(false)
