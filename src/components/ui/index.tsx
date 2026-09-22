@@ -46,7 +46,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
     new: { label: 'New', variant: 'orange' },
     in_progress: { label: 'In Progress', variant: 'blue' },
     responded: { label: 'Responded', variant: 'green' },
-    resolved: { label: 'Resolved', variant: 'green' },
+    resolved:   { label: 'Resolved',  variant: 'purple' },
     draft: { label: 'Draft', variant: 'gray' },
     submitted: { label: 'Submitted', variant: 'blue' },
     under_review: { label: 'Under Review', variant: 'orange' },

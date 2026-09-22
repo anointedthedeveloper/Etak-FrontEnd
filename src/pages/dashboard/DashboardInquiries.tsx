@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { FileSearch, ArrowRight, Filter, X, MessageSquare, ChevronRight } from 'lucide-react'
+import { FileSearch, ArrowRight, Filter, X, MessageSquare, ChevronRight, Send } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { StatusBadge } from '../../components/ui/index'
 import { useAuth } from '../../context/AuthContext'
@@ -26,7 +26,7 @@ interface Inquiry {
   responses?: Response[]
 }
 
-const statusFilters = ['all', 'new', 'in_progress', 'resolved']
+const statusFilters = ['all', 'new', 'in_progress', 'responded', 'resolved']
 
 function DetailLabel({ label, value }: { label: string; value?: unknown }) {
   if (!value) return null
@@ -113,6 +113,32 @@ export default function DashboardInquiries() {
       })
   }, [selected?.id])
 
+  const [replyText, setReplyText] = useState('')
+  const [replying, setReplying] = useState(false)
+  const bottomRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [selected?.responses?.length])
+
+  const handleReply = async () => {
+    if (!selected || !replyText.trim()) return
+    setReplying(true)
+    await supabase.from('inquiry_responses').insert({
+      inquiry_id: selected.id,
+      message: replyText,
+      is_admin: false,
+    })
+    setReplyText('')
+    const { data } = await supabase
+      .from('inquiry_responses')
+      .select('id, message, created_at, is_admin')
+      .eq('inquiry_id', selected.id)
+      .order('created_at', { ascending: true })
+    setSelected(s => s ? { ...s, responses: data ?? [] } : s)
+    setReplying(false)
+  }
+
   const filtered = filter === 'all' ? inquiries : inquiries.filter(i => i.status === filter)
   const formatDate = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
   const shortId = (uuid: string) => `ETK-${uuid.slice(0, 6).toUpperCase()}`
@@ -142,7 +168,7 @@ export default function DashboardInquiries() {
         ))}
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-6 lg:min-h-[calc(100vh-260px)]">
         {/* Table */}
         <div className={`bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-all ${selected ? 'lg:flex-1 min-w-0' : 'w-full'}`}>
           {loading ? (
@@ -198,12 +224,17 @@ export default function DashboardInquiries() {
 
         {/* Detail panel */}
         {selected && (
-          <div className="w-full lg:w-80 xl:w-96 shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden lg:max-h-[calc(100vh-220px)]">
+          <div className="w-full lg:w-96 xl:w-[440px] shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden lg:sticky lg:top-0 lg:max-h-[calc(100vh-180px)]">
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <div>
                 <p className="font-mono text-xs text-[#08A9E0] font-semibold">{shortId(selected.id)}</p>
                 <p className="font-semibold text-[#101B46] capitalize">{selected.service ?? 'General'} Inquiry</p>
+                {selected.phone && (
+                  <p className="text-xs text-[#667085] mt-0.5 flex items-center gap-1">
+                    <span>📞</span> {selected.phone}
+                  </p>
+                )}
               </div>
               <button onClick={() => setSelected(null)} className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-[#667085]">
                 <X size={16} />
@@ -252,30 +283,46 @@ export default function DashboardInquiries() {
                 ) : (
                   <div className="flex flex-col gap-3">
                     {selected.responses.map(r => (
-                      <div key={r.id} className={`rounded-xl p-3 text-sm ${r.is_admin ? 'bg-[#EAF8FD] border border-[#08A9E0]/20' : 'bg-gray-50'}`}>
-                        <div className="flex items-center justify-between mb-1">
-                          <span className={`text-xs font-semibold ${r.is_admin ? 'text-[#08A9E0]' : 'text-[#101B46]'}`}>
+                      <div key={r.id} className={`flex ${r.is_admin ? 'justify-start' : 'justify-end'}`}>
+                        <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${r.is_admin ? 'bg-[#EAF8FD] border border-[#08A9E0]/20' : 'bg-[#101B46] text-white'}`}>
+                          <p className={`text-xs font-semibold mb-1 ${r.is_admin ? 'text-[#08A9E0]' : 'text-blue-200'}`}>
                             {r.is_admin ? 'Etak Travels' : 'You'}
-                          </span>
-                          <span className="text-xs text-[#667085]">{formatDate(r.created_at)}</span>
+                          </p>
+                          <p className={`leading-relaxed ${r.is_admin ? 'text-[#101B46]' : 'text-white'}`}>{r.message}</p>
+                          <p className={`text-[10px] mt-1 ${r.is_admin ? 'text-[#667085]' : 'text-blue-200'}`}>{formatDate(r.created_at)}</p>
                         </div>
-                        <p className="text-[#101B46] leading-relaxed">{r.message}</p>
                       </div>
                     ))}
+                    <div ref={bottomRef} />
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Footer CTA */}
-            <div className="px-5 py-4 border-t border-gray-100">
-              <p className="text-xs text-[#667085] text-center">
-                Need to follow up?{' '}
-                <a href="mailto:info@etaktravels.com" className="text-[#08A9E0] hover:underline">Email us</a>
-                {' '}or call{' '}
-                <a href="tel:+2348032062242" className="text-[#08A9E0] hover:underline">+234 803 206 2242</a>
-              </p>
-            </div>
+            {/* Reply box */}
+            {selected.status !== 'resolved' && (
+              <div className="px-5 py-4 border-t border-gray-100">
+                <div className="flex gap-2">
+                  <textarea
+                    rows={2}
+                    placeholder="Reply to Etak Travels..."
+                    value={replyText}
+                    onChange={e => setReplyText(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleReply() } }}
+                    className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
+                  />
+                  <Button
+                    onClick={handleReply}
+                    variant="primary"
+                    disabled={!replyText.trim()}
+                    loading={replying}
+                    className="self-end px-3"
+                  >
+                    <Send size={15} />
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

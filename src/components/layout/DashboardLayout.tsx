@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, FileText, Bookmark, Users, Map, BarChart2,
@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import Avatar from '../ui/Avatar'
+import { supabase } from '../../lib/supabase'
 
 const navItems = [
   { to: '/dashboard',           label: 'Dashboard',        icon: LayoutDashboard, end: true },
@@ -14,7 +15,8 @@ const navItems = [
   { to: '/dashboard/clients',   label: 'Clients',          icon: Users },
   { to: '/dashboard/tours',     label: 'Tours & Packages', icon: Map },
   { to: '/dashboard/reports',   label: 'Reports',          icon: BarChart2 },
-  { to: '/dashboard/settings',  label: 'Settings',         icon: Settings },
+  { to: '/dashboard/settings',       label: 'Settings',         icon: Settings },
+  { to: '/dashboard/notifications',   label: 'Notifications',    icon: Bell },
 ]
 
 function SidebarContent({
@@ -89,6 +91,24 @@ export default function DashboardLayout() {
   const navigate = useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [unread, setUnread] = useState(0)
+
+  useEffect(() => {
+    if (!user) return
+    supabase
+      .from('inquiries')
+      .select('id')
+      .eq('user_id', user.id)
+      .then(({ data: inqs }) => {
+        if (!inqs?.length) return
+        supabase
+          .from('inquiry_responses')
+          .select('id', { count: 'exact', head: true })
+          .in('inquiry_id', inqs.map(i => i.id))
+          .eq('is_admin', true)
+          .then(({ count }) => setUnread(count ?? 0))
+      })
+  }, [user])
 
   const handleLogout = async () => {
     await logout()
@@ -150,10 +170,13 @@ export default function DashboardLayout() {
 
           <div className="ml-auto flex items-center gap-2">
             {/* Bell */}
-            <button className="relative p-2 rounded-xl hover:bg-gray-50 transition-colors text-[#667085]">
+            <Link
+              to="/dashboard/notifications"
+              className="relative p-2 rounded-xl hover:bg-gray-50 transition-colors text-[#667085]"
+            >
               <Bell size={18} />
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-500" />
-            </button>
+              {!!unread && <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-500" />}
+            </Link>
 
             {/* User */}
             <div className="relative">

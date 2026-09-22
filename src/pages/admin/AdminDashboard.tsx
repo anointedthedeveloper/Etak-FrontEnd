@@ -330,14 +330,16 @@ export default function AdminDashboard() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium text-[#101B46] text-sm truncate">{enquiry.name}</span>
+                  <span className="font-medium text-[#101B46] text-sm truncate">
+                    {enquiry.name === 'Guest' ? enquiry.email?.split('@')[0] : enquiry.name}
+                  </span>
                   <span className="text-xs text-[#667085] capitalize shrink-0">· {enquiry.service ?? 'General'}</span>
                 </div>
                 <p className="text-xs text-[#667085] truncate mt-0.5">{enquiry.email}</p>
               </div>
               <div className="flex items-center gap-3 shrink-0">
                 <span className="text-xs text-[#667085] hidden sm:block">{timeAgo(enquiry.created_at)}</span>
-                <StatusBadge status={enquiry.status === 'new' ? 'new' : 'responded'} />
+                <StatusBadge status={enquiry.status} />
               </div>
             </Link>
           ))}

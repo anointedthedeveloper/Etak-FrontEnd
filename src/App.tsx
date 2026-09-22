@@ -25,7 +25,9 @@ const AdminLogin         = lazy(() => import('./pages/AdminLogin'))
 const AdminDashboard     = lazy(() => import('./pages/admin/AdminDashboard'))
 const AdminEnquiries     = lazy(() => import('./pages/admin/AdminEnquiries'))
 const AdminUsers         = lazy(() => import('./pages/admin/AdminUsers'))
+const AdminUserDetail    = lazy(() => import('./pages/admin/AdminUserDetail'))
 const AdminSettings      = lazy(() => import('./pages/admin/AdminSettings'))
+const AdminNotifications = lazy(() => import('./pages/admin/AdminNotifications'))
 const Dashboard          = lazy(() => import('./pages/Dashboard'))
 const DashboardInquiries = lazy(() => import('./pages/dashboard/DashboardInquiries'))
 const DashboardBookings  = lazy(() => import('./pages/dashboard/DashboardBookings'))
@@ -33,7 +35,8 @@ const DashboardClients   = lazy(() => import('./pages/dashboard/DashboardClients
 const DashboardTours     = lazy(() => import('./pages/dashboard/DashboardTours'))
 const DashboardReports   = lazy(() => import('./pages/dashboard/DashboardReports'))
 const DashboardSettings  = lazy(() => import('./pages/dashboard/DashboardSettings'))
-const DashboardProfile   = lazy(() => import('./pages/dashboard/DashboardProfile'))
+const DashboardProfile        = lazy(() => import('./pages/dashboard/DashboardProfile'))
+const DashboardNotifications  = lazy(() => import('./pages/dashboard/DashboardNotifications'))
 const PrivacyPolicy      = lazy(() => import('./pages/PrivacyPolicy'))
 const TermsOfService     = lazy(() => import('./pages/TermsOfService'))
 const NotFound           = lazy(() => import('./pages/NotFound'))
@@ -74,8 +77,9 @@ function AppRoutes() {
           <Route path="/dashboard/clients"     element={<DashboardClients />} />
           <Route path="/dashboard/tours"       element={<DashboardTours />} />
           <Route path="/dashboard/reports"     element={<DashboardReports />} />
-          <Route path="/dashboard/settings"    element={<DashboardSettings />} />
-          <Route path="/dashboard/profile"     element={<DashboardProfile />} />
+          <Route path="/dashboard/settings"       element={<DashboardSettings />} />
+          <Route path="/dashboard/profile"         element={<DashboardProfile />} />
+          <Route path="/dashboard/notifications"   element={<DashboardNotifications />} />
         </Route>
 
         {/* ── Auth — standalone ── */}
@@ -90,8 +94,10 @@ function AppRoutes() {
         <Route element={<AdminLayout />}>
           <Route path="/admin/dashboard"  element={<AdminDashboard />} />
           <Route path="/admin/enquiries"  element={<AdminEnquiries />} />
-          <Route path="/admin/users"      element={<AdminUsers />} />
-          <Route path="/admin/settings"   element={<AdminSettings />} />
+          <Route path="/admin/users"          element={<AdminUsers />} />
+          <Route path="/admin/users/:id"       element={<AdminUserDetail />} />
+          <Route path="/admin/settings"       element={<AdminSettings />} />
+          <Route path="/admin/notifications"   element={<AdminNotifications />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

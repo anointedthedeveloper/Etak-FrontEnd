@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Users, Search, Mail, Phone, Calendar, UserCheck } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Users, Search, Mail, Phone, Calendar, UserCheck, ChevronRight } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import Avatar from '../../components/ui/Avatar'
 
@@ -15,6 +16,7 @@ interface UserRow {
 }
 
 export default function AdminUsers() {
+  const navigate = useNavigate()
   const [users, setUsers] = useState<UserRow[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -22,7 +24,7 @@ export default function AdminUsers() {
   useEffect(() => {
     async function load() {
       const { data, error } = await supabase.rpc('get_users_for_admin')
-      if (error) console.error('get_users_for_admin error:', error)
+      if (error) console.error('AdminUsers error:', error)
       setUsers(data ?? [])
       setLoading(false)
     }
@@ -30,9 +32,9 @@ export default function AdminUsers() {
   }, [])
 
   const filtered = users.filter(u => {
-    const name = `${u.first_name} ${u.last_name}`.toLowerCase()
+    const name = `${u.first_name ?? ''} ${u.last_name ?? ''}`.toLowerCase()
     return name.includes(searchTerm.toLowerCase()) ||
-      u.email.toLowerCase().includes(searchTerm.toLowerCase())
+      (u.email ?? '').toLowerCase().includes(searchTerm.toLowerCase())
   })
 
   return (
@@ -84,6 +86,7 @@ export default function AdminUsers() {
                 <th className="px-6 py-3 text-left text-xs font-semibold text-[#667085] uppercase tracking-wider">Contact</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold text-[#667085] uppercase tracking-wider">Role</th>
                 <th className="px-6 py-3 text-left text-xs font-semibold text-[#667085] uppercase tracking-wider">Joined</th>
+                <th className="px-4 py-3" />
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -97,7 +100,7 @@ export default function AdminUsers() {
                   </td>
                 </tr>
               ) : filtered.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={user.id} onClick={() => navigate(`/admin/users/${user.id}`)} className="hover:bg-gray-50 transition-colors cursor-pointer">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <Avatar
@@ -107,7 +110,11 @@ export default function AdminUsers() {
                         size={40}
                       />
                       <div>
-                        <p className="font-medium text-[#101B46]">{user.first_name} {user.last_name}</p>
+                        <p className="font-medium text-[#101B46]">
+                          {user.first_name || user.last_name
+                            ? `${user.first_name ?? ''} ${user.last_name ?? ''}`.trim()
+                            : user.email?.split('@')[0] ?? '—'}
+                        </p>
                         <p className="text-xs text-[#667085]">{user.email}</p>
                       </div>
                     </div>
@@ -124,9 +131,7 @@ export default function AdminUsers() {
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
-                      user.role === 'admin' ? 'bg-[#EAF8FD] text-[#087EAF]' : 'bg-gray-100 text-[#667085]'
-                    }`}>
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize bg-gray-100 text-[#667085]">
                       {user.role || 'user'}
                     </span>
                   </td>
@@ -135,6 +140,9 @@ export default function AdminUsers() {
                       <Calendar size={14} />
                       {new Date(user.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                     </div>
+                  </td>
+                  <td className="px-4 py-4">
+                    <ChevronRight size={14} className="text-gray-300" />
                   </td>
                 </tr>
               ))}

@@ -1,9 +1,16 @@
-import { useEffect, useState } from 'react'
-import { MessageSquare, Reply, Search } from 'lucide-react'
+import { useEffect, useState, useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { MessageSquare, Reply, Search, CheckCircle, Clock, Send, Trash2, Phone, Mail } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
-import { Textarea } from '../../components/ui/FormFields'
 import { StatusBadge } from '../../components/ui/index'
 import { supabase } from '../../lib/supabase'
+
+interface Response {
+  id: string
+  message: string
+  created_at: string
+  is_admin: boolean
+}
 
 interface Enquiry {
   id: string
@@ -14,42 +21,59 @@ interface Enquiry {
   message: string
   status: string
   created_at: string
-  latestResponse?: string
+  responses?: Response[]
 }
 
 export default function AdminEnquiries() {
+  const [searchParams] = useSearchParams()
   const [enquiries, setEnquiries] = useState<Enquiry[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null)
+  const [selected, setSelected] = useState<Enquiry | null>(null)
   const [responseText, setResponseText] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [filter, setFilter] = useState<'all' | 'new' | 'responded'>('all')
+  const [resolving, setResolving] = useState(false)
+  const [clearing, setClearing] = useState(false)
+  const [filter, setFilter] = useState<'all' | 'new' | 'responded' | 'resolved'>('all')
   const [searchTerm, setSearchTerm] = useState('')
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   async function load() {
     const { data: inqs } = await supabase
       .from('inquiries')
       .select('id, name, email, phone, service, message, status, created_at')
       .order('created_at', { ascending: false })
-
-    if (!inqs) { setLoading(false); return }
-
-    // Fetch latest response for each inquiry
-    const { data: responses } = await supabase
-      .from('inquiry_responses')
-      .select('inquiry_id, message, created_at')
-      .order('created_at', { ascending: false })
-
-    const latestByInquiry: Record<string, string> = {}
-    for (const r of responses ?? []) {
-      if (!latestByInquiry[r.inquiry_id]) latestByInquiry[r.inquiry_id] = r.message
-    }
-
-    setEnquiries(inqs.map(i => ({ ...i, latestResponse: latestByInquiry[i.id] })))
+    setEnquiries(inqs ?? [])
     setLoading(false)
   }
 
   useEffect(() => { load() }, [])
+
+  // Auto-select from ?id= param
+  useEffect(() => {
+    const id = searchParams.get('id')
+    if (id && enquiries.length > 0 && !selected) {
+      const found = enquiries.find(e => e.id === id)
+      if (found) { setSelected(found); setResponseText('') }
+    }
+  }, [searchParams, enquiries])
+
+  // Load responses when enquiry selected
+  useEffect(() => {
+    if (!selected) return
+    supabase
+      .from('inquiry_responses')
+      .select('id, message, created_at, is_admin')
+      .eq('inquiry_id', selected.id)
+      .order('created_at', { ascending: true })
+      .then(({ data }) => {
+        if (data) setSelected(s => s ? { ...s, responses: data } : s)
+      })
+  }, [selected?.id])
+
+  // Scroll to bottom of chat when responses load
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [selected?.responses?.length])
 
   const filtered = enquiries.filter(e => {
     const matchesFilter = filter === 'all' || e.status === filter
@@ -61,22 +85,47 @@ export default function AdminEnquiries() {
   })
 
   const handleRespond = async () => {
-    if (!selectedEnquiry || !responseText.trim()) return
+    if (!selected || !responseText.trim()) return
     setSubmitting(true)
-
     await supabase.from('inquiry_responses').insert({
-      inquiry_id: selectedEnquiry.id,
+      inquiry_id: selected.id,
       message: responseText,
       is_admin: true,
     })
-
-    await supabase.from('inquiries').update({ status: 'responded' }).eq('id', selectedEnquiry.id)
-
+    await supabase.from('inquiries').update({ status: 'responded' }).eq('id', selected.id)
     setResponseText('')
-    setSelectedEnquiry(null)
-    await load()
+    // Reload responses
+    const { data } = await supabase
+      .from('inquiry_responses')
+      .select('id, message, created_at, is_admin')
+      .eq('inquiry_id', selected.id)
+      .order('created_at', { ascending: true })
+    setSelected(s => s ? { ...s, status: 'responded', responses: data ?? [] } : s)
+    setEnquiries(prev => prev.map(e => e.id === selected.id ? { ...e, status: 'responded' } : e))
     setSubmitting(false)
   }
+
+  const handleResolve = async () => {
+    if (!selected) return
+    setResolving(true)
+    await supabase.from('inquiries').update({ status: 'resolved' }).eq('id', selected.id)
+    setSelected(s => s ? { ...s, status: 'resolved' } : s)
+    setEnquiries(prev => prev.map(e => e.id === selected.id ? { ...e, status: 'resolved' } : e))
+    setResolving(false)
+  }
+
+  const handleClear = async () => {
+    if (!selected) return
+    if (!window.confirm('Delete this enquiry permanently? This cannot be undone.')) return
+    setClearing(true)
+    await supabase.from('inquiry_responses').delete().eq('inquiry_id', selected.id)
+    await supabase.from('inquiries').delete().eq('id', selected.id)
+    setEnquiries(prev => prev.filter(e => e.id !== selected.id))
+    setSelected(null)
+    setClearing(false)
+  }
+
+  const formatDate = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 
   return (
     <div className="space-y-5 sm:space-y-6 animate-fade-up">
@@ -93,23 +142,24 @@ export default function AdminEnquiries() {
         </div>
         <select
           value={filter}
-          onChange={(e) => setFilter(e.target.value as 'all' | 'new' | 'responded')}
+          onChange={(e) => setFilter(e.target.value as typeof filter)}
           className="px-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
         >
           <option value="all">All Enquiries</option>
           <option value="new">Pending</option>
           <option value="responded">Responded</option>
+          <option value="resolved">Resolved</option>
         </select>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-5 lg:gap-6">
+      <div className="grid lg:grid-cols-2 gap-5 lg:gap-6 lg:h-[calc(100vh-220px)]">
         {/* List */}
-        <div className="premium-card rounded-2xl overflow-hidden">
-          <div className="p-4 border-b border-[#08A9E0]/10 flex items-center justify-between">
+        <div className="premium-card rounded-2xl overflow-hidden flex flex-col">
+          <div className="p-4 border-b border-[#08A9E0]/10 flex items-center justify-between shrink-0">
             <h3 className="font-semibold text-[#101B46]">All Enquiries</h3>
             <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{filtered.length}</span>
           </div>
-          <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
+          <div className="divide-y divide-gray-100 flex-1 overflow-y-auto">
             {loading ? (
               <p className="p-8 text-center text-sm text-[#667085]">Loading...</p>
             ) : filtered.length === 0 ? (
@@ -120,19 +170,19 @@ export default function AdminEnquiries() {
             ) : filtered.map((enquiry) => (
               <div
                 key={enquiry.id}
-                onClick={() => { setSelectedEnquiry(enquiry); setResponseText('') }}
+                onClick={() => { setSelected(enquiry); setResponseText('') }}
                 className={`p-4 cursor-pointer transition-all ${
-                  selectedEnquiry?.id === enquiry.id ? 'bg-[#EAF8FD] border-l-4 border-[#08A9E0]' : 'hover:bg-[#F8FCFE]'
+                  selected?.id === enquiry.id ? 'bg-[#EAF8FD] border-l-4 border-[#08A9E0]' : 'hover:bg-[#F8FCFE]'
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-medium text-[#101B46] truncate">{enquiry.name}</span>
-                      <span className="shrink-0"><StatusBadge status={enquiry.status === 'new' ? 'new' : 'responded'} /></span>
+                      <span className="shrink-0"><StatusBadge status={enquiry.status} /></span>
                     </div>
                     <p className="text-sm text-[#667085] truncate">{enquiry.service ?? 'General'}</p>
-                    <p className="text-xs text-[#667085] mt-1">{new Date(enquiry.created_at).toLocaleDateString()}</p>
+                    <p className="text-xs text-[#667085] mt-1">{formatDate(enquiry.created_at)}</p>
                   </div>
                 </div>
               </div>
@@ -140,61 +190,112 @@ export default function AdminEnquiries() {
           </div>
         </div>
 
-        {/* Detail */}
-        <div className="premium-card rounded-2xl overflow-hidden min-h-[420px]">
-          {selectedEnquiry ? (
-            <div className="h-full flex flex-col">
-              <div className="p-4 border-b border-[#08A9E0]/10 bg-[#F8FCFE]">
-                <h3 className="font-semibold text-[#101B46]">Enquiry Details</h3>
-              </div>
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Detail / Chat */}
+        <div className="premium-card rounded-2xl overflow-hidden flex flex-col min-h-[500px]">
+          {selected ? (
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="p-4 border-b border-[#08A9E0]/10 bg-[#F8FCFE] flex items-start justify-between gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-[#667085] uppercase tracking-wide">From</label>
-                  <p className="text-sm font-medium text-[#101B46] mt-1">{selectedEnquiry.name}</p>
-                  <p className="text-sm text-[#667085]">{selectedEnquiry.email}</p>
-                  {selectedEnquiry.phone && <p className="text-sm text-[#667085]">{selectedEnquiry.phone}</p>}
-                </div>
-                <div>
-                  <label className="text-xs font-semibold text-[#667085] uppercase tracking-wide">Service</label>
-                  <p className="text-sm font-medium text-[#101B46] mt-1">{selectedEnquiry.service ?? 'General'}</p>
-                </div>
-                <div>
-                  <label className="text-xs font-semibold text-[#667085] uppercase tracking-wide">Message</label>
-                  <p className="text-sm text-[#667085] mt-1 leading-relaxed">{selectedEnquiry.message}</p>
-                </div>
-                {selectedEnquiry.latestResponse && (
-                  <div className="bg-green-50 rounded-lg p-4 border border-green-200">
-                    <label className="text-xs font-semibold text-green-700 uppercase tracking-wide">Last Response</label>
-                    <p className="text-sm text-green-800 mt-1 leading-relaxed">{selectedEnquiry.latestResponse}</p>
+                  <h3 className="font-semibold text-[#101B46]">{selected.name}</h3>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-0.5">
+                    <span className="flex items-center gap-1 text-xs text-[#667085]"><Mail size={10} />{selected.email}</span>
+                    {selected.phone && <span className="flex items-center gap-1 text-xs text-[#667085]"><Phone size={10} />{selected.phone}</span>}
                   </div>
-                )}
+                  <p className="text-xs text-[#667085] mt-0.5">Service: <span className="font-medium capitalize">{selected.service ?? 'General'}</span></p>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <StatusBadge status={selected.status} />
+                  {selected.status !== 'resolved' && (
+                    <button
+                      onClick={handleResolve}
+                      disabled={resolving}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-50 text-green-700 text-xs font-semibold hover:bg-green-100 transition-colors disabled:opacity-50"
+                    >
+                      <CheckCircle size={13} />
+                      {resolving ? 'Resolving...' : 'Resolve'}
+                    </button>
+                  )}
+                  <button
+                    onClick={handleClear}
+                    disabled={clearing}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 text-xs font-semibold hover:bg-red-100 transition-colors disabled:opacity-50"
+                  >
+                    <Trash2 size={13} />
+                    {clearing ? 'Deleting...' : 'Delete'}
+                  </button>
+                </div>
               </div>
-              <div className="p-4 border-t border-[#08A9E0]/10 bg-[#F8FCFE]/60">
-                <label className="text-xs font-semibold text-[#667085] uppercase tracking-wide mb-2 block">Your Response</label>
-                <Textarea
-                  placeholder="Type your response here..."
-                  value={responseText}
-                  onChange={(e) => setResponseText(e.target.value)}
-                  rows={4}
-                />
-                <Button
-                  onClick={handleRespond}
-                  variant="primary"
-                  size="lg"
-                  className="w-full mt-3"
-                  disabled={!responseText.trim()}
-                  loading={submitting}
-                >
-                  <Reply size={16} className="mr-2" />
-                  Send Response
-                </Button>
+
+              {/* Original message */}
+              <div className="px-4 pt-4 pb-2">
+                <div className="bg-gray-50 rounded-xl p-3">
+                  <p className="text-xs font-semibold text-[#667085] uppercase tracking-wide mb-1 flex items-center gap-1">
+                    <Clock size={11} /> Original Message · {formatDate(selected.created_at)}
+                  </p>
+                  <p className="text-sm text-[#101B46] leading-relaxed">{selected.message}</p>
+                </div>
               </div>
+
+              {/* Chat thread */}
+              <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 min-h-0">
+                {!selected.responses ? (
+                  <div className="flex justify-center py-6">
+                    <div className="h-5 w-5 rounded-full border-2 border-gray-100 border-t-[#08A9E0] animate-spin" />
+                  </div>
+                ) : selected.responses.length === 0 ? (
+                  <p className="text-xs text-center text-[#667085] py-4">No replies yet.</p>
+                ) : selected.responses.map(r => (
+                  <div key={r.id} className={`flex ${r.is_admin ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-[80%] rounded-xl px-3 py-2 text-sm ${r.is_admin ? 'bg-[#08A9E0] text-white' : 'bg-gray-100 text-[#101B46]'}`}>
+                      <p className="leading-relaxed">{r.message}</p>
+                      <p className={`text-[10px] mt-1 ${r.is_admin ? 'text-blue-100' : 'text-[#667085]'}`}>{formatDate(r.created_at)}</p>
+                    </div>
+                  </div>
+                ))}
+                <div ref={bottomRef} />
+              </div>
+
+              {/* Reply box */}
+              {selected.status !== 'resolved' && (
+                <div className="p-4 border-t border-[#08A9E0]/10 bg-[#F8FCFE]/60">
+                  <div className="flex gap-2">
+                    <textarea
+                      rows={2}
+                      placeholder="Type your response..."
+                      value={responseText}
+                      onChange={e => setResponseText(e.target.value)}
+                      onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleRespond() } }}
+                      className="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
+                    />
+                    <Button
+                      onClick={handleRespond}
+                      variant="primary"
+                      disabled={!responseText.trim()}
+                      loading={submitting}
+                      className="self-end px-3"
+                    >
+                      <Send size={15} />
+                    </Button>
+                  </div>
+                  <p className="text-xs text-[#667085] mt-1.5 flex items-center gap-1">
+                    <Reply size={11} /> Press Enter to send, Shift+Enter for new line
+                  </p>
+                </div>
+              )}
+              {selected.status === 'resolved' && (
+                <div className="p-4 border-t border-[#08A9E0]/10 text-center">
+                  <p className="text-xs text-green-600 flex items-center justify-center gap-1.5">
+                    <CheckCircle size={13} /> This enquiry has been resolved
+                  </p>
+                </div>
+              )}
             </div>
           ) : (
             <div className="h-full flex items-center justify-center p-8 text-center">
               <div>
                 <MessageSquare size={48} className="mx-auto mb-3 text-gray-300" />
-                <p className="text-[#667085]">Select an enquiry to view details</p>
+                <p className="text-[#667085]">Select an enquiry to view the conversation</p>
               </div>
             </div>
           )}

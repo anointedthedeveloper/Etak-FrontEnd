@@ -7,7 +7,7 @@ const pageTitles: Record<string, { title: string; sub: string }> = {
   '/admin/dashboard': { title: 'Dashboard', sub: 'Overview of platform activity' },
   '/admin/enquiries': { title: 'Enquiries', sub: 'Respond to customer inquiries' },
   '/admin/users':     { title: 'Users',     sub: 'View all registered users' },
-  '/admin/settings':  { title: 'Settings',  sub: 'Manage your admin account' },
+  '/admin/notifications': { title: 'Notifications', sub: 'New enquiries and client replies' },
 }
 
 function NavLinks({ pathname, pending, onNavigate }: { pathname: string; pending: number; onNavigate?: () => void }) {
@@ -15,7 +15,8 @@ function NavLinks({ pathname, pending, onNavigate }: { pathname: string; pending
     { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/admin/enquiries', label: 'Enquiries', icon: MessageSquare, badge: pending },
     { to: '/admin/users',     label: 'Users',     icon: Users },
-    { to: '/admin/settings',  label: 'Settings',  icon: Settings },
+    { to: '/admin/settings',       label: 'Settings',       icon: Settings },
+    { to: '/admin/notifications',   label: 'Notifications',  icon: Bell, badge: pending },
   ]
 
   return (
@@ -80,11 +81,14 @@ export default function AdminLayout() {
   }, [navigate])
 
   useEffect(() => {
-    supabase
-      .from('inquiries')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'new')
-      .then(({ count }) => setPending(count ?? 0))
+    async function loadPending() {
+      const [{ count: newCount }, { count: replyCount }] = await Promise.all([
+        supabase.from('inquiries').select('*', { count: 'exact', head: true }).eq('status', 'new'),
+        supabase.from('inquiry_responses').select('*', { count: 'exact', head: true }).eq('is_admin', false),
+      ])
+      setPending((newCount ?? 0) + (replyCount ?? 0))
+    }
+    loadPending()
   }, [location.pathname])
 
   const handleLogout = () => {
@@ -221,9 +225,9 @@ export default function AdminLayout() {
               />
             </form>
             <Link
-              to="/admin/enquiries"
+              to="/admin/notifications"
               className="relative p-2.5 rounded-xl hover:bg-gray-50 transition-colors text-[#667085] shrink-0"
-              title={pending ? `${pending} pending enquir${pending === 1 ? 'y' : 'ies'}` : 'No pending enquiries'}
+              title={pending ? `${pending} pending` : 'Notifications'}
             >
               <Bell size={18} />
               {!!pending && (
