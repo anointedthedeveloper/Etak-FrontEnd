@@ -142,9 +142,9 @@ export default function DashboardInquiries() {
         ))}
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex flex-col lg:flex-row gap-6">
         {/* Table */}
-        <div className={`bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-all ${selected ? 'flex-1 min-w-0' : 'w-full'}`}>
+        <div className={`bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-all ${selected ? 'lg:flex-1 min-w-0' : 'w-full'}`}>
           {loading ? (
             <div className="flex items-center justify-center py-20">
               <div className="h-8 w-8 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
@@ -198,7 +198,7 @@ export default function DashboardInquiries() {
 
         {/* Detail panel */}
         {selected && (
-          <div className="w-80 xl:w-96 shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden">
+          <div className="w-full lg:w-80 xl:w-96 shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden lg:max-h-[calc(100vh-220px)]">
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <div>
