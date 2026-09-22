@@ -128,14 +128,26 @@ export default function DashboardLayout() {
           </button>
 
           {/* Search */}
-          <div className="flex-1 max-w-xs sm:max-w-sm relative">
+          <form
+            className="flex-1 max-w-xs sm:max-w-sm relative"
+            onSubmit={e => {
+              e.preventDefault()
+              const q = (e.currentTarget.elements.namedItem('q') as HTMLInputElement).value.trim()
+              if (!q) return
+              const lower = q.toLowerCase()
+              if (['client','user','contact'].some(k => lower.includes(k))) navigate(`/dashboard/clients?q=${encodeURIComponent(q)}`)
+              else if (['booking','flight','hotel'].some(k => lower.includes(k))) navigate(`/dashboard/bookings?q=${encodeURIComponent(q)}`)
+              else navigate(`/dashboard/inquiries?q=${encodeURIComponent(q)}`)
+            }}
+          >
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#667085]" />
             <input
+              name="q"
               type="text"
               placeholder="Search inquiries, clients, or bookings..."
               className="w-full pl-8 pr-3 py-2 rounded-xl bg-[#F4FBFE] border border-[#08A9E0]/10 text-sm text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/35 focus:border-[#08A9E0]/30"
             />
-          </div>
+          </form>
 
           <div className="ml-auto flex items-center gap-2">
             {/* Bell */}

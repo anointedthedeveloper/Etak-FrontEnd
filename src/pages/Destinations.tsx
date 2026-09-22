@@ -164,7 +164,7 @@ export default function Destinations() {
 
               {/* CTA card — fills the empty slot(s) in the last row when showing all destinations */}
               {!query && category === 'all' && (
-                <div className="sm:col-span-2 lg:col-span-1 xl:col-span-2 relative rounded-2xl overflow-hidden min-h-[220px] flex">
+                <div className="sm:col-span-2 lg:col-span-2 xl:col-span-2 relative rounded-2xl overflow-hidden min-h-[220px] flex">
                   <img
                     src="/images/sections/dash-cta-travel.jpg"
                     alt=""

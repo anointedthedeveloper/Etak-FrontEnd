@@ -1,5 +1,5 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Users, MessageSquare, LogOut, ShieldCheck, Menu, X } from 'lucide-react'
+import { LayoutDashboard, Users, MessageSquare, LogOut, ShieldCheck, Menu, X, Search } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export default function AdminLayout() {
@@ -85,14 +85,33 @@ export default function AdminLayout() {
 
       {/* Mobile header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#101B46] to-[#087EAF] border-b border-white/10">
-        <div className="flex items-center justify-between h-16 px-4">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between h-16 px-4 gap-3">
+          <div className="flex items-center gap-2 shrink-0">
             <ShieldCheck size={24} className="text-[#08A9E0]" />
             <span className="font-display font-bold text-white">Admin Panel</span>
           </div>
+          <form
+            className="flex-1 relative"
+            onSubmit={e => {
+              e.preventDefault()
+              const q = (e.currentTarget.elements.namedItem('q') as HTMLInputElement).value.trim()
+              if (!q) return
+              const lower = q.toLowerCase()
+              if (['user','email','name'].some(k => lower.includes(k))) navigate(`/admin/users?q=${encodeURIComponent(q)}`)
+              else navigate(`/admin/enquiries?q=${encodeURIComponent(q)}`)
+            }}
+          >
+            <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-white/50" />
+            <input
+              name="q"
+              type="text"
+              placeholder="Search..."
+              className="w-full pl-8 pr-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-sm text-white placeholder-white/50 focus:outline-none focus:ring-1 focus:ring-white/40"
+            />
+          </form>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 rounded-lg text-white hover:bg-white/10"
+            className="p-2 rounded-lg text-white hover:bg-white/10 shrink-0"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -144,6 +163,28 @@ export default function AdminLayout() {
 
       {/* Main content */}
       <div className="lg:pl-64 pt-16 lg:pt-0">
+        {/* Desktop search bar */}
+        <div className="hidden lg:flex items-center px-8 py-3 bg-white border-b border-gray-100">
+          <form
+            className="relative w-full max-w-sm"
+            onSubmit={e => {
+              e.preventDefault()
+              const q = (e.currentTarget.elements.namedItem('q') as HTMLInputElement).value.trim()
+              if (!q) return
+              const lower = q.toLowerCase()
+              if (['user','email','name'].some(k => lower.includes(k))) navigate(`/admin/users?q=${encodeURIComponent(q)}`)
+              else navigate(`/admin/enquiries?q=${encodeURIComponent(q)}`)
+            }}
+          >
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#667085]" />
+            <input
+              name="q"
+              type="text"
+              placeholder="Search enquiries or users..."
+              className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#F4FBFE] border border-[#08A9E0]/15 text-sm text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
+            />
+          </form>
+        </div>
         <main className="p-4 sm:p-6 lg:p-8">
           <Outlet />
         </main>

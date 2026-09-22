@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Clock, MapPin, Users, ChevronDown, ChevronUp, ArrowRight, Heart } from 'lucide-react'
+import { Clock, MapPin, Users, ChevronDown, ChevronUp, ArrowRight, Heart, Search } from 'lucide-react'
 import { tours, tourCategories } from '../data/tours'
 import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
@@ -9,21 +9,16 @@ import { useCart } from '../context/CartContext'
 import PageHeader from '../components/ui/PageHeader'
 
 export default function Tours() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [category, setCategory] = useState('all')
   const [expanded, setExpanded] = useState<string | null>(null)
   const { toggle, has } = useCart()
 
-  // Sync category filter if navigated from search
-  useEffect(() => {
-    const q = searchParams.get('q')
-    if (q) {
-      const match = tourCategories.find(c => c.label.toLowerCase().includes(q.toLowerCase()))
-      if (match) setCategory(match.id)
-    }
-  }, [searchParams])
-
   const q = searchParams.get('q')?.toLowerCase() ?? ''
+  const setQuery = (val: string) => {
+    if (val) setSearchParams({ q: val }, { replace: true })
+    else setSearchParams({}, { replace: true })
+  }
   const filtered = tours.filter(t => {
     const matchesCategory = category === 'all' || t.category === category || t.groupType === category
     const matchesQuery = !q || t.title.toLowerCase().includes(q) || t.destination.toLowerCase().includes(q) || t.description.toLowerCase().includes(q)
@@ -46,7 +41,18 @@ export default function Tours() {
         subtitle="Carefully planned tour packages for individuals, families, and groups — tailored to your journey."
         image="/images/headers/tours.jpg"
         centered
-      />
+      >
+        <div className="max-w-md mx-auto relative">
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#667085]" />
+          <input
+            type="text"
+            placeholder="Search tours or destinations..."
+            value={searchParams.get('q') ?? ''}
+            onChange={e => setQuery(e.target.value)}
+            className="w-full pl-11 pr-4 py-3 rounded-xl bg-white text-[#172033] placeholder-[#667085] focus:outline-none focus:ring-2 focus:ring-[#08A9E0] text-sm"
+          />
+        </div>
+      </PageHeader>
 
       {/* Filters */}
       <div className="bg-white border-b border-gray-100 sticky top-16 lg:top-[68px] xl:top-[72px] 2xl:top-20 z-30">
@@ -73,14 +79,14 @@ export default function Tours() {
             <div className="text-center py-20">
               <p className="text-[#667085] text-lg">No tours found for your search.</p>
               <button
-                onClick={() => { setCategory('all'); window.history.replaceState({}, '', '/tours') }}
+                onClick={() => { setQuery(''); setCategory('all') }}
                 className="mt-4 text-[#08A9E0] font-medium hover:underline"
               >
                 Clear filters
               </button>
             </div>
           ) : (
-          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6">
             {filtered.map(tour => (
               <div key={tour.id} id={tour.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
                 <div className="grid md:grid-cols-3 gap-0">
@@ -177,7 +183,7 @@ export default function Tours() {
                 )}
               </div>
             ))}
-          </div>
+            </div>
           )}
         </div>
       </section>

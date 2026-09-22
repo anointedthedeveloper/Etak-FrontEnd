@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plane, Building2, Map, HelpCircle, ArrowRight, MapPin, Phone, Menu, X, Heart } from 'lucide-react'
+import { Plane, Building2, Map, HelpCircle, ArrowRight, MapPin, Phone } from 'lucide-react'
 import FlightInquiryForm from '../forms/FlightInquiryForm'
 import HotelInquiryForm from '../forms/HotelInquiryForm'
 import TourInquiryForm from '../forms/TourInquiryForm'
 import AssistanceInquiryForm from '../forms/AssistanceInquiryForm'
-import { useCart } from '../../context/CartContext'
 
 const tabs = [
   { id: 'flights',    label: 'Flights',           icon: Plane },
@@ -23,23 +22,7 @@ const serviceIcons = [
 
 export default function Hero() {
   const [activeTab, setActiveTab] = useState('flights')
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [wishlistOpen, setWishlistOpen] = useState(false)
-  const [atTop, setAtTop] = useState(true)
   const navigate = useNavigate()
-  const { items, toggle, count } = useCart()
-
-  useEffect(() => {
-    const onScroll = () => setAtTop(window.scrollY < 100)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  useEffect(() => {
-    document.body.style.overflow = wishlistOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [wishlistOpen])
-
   return (
     <section className="hero-shell relative flex flex-col overflow-hidden bg-[#0D1640] -mt-16 lg:-mt-[68px] xl:-mt-[72px] 2xl:-mt-20 min-h-[100svh] lg:h-[100svh]">
 
@@ -66,140 +49,8 @@ export default function Hero() {
       </div>
 
 
-      {/* ── Mobile Header — only visible before navbar slides in ── */}
-      <div className={`lg:hidden relative z-20 flex items-center justify-between px-4 py-3 bg-[#07102D]/28 backdrop-blur-sm transition-opacity duration-300 ${atTop ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="flex items-center gap-2">
-          <div className="rounded-2xl bg-white/95 p-1.5 shadow-lg shadow-[#07102D]/30 ring-1 ring-white/80">
-            <img src="/brand/logo.png" alt="Etak Travels" className="h-12 w-12 object-contain block" />
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setWishlistOpen(true)}
-            className="relative p-2 rounded-full text-white hover:bg-white/20 backdrop-blur-sm"
-          >
-            <Heart size={20} />
-            {count > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#08A9E0] text-white text-[10px] font-bold flex items-center justify-center">
-                {count}
-              </span>
-            )}
-          </button>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-full text-white hover:bg-white/20 backdrop-blur-sm"
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </div>
-
-      {/* ── Mobile Menu ── */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-30 bg-black/50 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)}>
-          <div className="absolute top-0 right-0 bottom-0 w-64 bg-white shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between p-4 border-b border-gray-100">
-              <div className="flex items-center gap-2">
-                <img src="/brand/logo.png" alt="Etak Travels" className="h-10 w-10 object-contain" />
-                <span className="font-display font-bold text-[#101B46]">Etak Travels</span>
-              </div>
-              <button onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-full hover:bg-gray-100 text-[#667085]">
-                <X size={20} />
-              </button>
-            </div>
-            <nav className="p-4">
-              {[
-                { label: 'Home',         path: '/' },
-                { label: 'About Us',     path: '/about' },
-                { label: 'Services',     path: '/services' },
-                { label: 'Destinations', path: '/destinations' },
-                { label: 'Tours',        path: '/tours' },
-                { label: 'Contact',      path: '/contact' },
-              ].map(({ label, path }) => (
-                <button
-                  key={label}
-                  onClick={() => { navigate(path); setMobileMenuOpen(false) }}
-                  className="w-full text-left py-3 px-4 text-[#172033] hover:bg-gray-50 rounded-lg transition-colors"
-                >
-                  {label}
-                </button>
-              ))}
-            </nav>
-          </div>
-        </div>
-      )}
-
-      {/* ── Mobile Wishlist Panel ── */}
-      {wishlistOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-black/50" onClick={() => setWishlistOpen(false)}>
-          <div className="absolute top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between p-5 border-b border-gray-100">
-              <div className="flex items-center gap-2">
-                <Heart size={18} className="text-[#08A9E0]" />
-                <h2 className="font-display font-bold text-[#101B46] text-lg">Saved Items</h2>
-                {count > 0 && (
-                  <span className="px-2 py-0.5 rounded-full bg-[#EAF8FD] text-[#08A9E0] text-xs font-semibold">{count}</span>
-                )}
-              </div>
-              <button onClick={() => setWishlistOpen(false)} className="p-1.5 rounded-full hover:bg-gray-100 text-[#667085]">
-                <X size={18} />
-              </button>
-            </div>
-            <div className="flex-1 overflow-y-auto p-4">
-              {items.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full text-center gap-3 py-16">
-                  <div className="w-16 h-16 rounded-full bg-[#F8FAFC] flex items-center justify-center">
-                    <Heart size={28} className="text-gray-300" />
-                  </div>
-                  <p className="text-[#667085] text-sm">No saved items yet.</p>
-                  <p className="text-[#667085] text-xs">Tap the heart on any tour or destination to save it here.</p>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-3">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex gap-3 bg-[#F8FAFC] rounded-xl p-3 border border-gray-100">
-                      <div className="w-16 h-16 rounded-lg overflow-hidden shrink-0">
-                        <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full ${
-                          item.type === 'tour' ? 'bg-[#EAF8FD] text-[#08A9E0]' : 'bg-[#101B46]/10 text-[#101B46]'
-                        }`}>
-                          {item.type}
-                        </span>
-                        <p className="font-semibold text-[#101B46] text-sm mt-1 truncate">{item.title}</p>
-                        <p className="text-[#667085] text-xs">{item.subtitle}</p>
-                      </div>
-                      <button
-                        onClick={() => toggle(item)}
-                        className="p-1.5 rounded-full text-[#667085] hover:text-red-500 hover:bg-red-50 transition-colors shrink-0 self-start"
-                      >
-                        <X size={14} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            {items.length > 0 && (
-              <div className="p-4 border-t border-gray-100">
-                <button
-                  onClick={() => {
-                    navigate('/contact', { state: { savedItems: items.map(i => i.title).join(', ') } })
-                    setWishlistOpen(false)
-                  }}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-[#08A9E0] text-white text-sm font-semibold hover:bg-[#0798C8] transition-colors"
-                >
-                  Enquire About Saved Items <ArrowRight size={14} />
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
       {/* ── Main content ── */}
-      <div className="hero-main site-gutter relative z-10 w-full pt-2 sm:pt-4 lg:pt-[68px] xl:pt-[72px] 2xl:pt-20 pb-4 flex-1">
+      <div className="hero-main site-gutter relative z-10 w-full pt-16 sm:pt-20 lg:pt-[68px] xl:pt-[72px] 2xl:pt-20 pb-4 flex-1">
         <div className="hero-grid grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10 items-start lg:items-center max-w-[1600px] mx-auto">
 
           {/* ── LEFT ── */}

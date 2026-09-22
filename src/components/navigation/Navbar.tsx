@@ -1,15 +1,21 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
   Menu, X, ChevronDown, User, LogOut, LayoutDashboard,
   Search, Home, Briefcase, Globe, Map, Info, Mail, ArrowRight,
   Heart, Trash2, MapPin, Clock,
+  Plane, Building2, MessageSquare, FileCheck, Shield, Navigation, Headphones, Sunset,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 import { destinations } from '../../data/destinations'
 import { tours } from '../../data/tours'
 import { services } from '../../data/services'
+
+const serviceIconMap: Record<string, React.ElementType> = {
+  Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation,
+  HeadphonesIcon: Headphones, Sunset, Briefcase,
+}
 
 const navLinks = [
   { to: '/',             label: 'Home',         icon: Home },
@@ -186,46 +192,16 @@ function SearchBox({ onClose, mobile = false }: { onClose: () => void; mobile?: 
 }
 
 export default function Navbar() {
-  const [mobileOpen, setMobileOpen]     = useState(false)
-  const [userMenuOpen, setUserMenuOpen] = useState(false)
-  const [searchOpen, setSearchOpen]     = useState(false)
-  const [wishlistOpen, setWishlistOpen] = useState(false)
-  const [showNavbar, setShowNavbar]     = useState(false)
+  const [mobileOpen, setMobileOpen]       = useState(false)
+  const [userMenuOpen, setUserMenuOpen]   = useState(false)
+  const [searchOpen, setSearchOpen]       = useState(false)
+  const [wishlistOpen, setWishlistOpen]   = useState(false)
+  const [servicesOpen, setServicesOpen]   = useState(false)
+  const [servicesDropdown, setServicesDropdown] = useState(false)
 
   const { isAuthenticated, user, logout } = useAuth()
   const { items, toggle, count } = useCart()
   const navigate = useNavigate()
-  const location = useLocation()
-
-  useEffect(() => {
-    const updateNavbarVisibility = () => {
-      const isMobile = window.innerWidth < 1024
-      const isHomePage = location.pathname === '/'
-      
-      if (!isMobile) {
-        // Desktop: always show navbar
-        setShowNavbar(true)
-      } else if (isHomePage) {
-        // Mobile + home page: show only after scrolling
-        setShowNavbar(window.scrollY > 100)
-      } else {
-        // Mobile + other pages: always show navbar
-        setShowNavbar(true)
-      }
-    }
-
-    const handleScroll = () => updateNavbarVisibility()
-    const handleResize = () => updateNavbarVisibility()
-
-    window.addEventListener('scroll', handleScroll)
-    window.addEventListener('resize', handleResize)
-    updateNavbarVisibility() // Check initial state
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [location.pathname])
 
   useEffect(() => {
     document.body.style.overflow = (mobileOpen || wishlistOpen) ? 'hidden' : ''
@@ -240,7 +216,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#08A9E0]/15 shadow-[0_8px_30px_rgba(16,27,70,0.08)] transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#08A9E0]/15 shadow-[0_8px_30px_rgba(16,27,70,0.08)] overflow-visible">
         <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 2xl:px-28 3xl:px-40">
           <div className="flex items-center justify-between h-16 lg:h-[68px] xl:h-[72px] 2xl:h-20">
 
@@ -254,10 +230,15 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-0.5 rounded-full bg-[#F2FAFD]/90 p-1 ring-1 ring-[#08A9E0]/12">
+            <nav className="hidden lg:flex items-center gap-0.5 rounded-full bg-[#F2FAFD]/90 p-1 ring-1 ring-[#08A9E0]/12 overflow-visible">
               {navLinks.map(({ to, label, hasDropdown }) => (
                 hasDropdown ? (
-                  <div key={to} className="relative group">
+                  <div
+                    key={to}
+                    className="relative"
+                    onMouseEnter={() => setServicesDropdown(true)}
+                    onMouseLeave={() => setServicesDropdown(false)}
+                  >
                     <NavLink
                       to={to}
                       end={to === '/'}
@@ -270,23 +251,31 @@ export default function Navbar() {
                       }
                     >
                       {label}
-                      <ChevronDown size={13} className="transition-transform group-hover:rotate-180" />
+                      <ChevronDown size={13} className={`transition-transform duration-200 ${servicesDropdown ? 'rotate-180' : ''}`} />
                     </NavLink>
                     {/* Dropdown */}
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 z-50">
-                      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-2 w-64">
-                        {services.map(s => (
-                          <Link
-                            key={s.id}
-                            to={`/services/${s.id}`}
-                            className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-[#374151] hover:bg-[#EAF8FD] hover:text-[#087EAF] transition-colors"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#08A9E0] shrink-0" />
-                            {s.title}
-                          </Link>
-                        ))}
+                    {servicesDropdown && (
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-[999]">
+                        <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 p-2 w-72">
+                          {services.map(s => {
+                            const SIcon = serviceIconMap[s.icon] ?? Plane
+                            return (
+                              <Link
+                                key={s.id}
+                                to={`/services/${s.id}`}
+                                onClick={() => setServicesDropdown(false)}
+                                className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-[#374151] hover:bg-[#EAF8FD] hover:text-[#087EAF] transition-colors"
+                              >
+                                <div className="w-6 h-6 rounded-lg bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                                  <SIcon size={13} className="text-[#08A9E0]" />
+                                </div>
+                                {s.title}
+                              </Link>
+                            )
+                          })}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 ) : (
                   <NavLink
@@ -434,38 +423,53 @@ export default function Navbar() {
             {navLinks.map(({ to, label, hasDropdown }) => (
               hasDropdown ? (
                 <div key={to}>
-                  <NavLink
-                    to={to}
-                    end={to === '/'}
-                    onClick={() => setMobileOpen(false)}
-                    className={({ isActive }) =>
-                      `flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
-                        isActive
-                          ? 'bg-[#EAF8FD] text-[#08A9E0] font-semibold'
-                          : 'text-[#374151] hover:bg-gray-50 hover:text-[#101B46]'
-                      }`
-                    }
-                  >
-                    {({ isActive }) => (
-                      <>
-                        {isActive && <span className="w-1 h-4 rounded-full bg-[#08A9E0] mr-3 shrink-0" />}
-                        {label}
-                      </>
-                    )}
-                  </NavLink>
-                  <div className="ml-4 mt-0.5 flex flex-col gap-0.5">
-                    {services.map(s => (
-                      <Link
-                        key={s.id}
-                        to={`/services/${s.id}`}
-                        onClick={() => setMobileOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs text-[#667085] hover:bg-[#EAF8FD] hover:text-[#087EAF] transition-colors"
-                      >
-                        <span className="w-1 h-1 rounded-full bg-[#08A9E0] shrink-0" />
-                        {s.title}
-                      </Link>
-                    ))}
+                  <div className="flex items-center">
+                    <NavLink
+                      to={to}
+                      end={to === '/'}
+                      onClick={() => setMobileOpen(false)}
+                      className={({ isActive }) =>
+                        `flex-1 flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                          isActive
+                            ? 'bg-[#EAF8FD] text-[#08A9E0] font-semibold'
+                            : 'text-[#374151] hover:bg-gray-50 hover:text-[#101B46]'
+                        }`
+                      }
+                    >
+                      {({ isActive }) => (
+                        <>
+                          {isActive && <span className="w-1 h-4 rounded-full bg-[#08A9E0] mr-3 shrink-0" />}
+                          {label}
+                        </>
+                      )}
+                    </NavLink>
+                    <button
+                      onClick={() => setServicesOpen(v => !v)}
+                      className="p-2 rounded-xl text-[#667085] hover:bg-gray-50 transition-colors"
+                    >
+                      <ChevronDown size={15} className={`transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} />
+                    </button>
                   </div>
+                  {servicesOpen && (
+                    <div className="ml-4 mt-0.5 flex flex-col gap-0.5">
+                      {services.map(s => {
+                        const SIcon = serviceIconMap[s.icon] ?? Plane
+                        return (
+                          <Link
+                            key={s.id}
+                            to={`/services/${s.id}`}
+                            onClick={() => setMobileOpen(false)}
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs text-[#667085] hover:bg-[#EAF8FD] hover:text-[#087EAF] transition-colors"
+                          >
+                            <div className="w-5 h-5 rounded-md bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                              <SIcon size={11} className="text-[#08A9E0]" />
+                            </div>
+                            {s.title}
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
               ) : (
                 <NavLink
