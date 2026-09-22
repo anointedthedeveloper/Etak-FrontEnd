@@ -63,7 +63,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(mapped)
         const oauth = session.user.app_metadata?.provider === 'google'
         setIsOAuth(oauth)
-        if (!mapped.phone) setNeedsProfile(true)
+        const incomplete = !mapped.phone || !mapped.firstName || !mapped.lastName
+        if (incomplete) setNeedsProfile(true)
         apiService.claimPendingInquiries(mapped.id)
       } else {
         setUser(null)

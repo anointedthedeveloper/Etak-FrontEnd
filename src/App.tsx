@@ -25,6 +25,7 @@ const AdminLogin         = lazy(() => import('./pages/AdminLogin'))
 const AdminDashboard     = lazy(() => import('./pages/admin/AdminDashboard'))
 const AdminEnquiries     = lazy(() => import('./pages/admin/AdminEnquiries'))
 const AdminUsers         = lazy(() => import('./pages/admin/AdminUsers'))
+const AdminSettings      = lazy(() => import('./pages/admin/AdminSettings'))
 const Dashboard          = lazy(() => import('./pages/Dashboard'))
 const DashboardInquiries = lazy(() => import('./pages/dashboard/DashboardInquiries'))
 const DashboardBookings  = lazy(() => import('./pages/dashboard/DashboardBookings'))
@@ -101,6 +102,7 @@ function AppRoutes() {
           <Route path="/admin/dashboard"  element={<AdminDashboard />} />
           <Route path="/admin/enquiries"  element={<AdminEnquiries />} />
           <Route path="/admin/users"      element={<AdminUsers />} />
+          <Route path="/admin/settings"   element={<AdminSettings />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

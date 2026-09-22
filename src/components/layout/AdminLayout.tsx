@@ -1,5 +1,5 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Users, MessageSquare, LogOut, ShieldCheck, Menu, X, Search } from 'lucide-react'
+import { LayoutDashboard, Users, MessageSquare, LogOut, ShieldCheck, Menu, X, Search, Settings } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export default function AdminLayout() {
@@ -38,7 +38,8 @@ export default function AdminLayout() {
   const adminLinks = [
     { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/admin/enquiries', label: 'Enquiries', icon: MessageSquare },
-    { to: '/admin/users', label: 'Users', icon: Users },
+    { to: '/admin/users',     label: 'Users',     icon: Users },
+    { to: '/admin/settings',  label: 'Settings',  icon: Settings },
   ]
 
   return (
