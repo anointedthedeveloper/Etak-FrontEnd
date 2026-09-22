@@ -5,6 +5,7 @@ import { SectionHeader } from '../components/ui/index'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import PageHeader from '../components/ui/PageHeader'
+import { useRevealChildren } from '../hooks/useInView'
 
 // Airline partner logos — stored locally in public/partners/
 const AIRLINE_PARTNERS = [
@@ -34,7 +35,7 @@ function PartnerLogo({ name, logo }: { name: string; logo: string | null }) {
         <img
           src={logo}
           alt={`${name} logo`}
-          className="h-7 sm:h-10 w-auto max-w-[80px] sm:max-w-[120px] object-contain grayscale hover:grayscale-0 transition-all duration-300"
+          className="h-7 sm:h-10 w-auto max-w-[80px] sm:max-w-[120px] object-contain grayscale hover:grayscale-0 hover:scale-110 transition-all duration-300"
           onError={() => setErrored(true)}
           loading="lazy"
         />
@@ -54,6 +55,9 @@ const values = [
 
 export default function About() {
   const [expanded, setExpanded] = useState<string | null>(null)
+  const valuesRef = useRevealChildren<HTMLDivElement>()
+  const credentialsRef = useRevealChildren<HTMLDivElement>()
+  const teamRef = useRevealChildren<HTMLDivElement>()
 
   return (
     <>
@@ -158,9 +162,9 @@ export default function About() {
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="site-gutter w-full">
           <SectionHeader eyebrow="Core Values" title="What We Stand For" centered />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white rounded-2xl p-6 border border-gray-100 text-center">
+          <div ref={valuesRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {values.map(({ icon: Icon, title, desc }, i) => (
+              <div key={title} className={`reveal stagger-${i + 1} premium-card rounded-2xl p-6 text-center`}>
                 <div className="w-14 h-14 rounded-2xl bg-[#EAF8FD] flex items-center justify-center mx-auto mb-4">
                   <Icon size={24} className="text-[#08A9E0]" />
                 </div>
@@ -204,7 +208,7 @@ export default function About() {
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="site-gutter w-full">
           <SectionHeader eyebrow="Membership & Credentials" title="Our Accreditations" centered />
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-10">
+          <div ref={credentialsRef} className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-10">
             {[
               {
                 img: '/credentials/CAC.png',
@@ -227,12 +231,12 @@ export default function About() {
                 desc: 'Registered with the Federal Inland Revenue Service in compliance with Nigerian tax regulations.',
                 extra: 'The Federal Inland Revenue Service (FIRS) is the agency of the Nigerian federal government responsible for assessing, collecting and accounting for tax and other revenues. Etak Travels is fully registered and tax-compliant.',
               },
-            ].map(({ img, name, detail, desc, extra }) => {
+            ].map(({ img, name, detail, desc, extra }, i) => {
               const open = expanded === name
               return (
                 <div
                   key={name}
-                  className={`rounded-2xl border bg-white shadow-sm flex flex-col overflow-hidden transition-all duration-300 ${open ? 'border-[#08A9E0] shadow-md' : 'border-gray-200 hover:border-[#08A9E0]/40 hover:shadow-md'}`}
+                  className={`reveal-scale stagger-${i + 1} rounded-2xl border bg-white shadow-sm flex flex-col overflow-hidden transition-all duration-300 ${open ? 'border-[#08A9E0] shadow-md' : 'border-gray-200 hover:border-[#08A9E0]/40 hover:shadow-md'}`}
                 >
                   {/* Image — click to expand */}
                   <button
@@ -278,17 +282,17 @@ export default function About() {
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="site-gutter w-full">
           <SectionHeader eyebrow="Our People" title="Meet the Team" centered />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+          <div ref={teamRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
             {[
               { name: 'Kate Aina Tabu',       role: 'Managing Director' },
               { name: 'Victor Ernest',         role: 'Business Development' },
               { name: 'Fautina Ugwu',          role: 'Ticketing & Reservations' },
               { name: 'Glory Lisa Uche',       role: 'Accounts' },
               { name: 'Charity Azebeokha',     role: 'Marketing Executive' },
-            ].map(({ name, role }) => (
-              <div key={name} className="bg-[#F8FAFC] rounded-2xl border border-gray-100 p-4 text-center">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-3">
-                  <span className="text-white font-bold text-sm">{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
+            ].map(({ name, role }, i) => (
+              <div key={name} className={`reveal stagger-${i + 1} group bg-[#F8FAFC] rounded-2xl border border-gray-100 p-4 text-center transition-all duration-200 hover:border-[#08A9E0]/30 hover:-translate-y-0.5 hover:shadow-md`}>
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-3 ring-4 ring-white shadow-sm transition-transform duration-200 group-hover:scale-105">
+                  <span className="text-white font-bold text-base">{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
                 </div>
                 <p className="font-semibold text-[#101B46] text-sm leading-snug">{name}</p>
                 <p className="text-[#667085] text-xs mt-1">{role}</p>

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Users, Search, Mail, Phone, Calendar, UserCheck, ChevronRight } from 'lucide-react'
+import { Users, Search, Phone, Calendar, UserCheck, ChevronRight } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import Avatar from '../../components/ui/Avatar'
+import { Badge } from '../../components/ui/index'
 
 interface UserRow {
   id: string
@@ -20,6 +21,7 @@ export default function AdminUsers() {
   const [users, setUsers] = useState<UserRow[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
+  const [visibleCount, setVisibleCount] = useState(25)
 
   useEffect(() => {
     async function load() {
@@ -36,6 +38,11 @@ export default function AdminUsers() {
     return name.includes(searchTerm.toLowerCase()) ||
       (u.email ?? '').toLowerCase().includes(searchTerm.toLowerCase())
   })
+  const visible = filtered.slice(0, visibleCount)
+
+  useEffect(() => { setVisibleCount(25) }, [searchTerm])
+
+  const roleBadgeVariant = (role: string) => role === 'admin' ? 'blue' : role === 'staff' ? 'purple' : 'gray'
 
   return (
     <div className="space-y-6 animate-fade-up">
@@ -78,6 +85,7 @@ export default function AdminUsers() {
           <h3 className="font-semibold text-[#101B46]">All Users</h3>
           <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{filtered.length}</span>
         </div>
+        <p className="sm:hidden px-4 pt-2 text-[11px] text-[#667085]">Swipe left to see more →</p>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-100">
@@ -91,15 +99,24 @@ export default function AdminUsers() {
             </thead>
             <tbody className="divide-y divide-gray-100">
               {loading ? (
-                <tr><td colSpan={4} className="px-6 py-8 text-center text-[#667085]">Loading...</td></tr>
-              ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-8 text-center text-[#667085]">
-                    <Users size={32} className="mx-auto mb-2 text-gray-300" />
-                    <p>No users found</p>
+                  <td colSpan={5} className="px-6 py-16 text-center text-[#667085]">
+                    <div className="flex items-center justify-center">
+                      <div className="h-7 w-7 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
+                    </div>
                   </td>
                 </tr>
-              ) : filtered.map((user) => (
+              ) : filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-14 text-center text-[#667085]">
+                    <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mx-auto mb-4">
+                      <Users size={24} className="text-gray-300" />
+                    </div>
+                    <p className="font-semibold text-[#172033] mb-1">No users found</p>
+                    <p className="text-sm text-[#667085]">{searchTerm ? 'Try a different search term.' : 'Registered users will appear here.'}</p>
+                  </td>
+                </tr>
+              ) : visible.map((user) => (
                 <tr key={user.id} onClick={() => navigate(`/admin/users/${user.id}`)} className="hover:bg-gray-50 transition-colors cursor-pointer">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -125,14 +142,12 @@ export default function AdminUsers() {
                         <Phone size={14} />{user.phone}
                       </div>
                     ) : (
-                      <div className="flex items-center gap-2 text-sm text-[#667085]">
-                        <Mail size={14} />—
-                      </div>
+                      <span className="text-sm text-[#667085]">No phone on file</span>
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize bg-gray-100 text-[#667085]">
-                      {user.role || 'user'}
+                    <span className="capitalize inline-block">
+                      <Badge variant={roleBadgeVariant(user.role)}>{user.role || 'user'}</Badge>
                     </span>
                   </td>
                   <td className="px-6 py-4">
@@ -149,6 +164,16 @@ export default function AdminUsers() {
             </tbody>
           </table>
         </div>
+        {!loading && visible.length < filtered.length && (
+          <div className="p-3 text-center border-t border-gray-100">
+            <button
+              onClick={() => setVisibleCount(v => v + 25)}
+              className="text-xs font-semibold text-[#08A9E0] hover:underline"
+            >
+              Load more ({filtered.length - visible.length} remaining)
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

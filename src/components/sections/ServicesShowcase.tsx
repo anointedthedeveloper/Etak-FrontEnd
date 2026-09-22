@@ -74,9 +74,9 @@ export default function ServicesShowcase() {
                 <button
                   key={service.id}
                   onClick={() => setActive(service.id)}
-                  className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-left transition-all duration-150 cursor-pointer ${
+                  className={`accent-hover-left flex items-center gap-3 pl-3.5 pr-4 py-3.5 rounded-xl text-left transition-all duration-150 cursor-pointer ${
                     active === service.id
-                      ? 'bg-[#101B46] text-white shadow-md'
+                      ? 'bg-[#101B46] text-white shadow-md border-l-2 border-transparent'
                       : 'hover:bg-gray-50 text-[#172033]'
                   }`}
                 >

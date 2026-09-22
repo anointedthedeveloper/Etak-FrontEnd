@@ -35,6 +35,7 @@ export default function AdminEnquiries() {
   const [clearing, setClearing] = useState(false)
   const [filter, setFilter] = useState<'all' | 'new' | 'responded' | 'resolved'>('all')
   const [searchTerm, setSearchTerm] = useState('')
+  const [visibleCount, setVisibleCount] = useState(20)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   async function load() {
@@ -83,6 +84,10 @@ export default function AdminEnquiries() {
       (e.service ?? '').toLowerCase().includes(searchTerm.toLowerCase())
     return matchesFilter && matchesSearch
   })
+  const visible = filtered.slice(0, visibleCount)
+
+  // Reset the visible page whenever the search or filter changes
+  useEffect(() => { setVisibleCount(20) }, [searchTerm, filter])
 
   const handleRespond = async () => {
     if (!selected || !responseText.trim()) return
@@ -146,7 +151,7 @@ export default function AdminEnquiries() {
           className="px-4 py-2.5 border border-[#08A9E0]/15 bg-white rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]/30"
         >
           <option value="all">All Enquiries</option>
-          <option value="new">Pending</option>
+          <option value="new">New</option>
           <option value="responded">Responded</option>
           <option value="resolved">Resolved</option>
         </select>
@@ -161,32 +166,53 @@ export default function AdminEnquiries() {
           </div>
           <div className="divide-y divide-gray-100 flex-1 overflow-y-auto">
             {loading ? (
-              <p className="p-8 text-center text-sm text-[#667085]">Loading...</p>
+              <div className="flex items-center justify-center py-16">
+                <div className="h-7 w-7 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
+              </div>
             ) : filtered.length === 0 ? (
-              <div className="p-8 text-center text-[#667085]">
-                <MessageSquare size={32} className="mx-auto mb-2 text-gray-300" />
-                <p>No enquiries found</p>
-              </div>
-            ) : filtered.map((enquiry) => (
-              <div
-                key={enquiry.id}
-                onClick={() => { setSelected(enquiry); setResponseText('') }}
-                className={`p-4 cursor-pointer transition-all ${
-                  selected?.id === enquiry.id ? 'bg-[#EAF8FD] border-l-4 border-[#08A9E0]' : 'hover:bg-[#F8FCFE]'
-                }`}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-[#101B46] truncate">{enquiry.name}</span>
-                      <span className="shrink-0"><StatusBadge status={enquiry.status} /></span>
-                    </div>
-                    <p className="text-sm text-[#667085] truncate">{enquiry.service ?? 'General'}</p>
-                    <p className="text-xs text-[#667085] mt-1">{formatDate(enquiry.created_at)}</p>
-                  </div>
+              <div className="flex flex-col items-center justify-center py-14 px-6 text-center">
+                <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
+                  <MessageSquare size={24} className="text-gray-300" />
                 </div>
+                <p className="font-semibold text-[#172033] mb-1">No enquiries found</p>
+                <p className="text-sm text-[#667085]">
+                  {searchTerm || filter !== 'all' ? 'Try a different search or filter.' : 'New customer enquiries will appear here.'}
+                </p>
               </div>
-            ))}
+            ) : (
+              <>
+                {visible.map((enquiry) => (
+                  <div
+                    key={enquiry.id}
+                    onClick={() => { setSelected(enquiry); setResponseText('') }}
+                    className={`p-4 cursor-pointer transition-all ${
+                      selected?.id === enquiry.id ? 'bg-[#EAF8FD] border-l-4 border-[#08A9E0]' : 'hover:bg-[#F8FCFE]'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-medium text-[#101B46] truncate">{enquiry.name}</span>
+                          <span className="shrink-0"><StatusBadge status={enquiry.status} /></span>
+                        </div>
+                        <p className="text-sm text-[#667085] truncate">{enquiry.service ?? 'General'}</p>
+                        <p className="text-xs text-[#667085] mt-1">{formatDate(enquiry.created_at)}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {visible.length < filtered.length && (
+                  <div className="p-3 text-center">
+                    <button
+                      onClick={() => setVisibleCount(v => v + 20)}
+                      className="text-xs font-semibold text-[#08A9E0] hover:underline"
+                    >
+                      Load more ({filtered.length - visible.length} remaining)
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </div>
 
@@ -246,9 +272,12 @@ export default function AdminEnquiries() {
                 ) : selected.responses.length === 0 ? (
                   <p className="text-xs text-center text-[#667085] py-4">No replies yet.</p>
                 ) : selected.responses.map(r => (
-                  <div key={r.id} className={`flex ${r.is_admin ? 'justify-end' : 'justify-start'}`}>
+                  <div key={r.id} className={`flex flex-col ${r.is_admin ? 'items-end' : 'items-start'}`}>
+                    <span className="text-[10px] font-semibold text-[#667085] px-1 mb-0.5">
+                      {r.is_admin ? 'You (Admin)' : selected.name}
+                    </span>
                     <div className={`max-w-[80%] rounded-xl px-3 py-2 text-sm ${r.is_admin ? 'bg-[#08A9E0] text-white' : 'bg-gray-100 text-[#101B46]'}`}>
-                      <p className="leading-relaxed">{r.message}</p>
+                      <p className="leading-relaxed whitespace-pre-wrap">{r.message}</p>
                       <p className={`text-[10px] mt-1 ${r.is_admin ? 'text-blue-100' : 'text-[#667085]'}`}>{formatDate(r.created_at)}</p>
                     </div>
                   </div>
@@ -292,11 +321,12 @@ export default function AdminEnquiries() {
               )}
             </div>
           ) : (
-            <div className="h-full flex items-center justify-center p-8 text-center">
-              <div>
-                <MessageSquare size={48} className="mx-auto mb-3 text-gray-300" />
-                <p className="text-[#667085]">Select an enquiry to view the conversation</p>
+            <div className="h-full flex flex-col items-center justify-center p-8 text-center">
+              <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
+                <MessageSquare size={24} className="text-gray-300" />
               </div>
+              <p className="font-semibold text-[#172033] mb-1">No enquiry selected</p>
+              <p className="text-sm text-[#667085]">Choose an enquiry from the list to view and reply to the conversation.</p>
             </div>
           )}
         </div>

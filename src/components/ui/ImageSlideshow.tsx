@@ -10,6 +10,7 @@ interface Props {
   interval?: number
   kenBurns?: boolean
   className?: string
+  onIndexChange?: (index: number) => void
 }
 
 /**
@@ -17,7 +18,7 @@ interface Props {
  * Meant to sit behind real content (a hero, an auth panel) via absolute
  * positioning from the parent; this component only fills its container.
  */
-export default function ImageSlideshow({ images, interval = 6000, kenBurns = true, className = '' }: Props) {
+export default function ImageSlideshow({ images, interval = 6000, kenBurns = true, className = '', onIndexChange }: Props) {
   const [slide, setSlide] = useState({ current: 0, previous: 0, activeLayer: 0 })
 
   useEffect(() => {
@@ -30,14 +31,14 @@ export default function ImageSlideshow({ images, interval = 6000, kenBurns = tru
   useEffect(() => {
     if (images.length <= 1) return
     const timer = setInterval(() => {
-      setSlide(({ current, activeLayer }) => ({
-        previous: current,
-        current: (current + 1) % images.length,
-        activeLayer: activeLayer === 0 ? 1 : 0,
-      }))
+      setSlide(({ current, activeLayer }) => {
+        const next = (current + 1) % images.length
+        onIndexChange?.(next)
+        return { previous: current, current: next, activeLayer: activeLayer === 0 ? 1 : 0 }
+      })
     }, interval)
     return () => clearInterval(timer)
-  }, [images.length, interval])
+  }, [images.length, interval, onIndexChange])
 
   return (
     <div className={`absolute inset-0 overflow-hidden ${className}`} aria-hidden="true">
@@ -49,15 +50,21 @@ export default function ImageSlideshow({ images, interval = 6000, kenBurns = tru
         if (!image) return null
 
         return (
-          <img
+          <div
             key={layer}
-            src={image.src}
-            alt={image.alt}
-            className={`absolute inset-0 w-full h-full object-cover will-change-[opacity] ${isActive ? 'opacity-100' : 'opacity-0'} ${kenBurns ? 'scale-110' : ''}`}
-            style={{
-              transition: 'opacity 1800ms cubic-bezier(0.45, 0, 0.15, 1)',
-            }}
-          />
+            className={`absolute inset-0 will-change-[opacity] ${isActive ? 'opacity-100' : 'opacity-0'}`}
+            style={{ transition: 'opacity 1800ms cubic-bezier(0.45, 0, 0.15, 1)' }}
+          >
+            {/* Keyed by image index so the zoom restarts fresh every time this
+                slot receives a new photo, instead of jumping mid-animation. */}
+            <img
+              key={imageIndex}
+              src={image.src}
+              alt={image.alt}
+              className={`w-full h-full object-cover ${kenBurns ? 'animate-kenburns' : ''}`}
+              style={kenBurns ? { animationDuration: `${interval + 2200}ms` } : undefined}
+            />
+          </div>
         )
       })}
     </div>

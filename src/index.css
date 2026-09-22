@@ -174,6 +174,96 @@ select:-webkit-autofill {
   100% { transform: translateX(-50%); }
 }
 
+/* Ken Burns — slow continuous zoom applied to a freshly-mounted slide image */
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+.animate-kenburns { animation-name: kenburns; animation-timing-function: linear; animation-fill-mode: forwards; }
+
+/* Counter pop when a stat becomes visible */
+@keyframes count-pop {
+  0%   { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-count-pop { animation: count-pop 0.5s ease both; }
+
+/* Card 3D reveal — used for testimonial-style cards on scroll-in */
+.reveal-flip {
+  opacity: 0;
+  transform: perspective(900px) rotateX(8deg) translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.3,1);
+}
+.reveal-flip.visible { opacity: 1; transform: perspective(900px) rotateX(0deg) translateY(0); }
+
+/* Shimmer skeleton — loading placeholder for images/blocks */
+@keyframes skeleton-sweep {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #EEF2F7 25%, #F7FAFC 37%, #EEF2F7 63%);
+  background-size: 200% 100%;
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+}
+
+/* Blur-up image loader — pair with a `loaded` class toggle once onLoad fires */
+.img-blur-up {
+  filter: blur(14px);
+  transform: scale(1.04);
+  opacity: 0.9;
+  transition: filter 0.5s ease, transform 0.5s ease, opacity 0.5s ease;
+}
+.img-blur-up.loaded {
+  filter: blur(0);
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Gentle rotation on hover — footer social icons etc. */
+.hover-rotate { transition: transform 0.25s ease, background-color 0.2s ease, color 0.2s ease; }
+.hover-rotate:hover { transform: rotate(12deg) translateY(-2px); }
+
+/* Left-border accent used for hoverable list items (services showcase etc.) */
+.accent-hover-left {
+  border-left: 2px solid transparent;
+  transition: border-color 0.2s ease, background-color 0.2s ease, padding-left 0.2s ease;
+}
+.accent-hover-left:hover { border-left-color: #08A9E0; }
+
+/* Decorative oversized quote mark behind testimonial text */
+.quote-mark {
+  position: absolute;
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1;
+  color: rgba(8, 169, 224, 0.10);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Soft glow used for step badges / selected elements against dark surfaces */
+.glow-brand { box-shadow: 0 0 0 4px rgba(8,169,224,0.12), 0 0 18px rgba(8,169,224,0.35); }
+
+/* Search box — expands from the right on open */
+@keyframes search-expand { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
+.animate-search-expand { transform-origin: right center; animation: search-expand 220ms ease-out both; }
+
+/* Nav link underline — slides in from the left on hover/focus */
+.nav-underline { position: relative; }
+.nav-underline::after {
+  content: '';
+  position: absolute;
+  left: 0.9rem; right: 0.9rem; bottom: 0.35rem;
+  height: 2px;
+  background: #08A9E0;
+  border-radius: 1px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-underline:hover::after,
+.nav-underline:focus-visible::after { transform: scaleX(1); }
+
 /* ═══════════════════════════════════════════════
    ANIMATION UTILITY CLASSES
 ═══════════════════════════════════════════════ */

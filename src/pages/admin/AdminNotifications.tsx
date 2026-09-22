@@ -97,11 +97,16 @@ export default function AdminNotifications() {
 
       <div className="premium-card rounded-2xl overflow-hidden">
         {loading ? (
-          <p className="p-8 text-center text-sm text-[#667085]">Loading...</p>
+          <div className="flex items-center justify-center py-16">
+            <div className="h-7 w-7 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
+          </div>
         ) : notifications.length === 0 ? (
-          <div className="p-12 text-center">
-            <Bell size={40} className="mx-auto mb-3 text-gray-300" />
-            <p className="text-[#667085]">No notifications yet</p>
+          <div className="flex flex-col items-center justify-center py-14 px-6 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
+              <Bell size={24} className="text-gray-300" />
+            </div>
+            <p className="font-semibold text-[#172033] mb-1">No notifications</p>
+            <p className="text-sm text-[#667085]">New enquiries and client replies will show up here.</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-100">

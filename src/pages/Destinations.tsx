@@ -7,12 +7,14 @@ import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import { useCart } from '../context/CartContext'
 import PageHeader from '../components/ui/PageHeader'
+import { useRevealChildren } from '../hooks/useInView'
 
 export default function Destinations() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [category, setCategory] = useState('all')
   const [selected, setSelected] = useState<string | null>(null)
   const { toggle, has } = useCart()
+  const gridRef = useRevealChildren<HTMLDivElement>()
 
   // Initialise query from URL param
   const query = searchParams.get('q') ?? ''
@@ -97,19 +99,19 @@ export default function Destinations() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {filtered.map(dest => (
+            <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {filtered.map((dest, i) => (
                 <div
                   key={dest.id}
                   id={dest.id}
-                  className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col"
+                  className={`reveal stagger-${(i % 6) + 1} group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col`}
                   onClick={() => setSelected(selected === dest.id ? null : dest.id)}
                 >
                   <div className="relative h-52 overflow-hidden rounded-t-2xl">
                     <img
                       src={dest.image}
                       alt={dest.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 group-hover:-translate-y-1 transition-transform duration-500 ease-out"
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#101B46]/70 to-transparent" />

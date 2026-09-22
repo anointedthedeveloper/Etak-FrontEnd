@@ -123,9 +123,8 @@ export default function Dashboard() {
                 <p className="text-5xl font-bold text-[#101B46] leading-none mb-2">
                   {loading ? <span className="text-3xl text-gray-200">—</span> : value}
                 </p>
-                <p className="text-xs flex items-center gap-1">
-                  <span className="text-green-500 font-semibold">↑ 0%</span>
-                  <span className="text-[#667085]">vs. last 7 days</span>
+                <p className="text-xs text-[#667085]">
+                  {loading ? 'Loading…' : total === 0 ? 'No activity yet' : 'Updated just now'}
                 </p>
               </div>
             ))}

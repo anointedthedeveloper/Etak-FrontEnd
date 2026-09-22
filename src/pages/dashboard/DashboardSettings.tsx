@@ -3,6 +3,7 @@ import { Bell, Shield, Globe, CheckCircle2 } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 
 export default function DashboardSettings() {
+  const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [prefs, setPrefs] = useState({
     emailNotifications: true,
@@ -17,8 +18,12 @@ export default function DashboardSettings() {
     setPrefs(p => ({ ...p, [key]: !p[key] }))
 
   const handleSave = () => {
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2500)
+    setSaving(true)
+    setTimeout(() => {
+      setSaving(false)
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2500)
+    }, 500)
   }
 
   const sections = [
@@ -48,7 +53,7 @@ export default function DashboardSettings() {
   ] as const
 
   return (
-    <div className="p-4 sm:p-5 xl:p-7 space-y-6">
+    <div className="p-4 sm:p-5 xl:p-6 space-y-6">
       <div>
         <h1 className="font-display text-2xl font-bold text-[#101B46]">Settings</h1>
         <p className="text-sm text-[#667085] mt-0.5">Manage your account preferences</p>
@@ -56,7 +61,7 @@ export default function DashboardSettings() {
 
       <div className="space-y-5 max-w-2xl">
         {sections.map(({ icon: Icon, title, items }) => (
-          <div key={title} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div key={title} className="premium-card rounded-2xl overflow-hidden">
             <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100 bg-gray-50/50">
               <Icon size={16} className="text-[#08A9E0]" />
               <h2 className="font-semibold text-[#101B46] text-sm">{title}</h2>
@@ -88,7 +93,7 @@ export default function DashboardSettings() {
         ))}
 
         <div className="flex items-center gap-3">
-          <Button variant="primary" size="md" onClick={handleSave}>Save preferences</Button>
+          <Button variant="primary" size="md" onClick={handleSave} loading={saving}>Save preferences</Button>
           {saved && (
             <span className="flex items-center gap-1.5 text-sm text-green-600 font-medium">
               <CheckCircle2 size={15} /> Saved

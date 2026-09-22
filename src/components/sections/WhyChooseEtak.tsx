@@ -1,6 +1,7 @@
 import { CheckCircle2, Users, Globe, Clock, HeartHandshake, TrendingDown } from 'lucide-react'
 import { SectionHeader } from '../ui/index'
 import { useRevealChildren, useInView } from '../../hooks/useInView'
+import { useCountUp } from '../../hooks/useCountUp'
 
 const values = [
   { icon: CheckCircle2,   title: 'Professional Coordination', desc: 'Every arrangement handled with attention to detail, from first inquiry to your return.',      accent: '#08A9E0' },
@@ -17,6 +18,13 @@ const stats = [
   { value: '16+',  label: 'Years Experience' },
   { value: '24/7', label: 'Support' },
 ]
+
+function StatValue({ value, start }: { value: string; start: boolean }) {
+  const match = value.match(/^(\d+)(.*)$/)
+  const count = useCountUp(match ? parseInt(match[1], 10) : 0, start && !!match)
+  if (!match) return <>{value}</>
+  return <>{start ? count : 0}{match[2]}</>
+}
 
 export default function WhyChooseEtak() {
   const gridRef = useRevealChildren<HTMLDivElement>()
@@ -65,7 +73,9 @@ export default function WhyChooseEtak() {
               className={`flex flex-col items-center justify-center py-8 px-4 bg-[#101B46] ${i < stats.length - 1 ? 'border-r border-white/10' : ''}`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <span className="font-display text-3xl sm:text-4xl font-bold text-white mb-1">{value}</span>
+              <span className="font-display text-3xl sm:text-4xl font-bold text-white mb-1 tabular-nums">
+                <StatValue value={value} start={statsVisible} />
+              </span>
               <span className="text-[#08A9E0] text-xs font-medium tracking-wide uppercase">{label}</span>
             </div>
           ))}

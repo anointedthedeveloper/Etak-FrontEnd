@@ -49,8 +49,11 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <div
               key={t.id}
-              className={`reveal stagger-${i + 1} bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300 flex flex-col`}
+              className={`reveal-flip stagger-${i + 1} relative overflow-hidden bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300 flex flex-col`}
             >
+              {/* Decorative oversized quote mark */}
+              <span className="quote-mark text-8xl -top-3 right-4 select-none" aria-hidden="true">&rdquo;</span>
+
               {/* Coloured top border */}
               <div
                 className="h-0.5 w-10 rounded-full mb-5"
@@ -65,7 +68,7 @@ export default function Testimonials() {
               </div>
 
               {/* Quote */}
-              <p className="text-[#172033] text-sm leading-relaxed mb-6 flex-1">"{t.text}"</p>
+              <p className="relative text-[#172033] text-sm leading-relaxed mb-6 flex-1">"{t.text}"</p>
 
               {/* Author */}
               <div className="flex items-center gap-3 pt-4 border-t border-gray-100">

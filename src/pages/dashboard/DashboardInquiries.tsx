@@ -84,6 +84,7 @@ export default function DashboardInquiries() {
   const { user } = useAuth()
   const [inquiries, setInquiries] = useState<Inquiry[]>([])
   const [loading, setLoading]     = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [filter, setFilter]       = useState('all')
   const [selected, setSelected]   = useState<Inquiry | null>(null)
 
@@ -96,6 +97,7 @@ export default function DashboardInquiries() {
       .order('created_at', { ascending: false })
       .then(({ data, error }) => {
         if (!error && data) setInquiries(data)
+        else if (error) setLoadError(true)
         setLoading(false)
       })
   }, [user])
@@ -144,7 +146,7 @@ export default function DashboardInquiries() {
   const shortId = (uuid: string) => `ETK-${uuid.slice(0, 6).toUpperCase()}`
 
   return (
-    <div className="p-4 sm:p-5 xl:p-7 space-y-6">
+    <div className="p-4 sm:p-5 xl:p-6 space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-2xl font-bold text-[#101B46]">Inquiries</h1>
@@ -170,10 +172,14 @@ export default function DashboardInquiries() {
 
       <div className="flex flex-col lg:flex-row gap-6 lg:min-h-[calc(100vh-260px)]">
         {/* Table */}
-        <div className={`bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-all ${selected ? 'lg:flex-1 min-w-0' : 'w-full'}`}>
+        <div className={`premium-card rounded-2xl overflow-hidden transition-all ${selected ? 'lg:flex-1 min-w-0' : 'w-full'}`}>
           {loading ? (
             <div className="flex items-center justify-center py-20">
               <div className="h-8 w-8 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
+            </div>
+          ) : loadError ? (
+            <div className="flex flex-col items-center justify-center py-20 text-center px-6">
+              <p className="text-sm text-red-500">Couldn't load your inquiries. Please try again shortly.</p>
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center px-6">
@@ -224,7 +230,7 @@ export default function DashboardInquiries() {
 
         {/* Detail panel */}
         {selected && (
-          <div className="w-full lg:w-96 xl:w-[440px] shrink-0 bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden lg:sticky lg:top-0 lg:max-h-[calc(100vh-180px)]">
+          <div className="w-full lg:w-96 xl:w-[440px] shrink-0 premium-card rounded-2xl flex flex-col overflow-hidden lg:sticky lg:top-0 lg:max-h-[calc(100vh-180px)]">
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <div>

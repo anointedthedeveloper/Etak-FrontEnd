@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Eye, EyeOff, KeyRound } from 'lucide-react'
 import { Input } from '../components/ui/FormFields'
 import { Button } from '../components/ui/Button'
 import { supabase } from '../lib/supabase'
+import AuthLayout from '../components/layout/AuthLayout'
 
 type Step = 'email' | 'code' | 'password'
 
@@ -72,22 +73,24 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#101B46] via-[#075D82] to-[#087EAF] px-4 py-12 flex items-center justify-center">
-      <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <Link to="/" className="inline-block mb-4">
-            <img src="/brand/logo.png" alt="Etak Travels" className="h-14 w-14 object-contain mx-auto" />
-          </Link>
-          <h1 className="font-display text-3xl font-bold text-white">Reset Password</h1>
-          <p className="text-blue-200 text-sm mt-1">
-            {step === 'email'    && "We'll send a verification code to your email."}
-            {step === 'code'     && `Enter the code sent to ${email}`}
-            {step === 'password' && 'Choose a new password for your account.'}
-          </p>
+    <AuthLayout>
+      <div className="relative">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-7">
+          <div className="w-11 h-11 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0 shadow-md">
+            <KeyRound size={19} className="text-white" />
+          </div>
+          <div>
+            <h2 className="font-display text-xl font-bold text-[#101B46]">Reset Password</h2>
+            <p className="text-sm text-[#667085]">
+              {step === 'email'    && "We'll send a verification code to your email."}
+              {step === 'code'     && `Enter the code sent to ${email}`}
+              {step === 'password' && 'Choose a new password for your account.'}
+            </p>
+          </div>
         </div>
 
-        <div className="rounded-2xl bg-white p-8 shadow-2xl">
-          {done ? (
+        {done ? (
             <div className="text-center py-4">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
                 <CheckCircle2 size={32} className="text-green-600" />
@@ -180,8 +183,7 @@ export default function ForgotPassword() {
               </Button>
             </form>
           )}
-        </div>
       </div>
-    </div>
+    </AuthLayout>
   )
 }

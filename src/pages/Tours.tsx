@@ -88,14 +88,14 @@ export default function Tours() {
           ) : (
             <div className="flex flex-col gap-6">
             {filtered.map(tour => (
-              <div key={tour.id} id={tour.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+              <div key={tour.id} id={tour.id} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg hover:border-[#08A9E0]/30 transition-all duration-300">
                 <div className="grid md:grid-cols-3 gap-0">
                   {/* Image */}
                   <div className="relative h-52 md:h-auto min-h-48 overflow-hidden">
                     <img
                       src={tour.image}
                       alt={tour.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
                     <button

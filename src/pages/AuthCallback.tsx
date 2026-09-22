@@ -12,8 +12,10 @@ export default function AuthCallback() {
   }, [navigate])
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white">
-      <div className="h-9 w-9 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
+    <div className="fixed inset-0 flex flex-col items-center justify-center gap-4 bg-white">
+      <img src="/brand/logo.png" alt="Etak Travels" className="h-10 w-10 object-contain animate-breathe" />
+      <div className="h-8 w-8 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
+      <p className="text-sm text-[#667085]">Signing you in…</p>
     </div>
   )
 }

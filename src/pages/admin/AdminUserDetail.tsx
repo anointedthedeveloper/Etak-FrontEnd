@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Mail, Phone, Calendar, MessageSquare, ChevronRight } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import Avatar from '../../components/ui/Avatar'
-import { StatusBadge } from '../../components/ui/index'
+import { StatusBadge, Badge } from '../../components/ui/index'
 
 interface UserDetail {
   id: string
@@ -59,7 +59,19 @@ export default function AdminUserDetail() {
   )
 
   if (!user) return (
-    <div className="text-center py-20 text-[#667085]">User not found.</div>
+    <div className="flex flex-col items-center justify-center py-20 text-center">
+      <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
+        <ArrowLeft size={24} className="text-gray-300" />
+      </div>
+      <p className="font-semibold text-[#172033] mb-1">User not found</p>
+      <p className="text-sm text-[#667085] mb-5">This user may have been removed.</p>
+      <button
+        onClick={() => navigate('/admin/users')}
+        className="flex items-center gap-2 text-sm font-semibold text-[#08A9E0] hover:underline"
+      >
+        <ArrowLeft size={15} /> Back to Users
+      </button>
+    </div>
   )
 
   return (
@@ -86,8 +98,8 @@ export default function AdminUserDetail() {
                 ? `${user.first_name} ${user.last_name}`.trim()
                 : user.email.split('@')[0]}
             </h2>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize bg-gray-100 text-[#667085] mt-1">
-              {user.role}
+            <span className="capitalize inline-block mt-1">
+              <Badge variant={user.role === 'admin' ? 'blue' : user.role === 'staff' ? 'purple' : 'gray'}>{user.role || 'user'}</Badge>
             </span>
           </div>
         </div>
@@ -133,9 +145,12 @@ export default function AdminUserDetail() {
           <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{enquiries.length}</span>
         </div>
         {enquiries.length === 0 ? (
-          <div className="p-10 text-center text-[#667085]">
-            <MessageSquare size={32} className="mx-auto mb-2 text-gray-300" />
-            <p>No enquiries submitted yet.</p>
+          <div className="flex flex-col items-center justify-center py-14 px-6 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
+              <MessageSquare size={24} className="text-gray-300" />
+            </div>
+            <p className="font-semibold text-[#172033] mb-1">No enquiries yet</p>
+            <p className="text-sm text-[#667085]">This user hasn't submitted any enquiries.</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-100">

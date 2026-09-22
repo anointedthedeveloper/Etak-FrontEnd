@@ -19,26 +19,30 @@ export default function DashboardNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [readIds, setReadIds] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
 
   useEffect(() => {
     if (!user) return
     async function load() {
-      const { data: inquiries } = await supabase
+      const { data: inquiries, error: inquiriesError } = await supabase
         .from('inquiries')
         .select('id, service')
         .eq('user_id', user!.id)
 
+      if (inquiriesError) { setLoadError(true); setLoading(false); return }
       if (!inquiries?.length) { setLoading(false); return }
 
       const ids = inquiries.map(i => i.id)
       const serviceMap = Object.fromEntries(inquiries.map(i => [i.id, i.service ?? 'General']))
 
-      const { data: replies } = await supabase
+      const { data: replies, error: repliesError } = await supabase
         .from('inquiry_responses')
         .select('id, inquiry_id, message, created_at')
         .in('inquiry_id', ids)
         .eq('is_admin', true)
         .order('created_at', { ascending: false })
+
+      if (repliesError) { setLoadError(true); setLoading(false); return }
 
       setNotifications((replies ?? []).map(r => ({
         id: r.id,
@@ -68,7 +72,7 @@ export default function DashboardNotifications() {
   const unreadCount = notifications.filter(n => !readIds.has(n.id)).length
 
   return (
-    <div className="p-4 sm:p-5 xl:p-7 space-y-6">
+    <div className="p-4 sm:p-5 xl:p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold text-[#101B46]">Notifications</h1>
@@ -88,10 +92,14 @@ export default function DashboardNotifications() {
         )}
       </div>
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="premium-card rounded-2xl overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="h-8 w-8 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
+          </div>
+        ) : loadError ? (
+          <div className="flex flex-col items-center justify-center py-20 text-center px-6">
+            <p className="text-sm text-red-500">Couldn't load your notifications. Please try again shortly.</p>
           </div>
         ) : notifications.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center px-6">

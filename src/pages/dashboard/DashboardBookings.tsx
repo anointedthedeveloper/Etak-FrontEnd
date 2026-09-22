@@ -9,14 +9,14 @@ const bookingTypes = [
 
 export default function DashboardBookings() {
   return (
-    <div className="p-4 sm:p-5 xl:p-7 space-y-6">
+    <div className="p-4 sm:p-5 xl:p-6 space-y-6">
       <div>
         <h1 className="font-display text-2xl font-bold text-[#101B46]">Bookings</h1>
         <p className="text-sm text-[#667085] mt-0.5">Manage your flight, hotel and tour bookings</p>
       </div>
 
       {/* Empty state with quick start options */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
+      <div className="premium-card rounded-2xl p-4 sm:p-5 xl:p-8">
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center mb-4">
             <Bookmark size={26} className="text-gray-300" />

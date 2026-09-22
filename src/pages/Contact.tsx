@@ -8,6 +8,7 @@ import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import { apiService } from '../services/api'
 import PageHeader from '../components/ui/PageHeader'
+import { useRevealChildren } from '../hooks/useInView'
 
 interface FormState {
   name: string; email: string; phone: string; service: string
@@ -27,6 +28,7 @@ export default function Contact() {
   })
   const [errors, setErrors] = useState<Partial<FormState>>({})
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const factsRef = useRevealChildren<HTMLDivElement>()
 
   const set = (k: keyof FormState, v: string) => {
     setForm(f => ({ ...f, [k]: v }))
@@ -76,13 +78,13 @@ export default function Contact() {
       {/* Quick facts strip */}
       <section className="bg-white border-b border-gray-100">
         <div className="site-gutter w-full py-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div ref={factsRef} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { icon: Zap,         title: '< 24h Response',  sub: 'We reply to every inquiry fast' },
               { icon: Headphones,  title: '24/7 Availability', sub: 'Support whenever you need us' },
               { icon: ShieldCheck, title: 'CAC Registered',  sub: 'RC 898792 · Abuja, Nigeria' },
-            ].map(({ icon: Icon, title, sub }) => (
-              <div key={title} className="flex items-center gap-3">
+            ].map(({ icon: Icon, title, sub }, i) => (
+              <div key={title} className={`reveal stagger-${i + 1} flex items-center gap-3`}>
                 <div className="w-11 h-11 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
                   <Icon size={18} className="text-[#08A9E0]" />
                 </div>

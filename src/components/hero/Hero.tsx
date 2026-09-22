@@ -14,6 +14,18 @@ const heroSlides = HERO_SLIDE_IDS
   .filter((d): d is (typeof destinations)[number] => !!d)
   .map(d => ({ src: d.image, alt: d.name }))
 
+// Each background photo carries its own editorial focus line, cycling in
+// sync with the slideshow so the hero reads as purposeful slides rather
+// than a generic rotating backdrop.
+const heroFocus = [
+  { label: 'Flights',  copy: 'Fares to Dubai, sorted end to end.' },
+  { label: 'Culture',  copy: 'City breaks planned around what you love.' },
+  { label: 'Hotels',   copy: 'Stays picked and booked to fit your budget.' },
+  { label: 'Business', copy: 'Corporate travel, handled without the back-and-forth.' },
+  { label: 'Tours',    copy: 'Curated itineraries for first-time explorers.' },
+  { label: 'Assistance', copy: 'Visa and documentation support, start to finish.' },
+]
+
 const tabs = [
   { id: 'flights',    label: 'Flights',           icon: Plane },
   { id: 'hotels',     label: 'Hotels',            icon: Building2 },
@@ -30,13 +42,15 @@ const serviceIcons = [
 
 export default function Hero() {
   const [activeTab, setActiveTab] = useState('flights')
+  const [slideIndex, setSlideIndex] = useState(0)
   const navigate = useNavigate()
+  const focus = heroFocus[slideIndex % heroFocus.length]
   return (
     <section className="hero-shell relative flex flex-col overflow-hidden bg-[#0D1640] -mt-16 lg:-mt-[68px] xl:-mt-[72px] 2xl:-mt-20 min-h-[100svh] lg:h-[100svh]">
 
       {/* ── Background slideshow — real destination photography, always rotating ── */}
       <div className="absolute inset-0 pointer-events-none select-none">
-        <ImageSlideshow images={heroSlides} interval={6500} />
+        <ImageSlideshow images={heroSlides} interval={6500} onIndexChange={setSlideIndex} />
         {/* Mobile: layered navy overlay keeps the photo visible while text stays crisp */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#07102D]/62 via-[#07102D]/40 to-[#07102D]/68 lg:hidden" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#07102D]/38 via-transparent to-[#07102D]/10 lg:hidden" />
@@ -52,9 +66,19 @@ export default function Hero() {
 
           {/* ── LEFT ── */}
           <div className="hero-copy rounded-2xl bg-[#07102D]/42 p-4 pt-3 sm:p-5 lg:rounded-3xl lg:bg-[#07102D]/24 lg:p-6 lg:backdrop-blur-[2px] backdrop-blur-md border border-white/10">
-            <p className="hero-eyebrow text-[#08A9E0] text-xs sm:text-sm font-extrabold uppercase tracking-widest mb-3 drop-shadow-lg">
-              Your Journey Starts Here
-            </p>
+            <div className="hero-eyebrow flex items-center gap-2.5 mb-3">
+              <span className="text-[#08A9E0] text-xs sm:text-sm font-extrabold uppercase tracking-widest drop-shadow-lg">
+                Your Journey Starts Here
+              </span>
+              <span
+                key={slideIndex}
+                title={focus.copy}
+                className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-2.5 py-0.5 text-[11px] font-semibold text-white/90 backdrop-blur-sm animate-fade-in"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#08A9E0] animate-breathe" />
+                {focus.label}
+              </span>
+            </div>
 
             <h1 className="hero-title font-display font-extrabold text-white leading-tight mb-4
                            text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl"

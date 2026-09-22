@@ -266,7 +266,7 @@ export default function Navbar() {
                       to={to}
                       end={to === '/'}
                       className={({ isActive }) =>
-                        `relative flex items-center gap-1 px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
+                        `nav-underline relative flex items-center gap-1 px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
                           isActive
                             ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
                             : 'text-[#565873] hover:text-[#087EAF] hover:bg-white hover:-translate-y-0.5 hover:shadow-sm'
@@ -306,7 +306,7 @@ export default function Navbar() {
                     to={to}
                     end={to === '/'}
                     className={({ isActive }) =>
-                      `relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
+                      `nav-underline relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
                         isActive
                           ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
                           : 'text-[#565873] hover:text-[#087EAF] hover:bg-white hover:-translate-y-0.5 hover:shadow-sm'
@@ -413,7 +413,7 @@ export default function Navbar() {
           </div>
         </div>
         {searchOpen && (
-          <div className="hidden lg:block absolute right-14 xl:right-20 2xl:right-28 top-[calc(100%+10px)] rounded-2xl bg-white/95 p-2 shadow-2xl shadow-[#101B46]/15 ring-1 ring-[#08A9E0]/15 backdrop-blur-xl">
+          <div className="animate-search-expand hidden lg:block absolute right-14 xl:right-20 2xl:right-28 top-[calc(100%+10px)] rounded-2xl bg-white/95 p-2 shadow-2xl shadow-[#101B46]/15 ring-1 ring-[#08A9E0]/15 backdrop-blur-xl">
             <SearchBox onClose={() => setSearchOpen(false)} />
           </div>
         )}
@@ -571,7 +571,7 @@ export default function Navbar() {
           <div className="flex-1 overflow-y-auto p-4">
             {items.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center gap-3 py-16">
-                <div className="w-16 h-16 rounded-full bg-[#F8FAFC] flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-[#F8FAFC] flex items-center justify-center animate-breathe">
                   <Heart size={28} className="text-gray-300" />
                 </div>
                 <p className="text-[#667085] text-sm">No saved items yet.</p>

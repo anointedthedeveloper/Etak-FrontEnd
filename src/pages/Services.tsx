@@ -4,6 +4,7 @@ import { services } from '../data/services'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import PageHeader from '../components/ui/PageHeader'
+import { useRevealChildren } from '../hooks/useInView'
 
 const iconMap: Record<string, React.ElementType> = {
   Plane, Building2, Map, MessageSquare, FileCheck, Shield, Navigation,
@@ -11,6 +12,7 @@ const iconMap: Record<string, React.ElementType> = {
 }
 
 export default function Services() {
+  const gridRef = useRevealChildren<HTMLDivElement>()
   return (
     <>
       <SEO
@@ -37,14 +39,13 @@ export default function Services() {
             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {services.map((service, i) => {  
+          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            {services.map((service, i) => {
               const Icon = iconMap[service.icon] ?? Plane
               return (
                 <div
                   key={service.id}
-                  className="group relative bg-white rounded-2xl border border-gray-100 hover:border-[#08A9E0]/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col"
-                  style={{ animationDelay: `${i * 0.05}s` }}
+                  className={`reveal stagger-${(i % 6) + 1} group relative bg-white rounded-2xl border border-gray-100 hover:border-[#08A9E0]/40 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col`}
                 >
                   {/* Image */}
                   <div className="relative h-44 overflow-hidden shrink-0">
