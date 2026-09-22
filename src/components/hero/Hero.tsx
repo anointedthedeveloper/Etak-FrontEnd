@@ -5,6 +5,14 @@ import FlightInquiryForm from '../forms/FlightInquiryForm'
 import HotelInquiryForm from '../forms/HotelInquiryForm'
 import TourInquiryForm from '../forms/TourInquiryForm'
 import AssistanceInquiryForm from '../forms/AssistanceInquiryForm'
+import ImageSlideshow from '../ui/ImageSlideshow'
+import { destinations } from '../../data/destinations'
+
+const HERO_SLIDE_IDS = ['dubai', 'istanbul', 'london', 'paris', 'new-york', 'nairobi']
+const heroSlides = HERO_SLIDE_IDS
+  .map(id => destinations.find(d => d.id === id))
+  .filter((d): d is (typeof destinations)[number] => !!d)
+  .map(d => ({ src: d.image, alt: d.name }))
 
 const tabs = [
   { id: 'flights',    label: 'Flights',           icon: Plane },
@@ -26,26 +34,15 @@ export default function Hero() {
   return (
     <section className="hero-shell relative flex flex-col overflow-hidden bg-[#0D1640] -mt-16 lg:-mt-[68px] xl:-mt-[72px] 2xl:-mt-20 min-h-[100svh] lg:h-[100svh]">
 
-      {/* ── Background image ── */}
+      {/* ── Background slideshow — real destination photography, always rotating ── */}
       <div className="absolute inset-0 pointer-events-none select-none">
-        <img
-          src="/brand/PhonePortrait.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute right-0 top-0 h-full w-full object-cover object-right lg:hidden"
-        />
-        <img
-          src="/brand/hero.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute right-0 top-0 h-full w-full object-cover object-right hidden lg:block"
-        />
-        {/* Mobile: layered navy overlay keeps the portrait image visible while text stays crisp */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#07102D]/56 via-[#07102D]/34 to-[#07102D]/62 lg:hidden" />
+        <ImageSlideshow images={heroSlides} interval={6500} />
+        {/* Mobile: layered navy overlay keeps the photo visible while text stays crisp */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07102D]/62 via-[#07102D]/40 to-[#07102D]/68 lg:hidden" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#07102D]/38 via-transparent to-[#07102D]/10 lg:hidden" />
         {/* Desktop: a richer navy wash keeps the image atmospheric without losing legibility */}
-        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#07102D]/72 via-[#0D1640]/42 to-[#0D1640]/10" />
-        <div className="absolute inset-0 hidden lg:block bg-gradient-to-t from-[#07102D]/26 via-transparent to-[#07102D]/10" />
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#07102D]/76 via-[#0D1640]/48 to-[#0D1640]/14" />
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-t from-[#07102D]/30 via-transparent to-[#07102D]/12" />
       </div>
 
 

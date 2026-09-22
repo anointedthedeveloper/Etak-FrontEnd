@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom'
 import { type ReactNode } from 'react'
 import { Plane, Shield, Headphones } from 'lucide-react'
+import ImageSlideshow from '../ui/ImageSlideshow'
+import { destinations } from '../../data/destinations'
+
+const AUTH_SLIDE_IDS = ['dubai', 'istanbul', 'london', 'paris', 'new-york', 'nairobi']
+const authSlides = AUTH_SLIDE_IDS
+  .map(id => destinations.find(d => d.id === id))
+  .filter((d): d is (typeof destinations)[number] => !!d)
+  .map(d => ({ src: d.image, alt: d.name }))
 
 interface Props {
   children: ReactNode
@@ -24,13 +32,8 @@ export default function AuthLayout({ children }: Props) {
       {/* ── LEFT PANEL — brand / hero image ── */}
       <div className="relative lg:w-[48%] xl:w-[52%] shrink-0 lg:h-full
                       h-[140px] sm:h-[180px] overflow-hidden">
-        {/* Hero image */}
-        <img
-          src="/brand/hero.png"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
+        {/* Rotating destination photography */}
+        <ImageSlideshow images={authSlides} interval={7000} />
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#101B46]/88 via-[#087EAF]/70 to-[#08A9E0]/42" />
 

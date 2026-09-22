@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Lock, CheckCircle2, AlertCircle, Eye, EyeOff, Shield } from 'lucide-react'
+import { Lock, CheckCircle2, AlertCircle, Eye, EyeOff } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/FormFields'
 import { supabase } from '../../lib/supabase'
@@ -24,16 +24,6 @@ export default function AdminSettings() {
 
   return (
     <div className="space-y-6 animate-fade-up">
-      <div className="flex items-center gap-2">
-        <div className="w-9 h-9 rounded-xl bg-[#08A9E0] text-white flex items-center justify-center shadow-md shadow-[#08A9E0]/20">
-          <Shield size={17} />
-        </div>
-        <div>
-          <h1 className="font-display text-2xl font-bold text-[#101B46]">Admin Settings</h1>
-          <p className="text-sm text-[#667085] mt-0.5">Manage your admin account security</p>
-        </div>
-      </div>
-
       <div className="max-w-md">
         <div className="premium-card rounded-2xl p-6">
           <div className="flex items-center gap-2 mb-5">
