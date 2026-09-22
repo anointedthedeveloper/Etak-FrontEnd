@@ -39,6 +39,7 @@ export default function Signup() {
   const [showPw, setShowPw] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(false)
+  const [verifyEmail, setVerifyEmail] = useState('')
 
   const set = (k: string, v: string | boolean) => {
     setForm(f => ({ ...f, [k]: v }))
@@ -59,6 +60,8 @@ export default function Signup() {
     return e
   }
 
+  const [verifyEmail, setVerifyEmail] = useState('')
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const errs = validate()
@@ -66,7 +69,7 @@ export default function Signup() {
     setLoading(true)
     try {
       await register({ firstName: form.firstName, lastName: form.lastName, email: form.email, phone: form.phone, password: form.password })
-      navigate('/dashboard')
+      setVerifyEmail(form.email)
     } catch (err: unknown) {
       setErrors({ general: err instanceof Error ? err.message : 'Registration failed. Please try again.' })
     } finally {
@@ -79,98 +82,141 @@ export default function Signup() {
 
   return (
     <AuthLayout>
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-4">
-        <div className="w-9 h-9 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0 shadow-md shadow-[#08A9E0]/20">
-          <User size={17} className="text-white" />
-        </div>
-        <div>
-          <h2 className="font-display text-lg font-bold text-[#101B46]">Create Your Account</h2>
-          <p className="text-xs text-[#667085]">Join Etak Travels and manage your journeys in one place</p>
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
-        {/* Name row */}
-        <div className="grid grid-cols-2 gap-2.5">
-          <FieldWrapper label="First Name" required error={errors.firstName} icon={User}>
-            <input placeholder="First name" value={form.firstName} onChange={e => set('firstName', e.target.value)} className={inputClass(errors.firstName)} />
-          </FieldWrapper>
-          <FieldWrapper label="Last Name" required error={errors.lastName} icon={User}>
-            <input placeholder="Last name" value={form.lastName} onChange={e => set('lastName', e.target.value)} className={inputClass(errors.lastName)} />
-          </FieldWrapper>
-        </div>
-
-        <FieldWrapper label="Email Address" required error={errors.email} icon={Mail}>
-          <input type="email" placeholder="your@email.com" value={form.email} onChange={e => set('email', e.target.value)} autoComplete="email" className={inputClass(errors.email)} />
-        </FieldWrapper>
-
-        <FieldWrapper label="Phone Number" required error={errors.phone} icon={Phone}>
-          <input type="tel" placeholder="+234 xxx xxx xxxx" value={form.phone} onChange={e => set('phone', e.target.value)} className={inputClass(errors.phone)} />
-        </FieldWrapper>
-
-        <FieldWrapper label="Password" required error={errors.password} icon={Lock}>
-          <input type={showPw ? 'text' : 'password'} placeholder="Create a password" value={form.password} onChange={e => set('password', e.target.value)} autoComplete="new-password" className={`${inputClass(errors.password)} pr-9`} />
-          <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#667085] hover:text-[#172033]">
-            {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
-          </button>
-        </FieldWrapper>
-
-        <FieldWrapper label="Confirm Password" required error={errors.confirmPassword} icon={Lock}>
-          <input type={showPw ? 'text' : 'password'} placeholder="Confirm your password" value={form.confirmPassword} onChange={e => set('confirmPassword', e.target.value)} autoComplete="new-password" className={`${inputClass(errors.confirmPassword)} pr-9`} />
-          {form.confirmPassword && form.password === form.confirmPassword && (
-            <CheckCircle2 size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500" />
-          )}
-        </FieldWrapper>
-
-        {/* Terms */}
-        <div className="flex flex-col gap-0.5">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" checked={form.terms} onChange={e => set('terms', e.target.checked)} className="w-3.5 h-3.5 rounded border-gray-300 text-[#08A9E0] focus:ring-[#08A9E0]" />
-            <span className="text-xs text-[#667085]">
-              I agree to the{' '}
-              <Link to="/terms" className="text-[#08A9E0] font-medium hover:underline">Terms of Service</Link>
-              {' '}and{' '}
-              <Link to="/privacy" className="text-[#08A9E0] font-medium hover:underline">Privacy Policy</Link>
+      {verifyEmail ? (
+        /* ── Email verification screen ── */
+        <div className="flex flex-col items-center text-center py-4">
+          {/* Animated envelope */}
+          <div className="relative w-20 h-20 mb-5">
+            <div className="w-20 h-20 rounded-full bg-[#EAF8FD] flex items-center justify-center">
+              <Mail size={34} className="text-[#08A9E0]" />
+            </div>
+            <span className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#08A9E0] flex items-center justify-center shadow-md">
+              <CheckCircle2 size={14} className="text-white" />
             </span>
-          </label>
-          {errors.terms && <p className="text-xs text-red-500 ml-5">{errors.terms}</p>}
-        </div>
-
-        {errors.general && (
-          <div className="flex items-center gap-2 p-2.5 bg-red-50 rounded-xl border border-red-200">
-            <AlertCircle size={13} className="text-red-500 shrink-0" />
-            <p className="text-xs text-red-600">{errors.general}</p>
           </div>
-        )}
 
-        <button type="submit" disabled={loading}
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-all duration-300 hover:shadow-lg hover:shadow-[#08A9E0]/25 disabled:opacity-60 disabled:cursor-not-allowed">
-          {loading ? <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-            : 'Create Account →'}
-        </button>
-      </form>
+          <h2 className="font-display text-xl font-bold text-[#101B46] mb-2">Check Your Email</h2>
+          <p className="text-sm text-[#667085] leading-relaxed mb-1">
+            We sent a confirmation link to
+          </p>
+          <p className="text-sm font-semibold text-[#101B46] mb-5 break-all">{verifyEmail}</p>
 
-      <p className="text-center text-xs text-[#667085] mt-3">
-        Already have an account?{' '}
-        <Link to="/login" className="text-[#08A9E0] font-semibold hover:underline">Sign in</Link>
-      </p>
+          <div className="w-full bg-[#EAF8FD] border border-[#08A9E0]/20 rounded-xl p-4 mb-6 text-left">
+            <p className="text-xs text-[#087EAF] leading-relaxed">
+              Click the link in the email to confirm your address and activate your account. Check your spam folder if you don't see it within a few minutes.
+            </p>
+          </div>
 
-      <div className="relative my-3">
-        <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
-        <div className="relative flex justify-center"><span className="bg-white/75 backdrop-blur-sm px-3 text-xs text-[#667085]">or continue with</span></div>
-      </div>
+          <p className="text-xs text-[#667085]">
+            Wrong email?{' '}
+            <button
+              onClick={() => setVerifyEmail('')}
+              className="text-[#08A9E0] font-semibold hover:underline"
+            >
+              Go back
+            </button>
+          </p>
 
-      <button onClick={signInWithGoogle} type="button"
-        className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl border-2 border-[#08A9E0]/15 bg-white text-sm font-semibold text-[#172033] hover:bg-[#F4FBFE] hover:border-[#08A9E0]/35 transition-all hover:-translate-y-0.5 cursor-pointer">
-        <GoogleIcon /> Continue with Google
-      </button>
+          <div className="mt-6 pt-5 border-t border-gray-100 w-full text-center">
+            <Link to="/" className="inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#08A9E0] transition-colors">
+              <ArrowLeft size={12} /> Back to Etak Travels
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Header */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-9 h-9 rounded-full bg-[#08A9E0] flex items-center justify-center shrink-0 shadow-md shadow-[#08A9E0]/20">
+              <User size={17} className="text-white" />
+            </div>
+            <div>
+              <h2 className="font-display text-lg font-bold text-[#101B46]">Create Your Account</h2>
+              <p className="text-xs text-[#667085]">Join Etak Travels and manage your journeys in one place</p>
+            </div>
+          </div>
 
-      <div className="text-center mt-3">
-        <Link to="/" className="inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#08A9E0] transition-colors">
-          <ArrowLeft size={12} /> Back to Etak Travels
-        </Link>
-      </div>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2.5">
+            <div className="grid grid-cols-2 gap-2.5">
+              <FieldWrapper label="First Name" required error={errors.firstName} icon={User}>
+                <input placeholder="First name" value={form.firstName} onChange={e => set('firstName', e.target.value)} className={inputClass(errors.firstName)} />
+              </FieldWrapper>
+              <FieldWrapper label="Last Name" required error={errors.lastName} icon={User}>
+                <input placeholder="Last name" value={form.lastName} onChange={e => set('lastName', e.target.value)} className={inputClass(errors.lastName)} />
+              </FieldWrapper>
+            </div>
+
+            <FieldWrapper label="Email Address" required error={errors.email} icon={Mail}>
+              <input type="email" placeholder="your@email.com" value={form.email} onChange={e => set('email', e.target.value)} autoComplete="email" className={inputClass(errors.email)} />
+            </FieldWrapper>
+
+            <FieldWrapper label="Phone Number" required error={errors.phone} icon={Phone}>
+              <input type="tel" placeholder="+234 xxx xxx xxxx" value={form.phone} onChange={e => set('phone', e.target.value)} className={inputClass(errors.phone)} />
+            </FieldWrapper>
+
+            <FieldWrapper label="Password" required error={errors.password} icon={Lock}>
+              <input type={showPw ? 'text' : 'password'} placeholder="Create a password" value={form.password} onChange={e => set('password', e.target.value)} autoComplete="new-password" className={`${inputClass(errors.password)} pr-9`} />
+              <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#667085] hover:text-[#172033]">
+                {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </FieldWrapper>
+
+            <FieldWrapper label="Confirm Password" required error={errors.confirmPassword} icon={Lock}>
+              <input type={showPw ? 'text' : 'password'} placeholder="Confirm your password" value={form.confirmPassword} onChange={e => set('confirmPassword', e.target.value)} autoComplete="new-password" className={`${inputClass(errors.confirmPassword)} pr-9`} />
+              {form.confirmPassword && form.password === form.confirmPassword && (
+                <CheckCircle2 size={15} className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500" />
+              )}
+            </FieldWrapper>
+
+            <div className="flex flex-col gap-0.5">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={form.terms} onChange={e => set('terms', e.target.checked)} className="w-3.5 h-3.5 rounded border-gray-300 text-[#08A9E0] focus:ring-[#08A9E0]" />
+                <span className="text-xs text-[#667085]">
+                  I agree to the{' '}
+                  <Link to="/terms" className="text-[#08A9E0] font-medium hover:underline">Terms of Service</Link>
+                  {' '}and{' '}
+                  <Link to="/privacy" className="text-[#08A9E0] font-medium hover:underline">Privacy Policy</Link>
+                </span>
+              </label>
+              {errors.terms && <p className="text-xs text-red-500 ml-5">{errors.terms}</p>}
+            </div>
+
+            {errors.general && (
+              <div className="flex items-center gap-2 p-2.5 bg-red-50 rounded-xl border border-red-200">
+                <AlertCircle size={13} className="text-red-500 shrink-0" />
+                <p className="text-xs text-red-600">{errors.general}</p>
+              </div>
+            )}
+
+            <button type="submit" disabled={loading}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-bold transition-all duration-300 hover:shadow-lg hover:shadow-[#08A9E0]/25 disabled:opacity-60 disabled:cursor-not-allowed">
+              {loading ? <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                : 'Create Account →'}
+            </button>
+          </form>
+
+          <p className="text-center text-xs text-[#667085] mt-3">
+            Already have an account?{' '}
+            <Link to="/login" className="text-[#08A9E0] font-semibold hover:underline">Sign in</Link>
+          </p>
+
+          <div className="relative my-3">
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
+            <div className="relative flex justify-center"><span className="bg-white/75 backdrop-blur-sm px-3 text-xs text-[#667085]">or continue with</span></div>
+          </div>
+
+          <button onClick={signInWithGoogle} type="button"
+            className="w-full flex items-center justify-center gap-2.5 py-2.5 rounded-xl border-2 border-[#08A9E0]/15 bg-white text-sm font-semibold text-[#172033] hover:bg-[#F4FBFE] hover:border-[#08A9E0]/35 transition-all hover:-translate-y-0.5 cursor-pointer">
+            <GoogleIcon /> Continue with Google
+          </button>
+
+          <div className="text-center mt-3">
+            <Link to="/" className="inline-flex items-center gap-1.5 text-xs text-[#667085] hover:text-[#08A9E0] transition-colors">
+              <ArrowLeft size={12} /> Back to Etak Travels
+            </Link>
+          </div>
+        </>
+      )}
     </AuthLayout>
   )
 }
