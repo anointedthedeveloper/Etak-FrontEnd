@@ -49,7 +49,7 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <div
               key={t.id}
-              className={`reveal-flip stagger-${i + 1} relative overflow-hidden bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300 flex flex-col`}
+              className={`reveal-flip stagger-${i + 1} relative overflow-hidden bg-white rounded-card p-6 border border-gray-100 hover:shadow-card transition-shadow duration-300 flex flex-col`}
             >
               {/* Decorative oversized quote mark */}
               <span className="quote-mark text-8xl -top-3 right-4 select-none" aria-hidden="true">&rdquo;</span>

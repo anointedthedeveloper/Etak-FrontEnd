@@ -92,9 +92,9 @@ export default function ServicesShowcase() {
           </div>
 
           {/* Active service detail */}
-          <div className="lg:col-span-3 bg-gradient-to-br from-[#EAF8FD] to-white rounded-2xl p-5 sm:p-8 flex flex-col gap-5 sm:gap-6">
+          <div className="lg:col-span-3 bg-gradient-to-br from-[#EAF8FD] to-white rounded-panel p-5 sm:p-8 flex flex-col gap-5 sm:gap-6">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#101B46] flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-card bg-[#101B46] flex items-center justify-center shrink-0">
                 <Icon size={22} className="text-[#08A9E0]" />
               </div>
               <div>

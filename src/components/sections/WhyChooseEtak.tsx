@@ -42,7 +42,7 @@ export default function WhyChooseEtak() {
         />
 
         {/* Value cards — clean white on light grey, no decorative noise */}
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-100 border border-gray-100 rounded-2xl overflow-hidden">
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-gray-100 border border-gray-100 rounded-card overflow-hidden">
           {values.map(({ icon: Icon, title, desc, accent }, i) => (
             <div
               key={title}
@@ -65,7 +65,7 @@ export default function WhyChooseEtak() {
         {/* Stats strip — clean dark bar, no gradients inside each cell */}
         <div
           ref={statsRef}
-          className={`mt-10 grid grid-cols-2 sm:grid-cols-4 rounded-2xl overflow-hidden border border-[#101B46] transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+          className={`mt-10 grid grid-cols-2 sm:grid-cols-4 rounded-card overflow-hidden border border-[#101B46] transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
         >
           {stats.map(({ value, label }, i) => (
             <div

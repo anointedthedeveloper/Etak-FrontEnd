@@ -49,7 +49,7 @@ export default function FeaturedDestinations() {
           {[...(featured[0] ? [featured[0]] : []), ...smallCards].map((dest, i) => (
             <div
               key={dest.id}
-              className={`group relative rounded-2xl overflow-hidden bg-[#101B46] cursor-pointer ${i === 0 ? 'sm:col-span-2 min-h-56' : 'min-h-48'}`}
+              className={`group relative rounded-card overflow-hidden bg-[#101B46] cursor-pointer ${i === 0 ? 'sm:col-span-2 min-h-56' : 'min-h-48'}`}
             >
               <img src={dest.image} alt={dest.name} className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-110 group-hover:-translate-y-1.5 transition-transform duration-500 ease-out" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#101B46]/90 via-[#101B46]/20 to-transparent" />
@@ -68,7 +68,7 @@ export default function FeaturedDestinations() {
         <div ref={gridRef} className="hidden lg:grid grid-cols-3 gap-5">
           {featured[0] && (
             <div
-              className={`col-span-2 row-span-2 group relative rounded-2xl overflow-hidden bg-[#101B46] min-h-[420px] cursor-pointer transition-all duration-600 ${gridVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`col-span-2 row-span-2 group relative rounded-panel overflow-hidden bg-[#101B46] min-h-[420px] cursor-pointer transition-all duration-600 ${gridVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             >
               <img src={featured[0].image} alt={featured[0].name} className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-110 group-hover:-translate-y-2 transition-transform duration-700 ease-out" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#101B46]/95 via-[#101B46]/20 to-transparent" />
@@ -86,7 +86,7 @@ export default function FeaturedDestinations() {
           {smallCards.map((dest, i) => (
             <div
               key={dest.id}
-              className={`group relative rounded-2xl overflow-hidden bg-[#101B46] min-h-48 cursor-pointer transition-all duration-600 hover:-translate-y-0.5 ${gridVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`group relative rounded-card overflow-hidden bg-[#101B46] min-h-48 cursor-pointer transition-all duration-600 hover:-translate-y-0.5 ${gridVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               style={{ transitionDelay: `${(i + 1) * 80}ms` }}
             >
               <img src={dest.image} alt={dest.name} className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-110 group-hover:-translate-y-1.5 transition-transform duration-500 ease-out" />

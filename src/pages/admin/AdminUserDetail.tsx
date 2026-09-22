@@ -4,6 +4,7 @@ import { ArrowLeft, Mail, Phone, Calendar, MessageSquare, ChevronRight } from 'l
 import { supabase } from '../../lib/supabase'
 import Avatar from '../../components/ui/Avatar'
 import { StatusBadge, Badge } from '../../components/ui/index'
+import { EmptyState, LoadingState } from '../../components/ui/States'
 
 interface UserDetail {
   id: string
@@ -52,26 +53,22 @@ export default function AdminUserDetail() {
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 
-  if (loading) return (
-    <div className="flex items-center justify-center py-20">
-      <div className="h-8 w-8 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
-    </div>
-  )
+  if (loading) return <LoadingState />
 
   if (!user) return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
-        <ArrowLeft size={24} className="text-gray-300" />
-      </div>
-      <p className="font-semibold text-[#172033] mb-1">User not found</p>
-      <p className="text-sm text-[#667085] mb-5">This user may have been removed.</p>
-      <button
-        onClick={() => navigate('/admin/users')}
-        className="flex items-center gap-2 text-sm font-semibold text-[#08A9E0] hover:underline"
-      >
-        <ArrowLeft size={15} /> Back to Users
-      </button>
-    </div>
+    <EmptyState
+      icon={ArrowLeft}
+      title="User not found"
+      description="This user may have been removed."
+      action={
+        <button
+          onClick={() => navigate('/admin/users')}
+          className="flex items-center gap-2 text-sm font-semibold text-[#08A9E0] hover:underline"
+        >
+          <ArrowLeft size={15} /> Back to Users
+        </button>
+      }
+    />
   )
 
   return (
@@ -84,7 +81,7 @@ export default function AdminUserDetail() {
       </button>
 
       {/* Profile card */}
-      <div className="premium-card rounded-2xl p-6">
+      <div className="premium-card rounded-card p-6">
         <div className="flex items-start gap-5">
           <Avatar
             avatarUrl={user.avatar_url ?? undefined}
@@ -136,7 +133,7 @@ export default function AdminUserDetail() {
       </div>
 
       {/* Enquiries */}
-      <div className="premium-card rounded-2xl overflow-hidden">
+      <div className="premium-card rounded-card overflow-hidden">
         <div className="p-4 border-b border-[#08A9E0]/10 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MessageSquare size={16} className="text-[#08A9E0]" />
@@ -145,13 +142,11 @@ export default function AdminUserDetail() {
           <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{enquiries.length}</span>
         </div>
         {enquiries.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-14 px-6 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
-              <MessageSquare size={24} className="text-gray-300" />
-            </div>
-            <p className="font-semibold text-[#172033] mb-1">No enquiries yet</p>
-            <p className="text-sm text-[#667085]">This user hasn't submitted any enquiries.</p>
-          </div>
+          <EmptyState
+            icon={MessageSquare}
+            title="No enquiries yet"
+            description="This user hasn't submitted any enquiries."
+          />
         ) : (
           <div className="divide-y divide-gray-100">
             {enquiries.map(e => (

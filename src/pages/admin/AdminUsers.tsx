@@ -4,6 +4,8 @@ import { Users, Search, Phone, Calendar, UserCheck, ChevronRight } from 'lucide-
 import { supabase } from '../../lib/supabase'
 import Avatar from '../../components/ui/Avatar'
 import { Badge } from '../../components/ui/index'
+import { EmptyState, LoadingState } from '../../components/ui/States'
+import { LoadMore } from '../../components/ui/Pagination'
 
 interface UserRow {
   id: string
@@ -58,7 +60,7 @@ export default function AdminUsers() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="premium-card rounded-2xl p-5">
+        <div className="premium-card rounded-card p-5">
           <div className="flex items-center gap-2.5 mb-4">
             <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
               <Users size={16} className="text-blue-500" />
@@ -67,7 +69,7 @@ export default function AdminUsers() {
           </div>
           <p className="text-4xl font-bold text-[#101B46] leading-none">{loading ? <span className="text-2xl text-gray-200">—</span> : users.length}</p>
         </div>
-        <div className="premium-card rounded-2xl p-5">
+        <div className="premium-card rounded-card p-5">
           <div className="flex items-center gap-2.5 mb-4">
             <div className="w-9 h-9 rounded-xl bg-green-50 flex items-center justify-center shrink-0">
               <UserCheck size={16} className="text-green-500" />
@@ -78,7 +80,7 @@ export default function AdminUsers() {
         </div>
       </div>
 
-      <div className="premium-card rounded-2xl overflow-hidden">
+      <div className="premium-card rounded-card overflow-hidden">
         <div className="p-4 border-b border-[#08A9E0]/10 flex items-center justify-between">
           <h3 className="font-semibold text-[#101B46]">All Users</h3>
           <span className="rounded-full bg-[#EAF8FD] px-2.5 py-1 text-xs font-bold text-[#087EAF]">{filtered.length}</span>
@@ -98,20 +100,18 @@ export default function AdminUsers() {
             <tbody className="divide-y divide-gray-100">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-16 text-center text-[#667085]">
-                    <div className="flex items-center justify-center">
-                      <div className="h-7 w-7 rounded-full border-4 border-gray-100 border-t-[#08A9E0] animate-spin" />
-                    </div>
+                  <td colSpan={5}>
+                    <LoadingState />
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-14 text-center text-[#667085]">
-                    <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mx-auto mb-4">
-                      <Users size={24} className="text-gray-300" />
-                    </div>
-                    <p className="font-semibold text-[#172033] mb-1">No users found</p>
-                    <p className="text-sm text-[#667085]">{searchTerm ? 'Try a different search term.' : 'Registered users will appear here.'}</p>
+                  <td colSpan={5}>
+                    <EmptyState
+                      icon={Users}
+                      title="No users found"
+                      description={searchTerm ? 'Try a different search term.' : 'Registered users will appear here.'}
+                    />
                   </td>
                 </tr>
               ) : visible.map((user) => (
@@ -162,15 +162,13 @@ export default function AdminUsers() {
             </tbody>
           </table>
         </div>
-        {!loading && visible.length < filtered.length && (
-          <div className="p-3 text-center border-t border-gray-100">
-            <button
-              onClick={() => setVisibleCount(v => v + 25)}
-              className="text-xs font-semibold text-[#08A9E0] hover:underline"
-            >
-              Load more ({filtered.length - visible.length} remaining)
-            </button>
-          </div>
+        {!loading && (
+          <LoadMore
+            shown={visible.length}
+            total={filtered.length}
+            onLoadMore={() => setVisibleCount(v => v + 25)}
+            itemLabel="users"
+          />
         )}
       </div>
     </div>
