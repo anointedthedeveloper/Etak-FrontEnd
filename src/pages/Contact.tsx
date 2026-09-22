@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { MapPin, Mail, Phone, Clock, CheckCircle2, AlertCircle } from 'lucide-react'
+import { MapPin, Mail, Phone, Clock, CheckCircle2, AlertCircle, Headphones, Zap, ShieldCheck } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import { Input, Textarea, Select } from '../components/ui/FormFields'
 import { DatePicker } from '../components/forms/FormWidgets'
@@ -73,64 +73,79 @@ export default function Contact() {
         centered
       />
 
+      {/* Quick facts strip */}
+      <section className="bg-white border-b border-gray-100">
+        <div className="site-gutter w-full py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { icon: Zap,         title: '< 24h Response',  sub: 'We reply to every inquiry fast' },
+              { icon: Headphones,  title: '24/7 Availability', sub: 'Support whenever you need us' },
+              { icon: ShieldCheck, title: 'CAC Registered',  sub: 'RC 898792 · Abuja, Nigeria' },
+            ].map(({ icon: Icon, title, sub }) => (
+              <div key={title} className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                  <Icon size={18} className="text-[#08A9E0]" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-semibold text-[#101B46] text-sm">{title}</p>
+                  <p className="text-xs text-[#667085] truncate">{sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 sm:py-16 lg:py-20 bg-[#F8FAFC]">
         <div className="site-gutter w-full">
           <div className="grid lg:grid-cols-3 gap-10">
             {/* Contact info */}
             <div className="flex flex-col gap-6">
-              <div className="bg-white rounded-2xl p-6 border border-gray-100">
-                <h3 className="font-display font-bold text-[#101B46] text-xl mb-5">Get in Touch</h3>
-                <div className="flex flex-col gap-5">
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
-                      <MapPin size={18} className="text-[#08A9E0]" />
+              <div>
+                <h3 className="font-display font-bold text-[#101B46] text-xl mb-4">Get in Touch</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <a href="tel:+2348032062242" className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-[#08A9E0]/40 hover:shadow-md transition-all">
+                    <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center mb-3">
+                      <Phone size={16} className="text-[#08A9E0]" />
                     </div>
-                    <div>
-                      <div className="text-xs font-semibold text-[#101B46] mb-1">Office Address</div>
-                      <p className="text-sm text-[#667085] leading-relaxed">
-                        Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi, Abuja, FCT, Nigeria.
-                      </p>
+                    <div className="text-xs font-semibold text-[#101B46] mb-1">Call Us</div>
+                    <p className="text-xs text-[#667085] leading-relaxed">+234 803 206 2242</p>
+                    <p className="text-xs text-[#667085] leading-relaxed">+234 817 358 8783</p>
+                  </a>
+                  <a href="mailto:etaktravels15@gmail.com" className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-[#08A9E0]/40 hover:shadow-md transition-all">
+                    <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center mb-3">
+                      <Mail size={16} className="text-[#08A9E0]" />
                     </div>
+                    <div className="text-xs font-semibold text-[#101B46] mb-1">Email</div>
+                    <p className="text-xs text-[#667085] leading-relaxed break-all">etaktravels15@gmail.com</p>
+                  </a>
+                  <a href="https://wa.me/2348032062242" target="_blank" rel="noopener noreferrer" className="bg-white rounded-2xl border border-gray-100 p-4 hover:border-[#25D366]/40 hover:shadow-md transition-all">
+                    <div className="w-9 h-9 rounded-xl bg-[#25D366]/10 flex items-center justify-center mb-3">
+                      <FaWhatsapp size={16} className="text-[#25D366]" />
+                    </div>
+                    <div className="text-xs font-semibold text-[#101B46] mb-1">WhatsApp</div>
+                    <p className="text-xs text-[#667085] leading-relaxed">Chat with our team</p>
+                  </a>
+                  <div className="bg-white rounded-2xl border border-gray-100 p-4">
+                    <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center mb-3">
+                      <Clock size={16} className="text-[#08A9E0]" />
+                    </div>
+                    <div className="text-xs font-semibold text-[#101B46] mb-1">Business Hours</div>
+                    <p className="text-xs text-[#667085] leading-relaxed">Mon–Fri: 8am–6pm</p>
+                    <p className="text-xs text-[#667085] leading-relaxed">Sat: 9am–3pm</p>
                   </div>
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
-                      <Mail size={18} className="text-[#08A9E0]" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-semibold text-[#101B46] mb-1">Email</div>
-                      <a href="mailto:etaktravels15@gmail.com" className="text-sm text-[#08A9E0] hover:underline">etaktravels15@gmail.com</a>
-                    </div>
+                </div>
+
+                {/* Address */}
+                <div className="bg-white rounded-2xl border border-gray-100 p-4 mt-3 flex gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
+                    <MapPin size={16} className="text-[#08A9E0]" />
                   </div>
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
-                      <Phone size={18} className="text-[#08A9E0]" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-semibold text-[#101B46] mb-1">Phone</div>
-                      <a href="tel:+2348032062242" className="text-sm text-[#08A9E0] hover:underline block">+234 803 206 2242</a>
-                      <a href="tel:+2348173588783" className="text-sm text-[#08A9E0] hover:underline block">+234 817 358 8783</a>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#25D366] flex items-center justify-center shrink-0">
-                      <FaWhatsapp size={18} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-semibold text-[#101B46] mb-1">WhatsApp</div>
-                      <a href="https://wa.me/2348032062242" target="_blank" rel="noopener noreferrer" className="text-sm text-[#25D366] hover:underline block">
-                        Chat on WhatsApp
-                      </a>
-                    </div>
-                  </div>
-                  <div className="flex gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#EAF8FD] flex items-center justify-center shrink-0">
-                      <Clock size={18} className="text-[#08A9E0]" />
-                    </div>
-                    <div>
-                      <div className="text-xs font-semibold text-[#101B46] mb-1">Business Hours</div>
-                      <p className="text-sm text-[#667085]">Monday – Friday: 8am – 6pm</p>
-                      <p className="text-sm text-[#667085]">Saturday: 9am – 3pm</p>
-                    </div>
+                  <div>
+                    <div className="text-xs font-semibold text-[#101B46] mb-1">Office Address</div>
+                    <p className="text-xs text-[#667085] leading-relaxed">
+                      Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi, Abuja, FCT, Nigeria.
+                    </p>
                   </div>
                 </div>
               </div>

@@ -146,6 +146,21 @@ select:-webkit-autofill {
   to   { transform: rotate(360deg); }
 }
 
+/* Orbit — carries a child around a circle while keeping it tangent to the
+   path (nose pointed the way it's travelling), used by the plane loader. */
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit-radius, 34px)) rotate(90deg); }
+  to   { transform: rotate(360deg) translateX(var(--orbit-radius, 34px)) rotate(450deg); }
+}
+.animate-orbit { animation: orbit 2.4s linear infinite; }
+
+/* Breathe — gentle scale pulse for a resting logo/icon */
+@keyframes breathe {
+  0%, 100% { transform: scale(1);    opacity: 1; }
+  50%      { transform: scale(1.08); opacity: 0.85; }
+}
+.animate-breathe { animation: breathe 1.8s ease-in-out infinite; }
+
 /* Counter up — scale pop */
 @keyframes pop-in {
   0%   { opacity: 0; transform: scale(0.8); }
@@ -384,7 +399,12 @@ select:-webkit-autofill {
 
 /* One public-site gutter system. It replaces the oversized, page-specific
    padding that made the content widths feel inconsistent. */
-.site-gutter { padding-inline: clamp(1rem, 3vw, 4rem); }
+.site-gutter { padding-inline: clamp(1rem, 3vw, 4rem); max-width: 1920px; margin-inline: auto; }
+
+/* One app-shell width cap for dashboard/admin consoles — keeps huge ultrawide
+   and 4K monitors from stretching card grids and tables into a thin,
+   unreadable strip of content. */
+.app-shell { max-width: 1800px; margin-inline: auto; width: 100%; }
 @media (max-width: 1023px) {
   .hero-copy .hero-title { font-size: clamp(2rem, 9vw, 2.65rem); line-height: 1.08; }
   .hero-copy .hero-sub { font-size: 0.9375rem; line-height: 1.65; }

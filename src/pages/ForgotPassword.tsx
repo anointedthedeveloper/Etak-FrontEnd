@@ -139,16 +139,16 @@ export default function ForgotPassword() {
           ) : (
             <form onSubmit={updatePassword} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-[#172033] mb-1.5">New Password</label>
                 <div className="relative">
-                  <input
+                  <Input
+                    label="New Password"
                     type={showPw ? 'text' : 'password'}
                     value={password}
                     onChange={e => { setPassword(e.target.value); setError('') }}
                     placeholder="Min. 8 characters"
-                    className="w-full px-4 py-3 pr-11 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]"
+                    className="pr-11"
                   />
-                  <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#667085]">
+                  <button type="button" onClick={() => setShowPw(v => !v)} className="absolute right-3 top-[34px] text-[#667085] hover:text-[#08A9E0]">
                     {showPw ? <EyeOff size={17} /> : <Eye size={17} />}
                   </button>
                 </div>
@@ -163,18 +163,16 @@ export default function ForgotPassword() {
                   </div>
                 )}
               </div>
-              <div>
-                <label className="block text-sm font-medium text-[#172033] mb-1.5">Confirm Password</label>
-                <div className="relative">
-                  <input
-                    type={showPw ? 'text' : 'password'}
-                    value={confirm}
-                    onChange={e => { setConfirm(e.target.value); setError('') }}
-                    placeholder="Repeat password"
-                    className="w-full px-4 py-3 pr-11 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#08A9E0]"
-                  />
-                  {confirm && confirm === password && <CheckCircle2 size={17} className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500" />}
-                </div>
+              <div className="relative">
+                <Input
+                  label="Confirm Password"
+                  type={showPw ? 'text' : 'password'}
+                  value={confirm}
+                  onChange={e => { setConfirm(e.target.value); setError('') }}
+                  placeholder="Repeat password"
+                  className="pr-11"
+                />
+                {confirm && confirm === password && <CheckCircle2 size={17} className="absolute right-3 top-[34px] text-green-500" />}
               </div>
               {error && <p className="flex items-center gap-2 text-sm text-red-600 bg-red-50 p-3 rounded-lg border border-red-200"><AlertCircle size={15} />{error}</p>}
               <Button type="submit" variant="primary" size="lg" loading={loading} className="w-full">

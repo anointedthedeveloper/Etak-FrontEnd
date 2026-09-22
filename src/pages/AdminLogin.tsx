@@ -43,9 +43,6 @@ export default function AdminLogin() {
 
       localStorage.setItem('isAdmin', 'true')
       localStorage.setItem('adminTimestamp', Date.now().toString())
-      // Debug: confirm session is set
-      const { data: { session } } = await supabase.auth.getSession()
-      console.log('Admin session after login:', session?.user?.id, session?.user?.email)
       navigate('/admin/dashboard')
     } catch {
       setError('Something went wrong. Please try again.')

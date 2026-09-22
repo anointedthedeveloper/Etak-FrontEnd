@@ -187,7 +187,9 @@ export default function AdminLayout() {
           </form>
         </div>
         <main className="p-4 sm:p-6 lg:p-8">
-          <Outlet />
+          <div className="app-shell">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

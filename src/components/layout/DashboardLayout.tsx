@@ -200,7 +200,9 @@ export default function DashboardLayout() {
 
         {/* Page content — scrollable */}
         <main className="flex-1 overflow-y-auto">
-          <Outlet />
+          <div className="app-shell">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

@@ -199,6 +199,7 @@ export default function Navbar() {
   const [wishlistOpen, setWishlistOpen]   = useState(false)
   const [servicesOpen, setServicesOpen]   = useState(false)
   const [servicesDropdown, setServicesDropdown] = useState(false)
+  const [scrolled, setScrolled]           = useState(false)
 
   const { isAuthenticated, user, logout } = useAuth()
   const { items, toggle, count } = useCart()
@@ -209,6 +210,13 @@ export default function Navbar() {
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen, wishlistOpen])
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   const handleLogout = async () => {
     await logout()
     setUserMenuOpen(false)
@@ -217,13 +225,27 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#08A9E0]/15 shadow-[0_8px_30px_rgba(16,27,70,0.08)] overflow-visible">
+      <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b overflow-visible transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/95 border-[#08A9E0]/20 shadow-[0_10px_34px_rgba(16,27,70,0.12)]'
+          : 'bg-white/90 border-[#08A9E0]/15 shadow-[0_8px_30px_rgba(16,27,70,0.08)]'
+      }`}>
         <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-20 2xl:px-28 3xl:px-40">
-          <div className="flex items-center justify-between h-16 lg:h-[68px] xl:h-[72px] 2xl:h-20">
+          <div className={`flex items-center justify-between transition-all duration-300 ${
+            scrolled ? 'h-14 lg:h-[60px] xl:h-16 2xl:h-[68px]' : 'h-16 lg:h-[68px] xl:h-[72px] 2xl:h-20'
+          }`}>
 
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
-              <img src="/brand/logo.png" alt="Etak Travels" className="h-11 w-11 sm:h-12 sm:w-12 xl:h-14 xl:w-14 2xl:h-16 2xl:w-16 object-contain" />
+              <img
+                src="/brand/logo.png"
+                alt="Etak Travels"
+                className={`object-contain transition-all duration-300 ${
+                  scrolled
+                    ? 'h-9 w-9 sm:h-10 sm:w-10 xl:h-11 xl:w-11 2xl:h-12 2xl:w-12'
+                    : 'h-11 w-11 sm:h-12 sm:w-12 xl:h-14 xl:w-14 2xl:h-16 2xl:w-16'
+                }`}
+              />
               <div className="leading-tight">
                 <div className="font-display font-bold text-[#087EAF] text-xs sm:text-sm xl:text-base 2xl:text-lg">Etak Travels</div>
                 <div className="text-[#6E7190] text-[10px] sm:text-xs xl:text-[11px] 2xl:text-sm">& Tours Expert Limited</div>
@@ -247,7 +269,7 @@ export default function Navbar() {
                         `relative flex items-center gap-1 px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
                           isActive
                             ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
-                            : 'text-[#565873] hover:text-[#087EAF] hover:bg-white'
+                            : 'text-[#565873] hover:text-[#087EAF] hover:bg-white hover:-translate-y-0.5 hover:shadow-sm'
                         }`
                       }
                     >
@@ -287,7 +309,7 @@ export default function Navbar() {
                       `relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
                         isActive
                           ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
-                          : 'text-[#565873] hover:text-[#087EAF] hover:bg-white'
+                          : 'text-[#565873] hover:text-[#087EAF] hover:bg-white hover:-translate-y-0.5 hover:shadow-sm'
                       }`
                     }
                   >
@@ -379,10 +401,13 @@ export default function Navbar() {
               </button>
               <button
                 onClick={() => setMobileOpen(v => !v)}
-                className="p-2 rounded-full border border-[#08A9E0]/20 text-[#087EAF] hover:bg-[#EAF8FD]"
+                className="p-2 rounded-full border border-[#08A9E0]/20 text-[#087EAF] hover:bg-[#EAF8FD] transition-colors"
                 aria-label="Toggle menu"
               >
-                {mobileOpen ? <X size={19} /> : <Menu size={19} />}
+                <span className="relative block w-[19px] h-[19px]">
+                  <Menu size={19} className={`absolute inset-0 transition-all duration-300 ${mobileOpen ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100'}`} />
+                  <X size={19} className={`absolute inset-0 transition-all duration-300 ${mobileOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'}`} />
+                </span>
               </button>
             </div>
           </div>
