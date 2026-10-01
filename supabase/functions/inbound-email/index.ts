@@ -5,13 +5,17 @@
 // Authenticate with the shared secret: header `x-inbox-secret: <INBOX_WEBHOOK_SECRET>`
 // (or ?secret=... for providers that cannot set headers).
 //
-// Accepted JSON (common field names from the providers above are mapped):
-//   { from, from_name?, to?, subject?, text?, html?, message_id? }
+// Accepts either:
+//   * a raw email (Content-Type: message/rfc822 or text/plain) — used by the
+//     cPanel pipe script in supabase/cpanel/mail-to-inbox.php; parsed here, or
+//   * JSON (common field names from the providers above are mapped):
+//       { from, from_name?, to?, subject?, text?, html?, message_id? }
 //
 // Deploy:
 //   supabase secrets set INBOX_WEBHOOK_SECRET=<long random string>
 //   supabase functions deploy inbound-email --no-verify-jwt
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import PostalMime from 'npm:postal-mime@2.4.3'
 
 function pick(obj: Record<string, unknown>, ...keys: string[]): string {
   for (const k of keys) {
@@ -35,7 +39,23 @@ Deno.serve(async (req) => {
   if (!secret || given !== secret) return new Response('Unauthorized', { status: 401 })
 
   let body: Record<string, unknown>
-  try { body = await req.json() } catch { return new Response('Invalid JSON', { status: 400 }) }
+  const contentType = req.headers.get('content-type') ?? ''
+  if (contentType.includes('application/json')) {
+    try { body = await req.json() } catch { return new Response('Invalid JSON', { status: 400 }) }
+  } else {
+    // Raw RFC 822 message
+    try {
+      const mail = await PostalMime.parse(await req.arrayBuffer())
+      body = {
+        from: mail.from?.address ? `${mail.from.name ?? ''} <${mail.from.address}>` : '',
+        to: mail.to?.[0]?.address ?? '',
+        subject: mail.subject ?? '',
+        text: mail.text ?? '',
+        html: mail.html ?? '',
+        message_id: mail.messageId ?? '',
+      }
+    } catch { return new Response('Could not parse email', { status: 400 }) }
+  }
 
   const from = parseAddress(pick(body, 'from', 'From', 'sender', 'FromFull'))
   if (!from.email) return new Response('Missing sender', { status: 400 })
