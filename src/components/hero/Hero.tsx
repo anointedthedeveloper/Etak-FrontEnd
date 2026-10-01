@@ -52,11 +52,10 @@ export default function Hero() {
       <div className="absolute inset-0 pointer-events-none select-none">
         <ImageSlideshow images={heroSlides} interval={6500} onIndexChange={setSlideIndex} />
         {/* Mobile: layered navy overlay keeps the photo visible while text stays crisp */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#07102D]/62 via-[#07102D]/40 to-[#07102D]/68 lg:hidden" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#07102D]/38 via-transparent to-[#07102D]/10 lg:hidden" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07102D]/55 via-[#07102D]/25 to-[#07102D]/70 lg:hidden" />
         {/* Desktop: a richer navy wash keeps the image atmospheric without losing legibility */}
-        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#07102D]/76 via-[#0D1640]/48 to-[#0D1640]/14" />
-        <div className="absolute inset-0 hidden lg:block bg-gradient-to-t from-[#07102D]/30 via-transparent to-[#07102D]/12" />
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#07102D]/70 via-[#0D1640]/30 to-transparent" />
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-t from-[#07102D]/35 via-transparent to-[#07102D]/10" />
       </div>
 
 
@@ -66,7 +65,7 @@ export default function Hero() {
 
           {/* ── LEFT — text sits directly on the photography on desktop (a scrim
                panel only on mobile, where the crop leaves less room to breathe) ── */}
-          <div className="hero-copy rounded-panel bg-[#07102D]/45 p-4 pt-3 sm:p-5 lg:rounded-none lg:bg-transparent lg:p-0 lg:border-0 backdrop-blur-md lg:backdrop-blur-none border border-white/10">
+          <div className="hero-copy rounded-panel bg-[#07102D]/35 p-4 pt-3 sm:p-5 lg:rounded-none lg:bg-transparent lg:p-0 lg:border-0 backdrop-blur-sm lg:backdrop-blur-none border border-white/10">
             <div className="hero-eyebrow flex items-center gap-2.5 mb-3">
               <span className="text-[#08A9E0] text-xs sm:text-sm font-extrabold uppercase tracking-widest drop-shadow-lg">
                 Your Journey Starts Here
@@ -146,7 +145,7 @@ export default function Hero() {
 
           {/* ── RIGHT — Inquiry panel ── */}
           <div className="hero-panel pb-6 lg:pt-6">
-            <div className="bg-white/[0.96] rounded-panel shadow-float border border-white/70 backdrop-blur-xl">
+            <div className="bg-white/95 rounded-panel shadow-float border border-white/60 backdrop-blur-md">
               {/* Tabs */}
               <div className="grid grid-cols-4 border-b border-gray-100 rounded-t-panel overflow-hidden">
                 {tabs.map(({ id, label, icon: Icon }) => (
@@ -177,7 +176,7 @@ export default function Hero() {
 
       {/* ── Trust bar ── */}
       <div id="trust" className="hero-trust site-gutter relative z-10 pb-4 sm:pb-6 mt-auto pt-3 sm:pt-4">
-        <div className="bg-white/[0.94] rounded-panel shadow-panel border border-white/70 px-4 sm:px-10 py-4 sm:py-5 max-w-[1600px] mx-auto backdrop-blur-xl">
+        <div className="bg-white/90 rounded-panel shadow-panel border border-white/60 px-4 sm:px-10 py-4 sm:py-5 max-w-[1600px] mx-auto backdrop-blur-md">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
             <div className="grid grid-cols-3 sm:flex sm:items-center gap-3 sm:gap-0 w-full sm:w-auto">
               {[

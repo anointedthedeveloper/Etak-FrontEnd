@@ -287,22 +287,6 @@ select:-webkit-autofill {
 @keyframes search-expand { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
 .animate-search-expand { transform-origin: right center; animation: search-expand 220ms ease-out both; }
 
-/* Nav link underline — slides in from the left on hover/focus */
-.nav-underline { position: relative; }
-.nav-underline::after {
-  content: '';
-  position: absolute;
-  left: 0.9rem; right: 0.9rem; bottom: 0.35rem;
-  height: 2px;
-  background: #08A9E0;
-  border-radius: 1px;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s ease;
-}
-.nav-underline:hover::after,
-.nav-underline:focus-visible::after { transform: scaleX(1); }
-
 /* ═══════════════════════════════════════════════
    ANIMATION UTILITY CLASSES
 ═══════════════════════════════════════════════ */
