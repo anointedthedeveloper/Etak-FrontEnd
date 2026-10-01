@@ -40,9 +40,23 @@ pushed in by the `inbound-email` Edge Function:
 1. Run `013_admin_password_and_inbox.sql`.
 2. `supabase secrets set INBOX_WEBHOOK_SECRET=<long random string>`
 3. `supabase functions deploy inbound-email --no-verify-jwt`
-4. Configure your mail provider (Cloudflare Email Routing worker, Postmark /
-   Resend / SendGrid inbound, ImprovMX webhook, …) to POST incoming mail for
-   info@etaktravels.com to
-   `https://<project>.supabase.co/functions/v1/inbound-email` with header
-   `x-inbox-secret: <secret>` (or `?secret=<secret>`). See the comment at the top
-   of `functions/inbound-email/index.ts` for the accepted JSON fields.
+4. Connect your mail — on TrueHost (cPanel) use the pipe script:
+   1. Edit `cpanel/mail-to-inbox.php`: set `$url` (`https://<project-ref>.supabase.co/functions/v1/inbound-email`)
+      and `$secret` (the `INBOX_WEBHOOK_SECRET` from step 2).
+   2. cPanel → File Manager: upload it to your home folder (e.g. `/home/<user>/bin/mail-to-inbox.php`)
+      and set permissions to `755`.
+   3. cPanel → **Email Filters** → *Manage Filters* for `info@etaktravels.com` → create a filter:
+      rule *To* · *contains* · `info@etaktravels.com`, with **two actions**:
+      *Pipe to a Program* → `/home/<user>/bin/mail-to-inbox.php`, and
+      *Deliver to Folder* → `Inbox` (webmail keeps its own copy, so nothing is lost if the POST fails).
+   4. Send a test email to info@etaktravels.com; it should appear in Admin → Inbox within seconds.
+      Failures are logged to `mail-to-inbox.log` next to the script.
+
+   If TrueHost does not offer "Pipe to a Program", ask them to enable it, or use a forwarding
+   service (Cloudflare Email Routing worker, Postmark/Resend inbound, ImprovMX webhook) that POSTs to the
+   same URL with header `x-inbox-secret: <secret>`; JSON fields are listed in `functions/inbound-email/index.ts`.
+
+## Keep Supabase awake
+`.github/workflows/keep-supabase-awake.yml` queries the database twice a day so the free
+project is never paused for inactivity. Add repo secrets `SUPABASE_URL` and `SUPABASE_ANON_KEY`
+(Settings → Secrets and variables → Actions), then run it once from the Actions tab to confirm.
