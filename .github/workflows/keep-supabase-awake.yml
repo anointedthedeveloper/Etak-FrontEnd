@@ -1,9 +1,4 @@
-# Supabase free projects pause after a week without activity. This runs a tiny
-# real query twice a day so that never happens.
-# Setup: repo → Settings → Secrets and variables → Actions → add
-#   SUPABASE_URL       e.g. https://wotluxawncpqvgrvhdnw.supabase.co
-#   SUPABASE_ANON_KEY  the project's anon (public) key
-name: Keep Supabase awake
+name: Keep Supabase Awake
 
 on:
   schedule:
@@ -13,6 +8,7 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
+
     steps:
       - name: Query Supabase
         env:
