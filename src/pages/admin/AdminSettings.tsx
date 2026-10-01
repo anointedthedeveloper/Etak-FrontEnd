@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Lock, CheckCircle2, AlertCircle, Eye, EyeOff } from 'lucide-react'
 import { Button } from '../../components/ui/Button'
 import { Input } from '../../components/ui/FormFields'
-import { supabase } from '../../lib/supabase'
+import { changeAdminPassword } from '../../lib/adminPassword'
 
 export default function AdminSettings() {
   const [form, setForm] = useState({ next: '', confirm: '' })
@@ -15,8 +15,13 @@ export default function AdminSettings() {
     if (form.next.length < 8) { setError('Password must be at least 8 characters.'); return }
     if (form.next !== form.confirm) { setError('Passwords do not match.'); return }
     setStatus('loading'); setError('')
-    const { error: err } = await supabase.auth.updateUser({ password: form.next })
-    if (err) { setError(err.message); setStatus('error'); return }
+    try {
+      await changeAdminPassword(form.next)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not update password.')
+      setStatus('error')
+      return
+    }
     setStatus('success')
     setForm({ next: '', confirm: '' })
     setTimeout(() => setStatus('idle'), 3000)

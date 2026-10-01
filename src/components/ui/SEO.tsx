@@ -36,7 +36,7 @@ const ORG_SCHEMA = {
     addressCountry: 'NG',
   },
   telephone: '+234-803-206-2242',
-  email: 'etaktravels15@gmail.com',
+  email: 'info@etaktravels.com',
   foundingDate: '2010',
   contactPoint: [
     { '@type': 'ContactPoint', telephone: '+234-803-206-2242', contactType: 'customer service', availableLanguage: 'English', hoursAvailable: 'Mo-Su 00:00-23:59' },

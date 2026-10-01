@@ -125,12 +125,12 @@ export default function Contact() {
                     <p className="text-xs text-[#667085] leading-relaxed">+234 803 206 2242</p>
                     <p className="text-xs text-[#667085] leading-relaxed">+234 817 358 8783</p>
                   </a>
-                  <a href="mailto:etaktravels15@gmail.com" className="bg-white rounded-card border border-gray-100 p-4 hover:border-[#08A9E0]/40 hover:shadow-card transition-all">
+                  <a href="mailto:info@etaktravels.com" className="bg-white rounded-card border border-gray-100 p-4 hover:border-[#08A9E0]/40 hover:shadow-card transition-all">
                     <div className="w-9 h-9 rounded-xl bg-[#EAF8FD] flex items-center justify-center mb-3">
                       <Mail size={16} className="text-[#08A9E0]" />
                     </div>
                     <div className="text-xs font-semibold text-[#101B46] mb-1">Email</div>
-                    <p className="text-xs text-[#667085] leading-relaxed break-all">etaktravels15@gmail.com</p>
+                    <p className="text-xs text-[#667085] leading-relaxed break-all">info@etaktravels.com</p>
                   </a>
                   <a href="https://wa.me/2348032062242" target="_blank" rel="noopener noreferrer" className="bg-white rounded-card border border-gray-100 p-4 hover:border-[#25D366]/40 hover:shadow-card transition-all">
                     <div className="w-9 h-9 rounded-xl bg-[#25D366]/10 flex items-center justify-center mb-3">

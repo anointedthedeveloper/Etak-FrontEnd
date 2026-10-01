@@ -216,7 +216,7 @@ export default function About() {
                 { label: 'Business Type', value: 'Travel Management Company' },
                 { label: 'Location', value: 'Abuja, FCT, Nigeria' },
                 { label: 'Office Address', value: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi, Abuja, FCT, Nigeria' },
-                { label: 'Email', value: 'etaktravels15@gmail.com' },
+                { label: 'Email', value: 'info@etaktravels.com' },
                 { label: 'Phone', value: '+234 803 206 2242 / +234 817 358 8783' },
                 { label: 'TIN / VAT', value: '11490155-0001' },
                 { label: 'Bank', value: 'Zenith Bank PLC — 1014779982' },

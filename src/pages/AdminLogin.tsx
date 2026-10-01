@@ -5,6 +5,7 @@ import { Input } from '../components/ui/FormFields'
 import { Button } from '../components/ui/Button'
 import SEO from '../components/ui/SEO'
 import { supabase } from '../lib/supabase'
+import { adminNeedsPasswordChange } from '../lib/adminPassword'
 
 export default function AdminLogin() {
   const navigate = useNavigate()
@@ -43,7 +44,7 @@ export default function AdminLogin() {
 
       localStorage.setItem('isAdmin', 'true')
       localStorage.setItem('adminTimestamp', Date.now().toString())
-      navigate('/admin/dashboard')
+      navigate((await adminNeedsPasswordChange()) ? '/admin/change-password' : '/admin/dashboard')
     } catch {
       setError('Something went wrong. Please try again.')
     }

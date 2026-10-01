@@ -138,8 +138,8 @@ export default function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-[#08A9E0]/10 flex items-center justify-center shrink-0">
                   <Mail size={14} className="text-[#08A9E0]" />
                 </div>
-                <a href="mailto:etaktravels15@gmail.com" className="text-blue-200/70 hover:text-[#08A9E0] text-sm transition-colors">
-                  etaktravels15@gmail.com
+                <a href="mailto:info@etaktravels.com" className="text-blue-200/70 hover:text-[#08A9E0] text-sm transition-colors">
+                  info@etaktravels.com
                 </a>
               </li>
               <li className="flex gap-3 items-center">
