@@ -148,8 +148,8 @@ export default function TermsOfService() {
                   <a href="tel:+2348032062242" className="flex items-center gap-2.5 text-sm text-white/80 hover:text-white transition-colors">
                     <Phone size={14} className="text-[#08A9E0] shrink-0" /> +234 803 206 2242
                   </a>
-                  <a href="mailto:etaktravels15@gmail.com" className="flex items-center gap-2.5 text-sm text-white/80 hover:text-white transition-colors">
-                    <Mail size={14} className="text-[#08A9E0] shrink-0" /> etaktravels15@gmail.com
+                  <a href="mailto:info@etaktravels.com" className="flex items-center gap-2.5 text-sm text-white/80 hover:text-white transition-colors">
+                    <Mail size={14} className="text-[#08A9E0] shrink-0" /> info@etaktravels.com
                   </a>
                 </div>
                 <Link to="/contact" className="mt-4 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#08A9E0] hover:bg-[#0798C8] text-white text-sm font-semibold transition-colors">

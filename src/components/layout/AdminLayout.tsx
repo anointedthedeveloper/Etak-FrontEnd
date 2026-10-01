@@ -1,19 +1,22 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Users, MessageSquare, LogOut, ShieldCheck, Menu, X, Search, Settings, Bell, Plane } from 'lucide-react'
+import { LayoutDashboard, Users, MessageSquare, LogOut, ShieldCheck, Menu, X, Search, Settings, Bell, Plane, Inbox } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import { adminNeedsPasswordChange } from '../../lib/adminPassword'
 
 const pageTitles: Record<string, { title: string; sub: string }> = {
   '/admin/dashboard': { title: 'Dashboard', sub: 'Overview of platform activity' },
   '/admin/enquiries': { title: 'Enquiries', sub: 'Respond to customer inquiries' },
+  '/admin/inbox':     { title: 'Inbox',     sub: 'Mail received at info@etaktravels.com' },
   '/admin/users':     { title: 'Users',     sub: 'View all registered users' },
   '/admin/notifications': { title: 'Notifications', sub: 'New enquiries and client replies' },
 }
 
-function NavLinks({ pathname, pending, onNavigate }: { pathname: string; pending: number; onNavigate?: () => void }) {
+function NavLinks({ pathname, pending, unreadMail, onNavigate }: { pathname: string; pending: number; unreadMail: number; onNavigate?: () => void }) {
   const adminLinks = [
     { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { to: '/admin/enquiries', label: 'Enquiries', icon: MessageSquare, badge: pending },
+    { to: '/admin/inbox',     label: 'Inbox',     icon: Inbox, badge: unreadMail },
     { to: '/admin/users',     label: 'Users',     icon: Users },
     { to: '/admin/settings',       label: 'Settings',       icon: Settings },
     { to: '/admin/notifications',   label: 'Notifications',  icon: Bell, badge: pending },
@@ -57,6 +60,7 @@ export default function AdminLayout() {
   const location = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [pending, setPending] = useState(0)
+  const [unreadMail, setUnreadMail] = useState(0)
 
   useEffect(() => {
     // Check if admin is authenticated
@@ -80,6 +84,12 @@ export default function AdminLayout() {
     }
   }, [navigate])
 
+  // Admins still on the password they were given must replace it first.
+  useEffect(() => {
+    if (localStorage.getItem('isAdmin') !== 'true') return
+    adminNeedsPasswordChange().then(needs => { if (needs) navigate('/admin/change-password', { replace: true }) })
+  }, [navigate])
+
   useEffect(() => {
     async function loadPending() {
       const [{ count: newCount }, { count: replyCount }] = await Promise.all([
@@ -87,11 +97,14 @@ export default function AdminLayout() {
         supabase.from('inquiry_responses').select('*', { count: 'exact', head: true }).eq('is_admin', false),
       ])
       setPending((newCount ?? 0) + (replyCount ?? 0))
+      const { count: mailCount } = await supabase.from('inbox_messages').select('*', { count: 'exact', head: true }).eq('is_read', false)
+      setUnreadMail(mailCount ?? 0)
     }
     loadPending()
   }, [location.pathname])
 
   const handleLogout = () => {
+    supabase.auth.signOut()
     localStorage.removeItem('isAdmin')
     localStorage.removeItem('adminTimestamp')
     navigate('/adlog')
@@ -120,7 +133,7 @@ export default function AdminLayout() {
           </div>
 
           <div className="relative flex-1 overflow-y-auto flex flex-col">
-            <NavLinks pathname={location.pathname} pending={pending} />
+            <NavLinks pathname={location.pathname} pending={pending} unreadMail={unreadMail} />
 
             {/* Admin identity card */}
             <div className="px-3 pb-3 mt-auto">
@@ -192,7 +205,7 @@ export default function AdminLayout() {
               <ShieldCheck size={22} className="text-[#08A9E0]" />
               <span className="font-display font-bold text-white">Admin Panel</span>
             </div>
-            <NavLinks pathname={location.pathname} pending={pending} onNavigate={() => setMobileOpen(false)} />
+            <NavLinks pathname={location.pathname} pending={pending} unreadMail={unreadMail} onNavigate={() => setMobileOpen(false)} />
             <div className="p-3 border-t border-white/10 shrink-0">
               <button
                 onClick={() => { handleLogout(); setMobileOpen(false) }}

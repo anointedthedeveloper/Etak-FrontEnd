@@ -46,11 +46,6 @@ function PartnerLogo({ name, logo }: { name: string; logo: string | null }) {
   )
 }
 
-const LEADERS = [
-  { name: 'Kate Aina Tabu', role: 'Managing Director', badge: null, photo: '/team/kate-aina-tabu.jpg' },
-  { name: 'Victor Ernest',  role: 'Business Development', badge: null,  photo: '/team/victor-ernest.jpg' },
-]
-
 const values = [
   { icon: CheckCircle2, title: 'Integrity', desc: 'We operate with honesty and transparency in every client interaction and business arrangement.' },
   { icon: Target, title: 'Quality Service', desc: 'We are committed to delivering a high standard of travel management in everything we do.' },
@@ -221,7 +216,7 @@ export default function About() {
                 { label: 'Business Type', value: 'Travel Management Company' },
                 { label: 'Location', value: 'Abuja, FCT, Nigeria' },
                 { label: 'Office Address', value: 'Block C2, 2014, ACCI Ultra Modern Shopping Centre, Airport Road, Piwoyi, Abuja, FCT, Nigeria' },
-                { label: 'Email', value: 'etaktravels15@gmail.com' },
+                { label: 'Email', value: 'info@etaktravels.com' },
                 { label: 'Phone', value: '+234 803 206 2242 / +234 817 358 8783' },
                 { label: 'TIN / VAT', value: '11490155-0001' },
                 { label: 'Bank', value: 'Zenith Bank PLC — 1014779982' },
@@ -314,42 +309,26 @@ export default function About() {
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="site-gutter w-full">
           <SectionHeader eyebrow="Our People" title="Meet the Team" centered />
-          <div ref={teamRef} className="max-w-5xl mx-auto flex flex-col gap-8">
-            {/* Leadership */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto w-full">
-              {LEADERS.map(({ name, role, badge, photo }, i) => (
-                <div key={name} className={`reveal stagger-${i + 1} group bg-[#F8FAFC] rounded-card border border-gray-100 overflow-hidden transition-all duration-200 hover:border-[#08A9E0]/30 hover:-translate-y-0.5 hover:shadow-panel`}>
-                  <div className="relative aspect-[4/5] overflow-hidden bg-[#101B46]">
-                    <img src={photo} alt={`${name}, ${role}`} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#101B46]/70 to-transparent" />
-                    {badge && (
-                      <span className="absolute top-3 left-3 bg-[#08A9E0] text-white text-[11px] font-semibold uppercase tracking-wide px-3 py-1 rounded-full shadow">{badge}</span>
-                    )}
+          <div ref={teamRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+            {[
+              { name: 'Kate Aina Tabu',       role: 'Managing Director',        photo: '/team/kate-aina-tabu.jpg' },
+              { name: 'Victor Ernest',         role: 'Business Development',     photo: '/team/victor-ernest.jpg' },
+              { name: 'Fautina Ugwu',          role: 'Ticketing & Reservations', photo: null },
+              { name: 'Glory Lisa Uche',       role: 'Accounts',                 photo: null },
+              { name: 'Charity Azebeokha',     role: 'Marketing Executive',      photo: null },
+            ].map(({ name, role, photo }, i) => (
+              <div key={name} className={`reveal stagger-${i + 1} group bg-[#F8FAFC] rounded-card border border-gray-100 p-4 text-center transition-all duration-200 hover:border-[#08A9E0]/30 hover:-translate-y-0.5 hover:shadow-card`}>
+                {photo ? (
+                  <img src={photo} alt={`${name}, ${role}`} loading="lazy" className="w-20 h-20 rounded-full object-cover object-top mx-auto mb-3 ring-4 ring-white shadow-sm transition-transform duration-200 group-hover:scale-105" />
+                ) : (
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-3 ring-4 ring-white shadow-sm transition-transform duration-200 group-hover:scale-105">
+                    <span className="text-white font-bold text-lg">{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
                   </div>
-                  <div className="p-5 text-center">
-                    <p className="font-display font-bold text-[#101B46] text-xl leading-snug">{name}</p>
-                    <p className="text-[#08A9E0] text-sm font-semibold mt-1">{role}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Staff */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto w-full">
-              {[
-                { name: 'Fautina Ugwu',      role: 'Ticketing & Reservations' },
-                { name: 'Glory Lisa Uche',   role: 'Accounts' },
-                { name: 'Charity Azebeokha', role: 'Marketing Executive' },
-              ].map(({ name, role }, i) => (
-                <div key={name} className={`reveal stagger-${i + 3} group bg-[#F8FAFC] rounded-card border border-gray-100 p-4 text-center transition-all duration-200 hover:border-[#08A9E0]/30 hover:-translate-y-0.5 hover:shadow-card`}>
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-3 ring-4 ring-white shadow-sm transition-transform duration-200 group-hover:scale-105">
-                    <span className="text-white font-bold text-base">{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
-                  </div>
-                  <p className="font-semibold text-[#101B46] text-sm leading-snug">{name}</p>
-                  <p className="text-[#667085] text-xs mt-1">{role}</p>
-                </div>
-              ))}
-            </div>
+                )}
+                <p className="font-semibold text-[#101B46] text-sm leading-snug">{name}</p>
+                <p className="text-[#667085] text-xs mt-1">{role}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

@@ -266,10 +266,10 @@ export default function Navbar() {
                       to={to}
                       end={to === '/'}
                       className={({ isActive }) =>
-                        `nav-underline relative flex items-center gap-1 px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
+                        `relative flex items-center gap-1 px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
                           isActive
                             ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
-                            : 'text-[#565873] hover:text-[#087EAF] hover:bg-white hover:-translate-y-0.5 hover:shadow-sm'
+                            : 'text-[#565873] hover:text-[#087EAF] hover:bg-white'
                         }`
                       }
                     >
@@ -306,10 +306,10 @@ export default function Navbar() {
                     to={to}
                     end={to === '/'}
                     className={({ isActive }) =>
-                      `nav-underline relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
+                      `relative px-3 py-2 xl:px-4 xl:py-2.5 2xl:px-5 text-sm xl:text-[15px] 2xl:text-base font-semibold rounded-full transition-all duration-200 ${
                         isActive
                           ? 'bg-[#08A9E0] text-[#07102D] shadow-md shadow-[#08A9E0]/25'
-                          : 'text-[#565873] hover:text-[#087EAF] hover:bg-white hover:-translate-y-0.5 hover:shadow-sm'
+                          : 'text-[#565873] hover:text-[#087EAF] hover:bg-white'
                       }`
                     }
                   >

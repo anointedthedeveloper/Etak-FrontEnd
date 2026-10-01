@@ -22,6 +22,8 @@ const Signup             = lazy(() => import('./pages/Signup'))
 const ForgotPassword     = lazy(() => import('./pages/ForgotPassword'))
 const ResetPassword      = lazy(() => import('./pages/ResetPassword'))
 const AdminLogin         = lazy(() => import('./pages/AdminLogin'))
+const AdminChangePassword = lazy(() => import('./pages/AdminChangePassword'))
+const AdminInbox         = lazy(() => import('./pages/admin/AdminInbox'))
 const AdminDashboard     = lazy(() => import('./pages/admin/AdminDashboard'))
 const AdminEnquiries     = lazy(() => import('./pages/admin/AdminEnquiries'))
 const AdminUsers         = lazy(() => import('./pages/admin/AdminUsers'))
@@ -89,11 +91,13 @@ function AppRoutes() {
         <Route path="/reset-password"  element={<ResetPassword />} />
         <Route path="/adlog"           element={<AdminLogin />} />
         <Route path="/auth/callback"   element={<AuthCallback />} />
+        <Route path="/admin/change-password" element={<AdminChangePassword />} />
 
         {/* ── Admin — AdminLayout, protected by localStorage check ── */}
         <Route element={<AdminLayout />}>
           <Route path="/admin/dashboard"  element={<AdminDashboard />} />
           <Route path="/admin/enquiries"  element={<AdminEnquiries />} />
+          <Route path="/admin/inbox"          element={<AdminInbox />} />
           <Route path="/admin/users"          element={<AdminUsers />} />
           <Route path="/admin/users/:id"       element={<AdminUserDetail />} />
           <Route path="/admin/settings"       element={<AdminSettings />} />

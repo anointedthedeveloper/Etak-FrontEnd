@@ -31,7 +31,7 @@ export default function PageHeader({
   }, [])
 
   return (
-    <div className={`relative bg-[#0D1640] overflow-hidden ${compact ? 'pb-8 sm:pb-10' : 'pb-14 sm:pb-20'}`}>
+    <div className={`relative bg-[#0D1640] overflow-hidden ${compact ? 'pt-8 pb-8 sm:pt-10 sm:pb-10' : 'pt-10 pb-14 sm:pt-14 sm:pb-20'}`}>
 
       {/* Background photo — clearly visible, slow zoom on load */}
       <img
@@ -42,14 +42,14 @@ export default function PageHeader({
         onLoad={() => setLoaded(true)}
         className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-[3000ms] ease-out"
         style={{
-          opacity: loaded ? 0.45 : 0,
+          opacity: loaded ? 0.7 : 0,
           transform: loaded ? 'scale(1)' : 'scale(1.06)',
           transition: 'opacity 1s ease, transform 3s ease',
         }}
       />
 
       {/* Clean dark overlay — no blobs, no patterns */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0D1640]/95 via-[#0D1640]/80 to-[#0D1640]/60" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D1640]/85 via-[#0D1640]/55 to-[#0D1640]/20" />
 
       {/* Single left-side accent bar */}
       <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#08A9E0] via-[#0798C8] to-transparent ${centered ? 'hidden' : 'block'}`} />
@@ -75,15 +75,15 @@ export default function PageHeader({
 
           <h1
             className="font-display text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 animate-fade-up leading-tight"
-            style={{ animationDelay: '0.1s' }}
+            style={{ animationDelay: '0.1s', textShadow: '0 2px 12px rgba(7,16,45,0.5)' }}
           >
             {title}
           </h1>
 
           {subtitle && (
             <p
-              className="text-blue-200/80 text-base sm:text-lg leading-relaxed animate-fade-up"
-              style={{ animationDelay: '0.22s' }}
+              className="text-blue-100 text-base sm:text-lg leading-relaxed animate-fade-up"
+              style={{ animationDelay: '0.22s', textShadow: '0 1px 8px rgba(7,16,45,0.5)' }}
             >
               {subtitle}
             </p>
