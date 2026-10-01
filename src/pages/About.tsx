@@ -47,8 +47,8 @@ function PartnerLogo({ name, logo }: { name: string; logo: string | null }) {
 }
 
 const LEADERS = [
-  { name: 'Kate Aina Tabu', role: 'Chief Executive Officer', badge: 'CEO', photo: '/team/kate-aina-tabu.jpg' },
-  { name: 'Victor Ernest',  role: 'Business Developer',      badge: null,  photo: '/team/victor-ernest.jpg' },
+  { name: 'Kate Aina Tabu', role: 'Managing Director', badge: null, photo: '/team/kate-aina-tabu.jpg' },
+  { name: 'Victor Ernest',  role: 'Business Development', badge: null,  photo: '/team/victor-ernest.jpg' },
 ]
 
 const values = [
