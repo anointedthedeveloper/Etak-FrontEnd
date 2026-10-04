@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { Inbox, Mail, MailOpen, Trash2, Reply, RefreshCw, ArrowLeft, X, Send, SendHorizonal, Search } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { EmptyState, LoadingState } from '../../components/ui/States'
-import Avatar from '../../components/ui/Avatar'
 
 const MAILBOX = 'info@etaktravels.com'
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string
@@ -26,12 +25,6 @@ interface SentReply {
   subject: string
   body_text: string
   sent_at: string
-}
-
-interface UserSuggestion {
-  email: string
-  name: string
-  avatar_url?: string | null
 }
 
 // Tiny MD5 for Gravatar (no dependency needed)
@@ -130,95 +123,6 @@ async function callSendReply(payload: object) {
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` },
     body: JSON.stringify(payload),
   })
-}
-
-function ComposeModal({ onClose, onSent }: { onClose: () => void; onSent: () => void }) {
-  const [to, setTo] = useState('')
-  const [toName, setToName] = useState('')
-  const [subject, setSubject] = useState('')
-  const [body, setBody] = useState('')
-  const [sending, setSending] = useState(false)
-  const [sent, setSent] = useState(false)
-  const [error, setError] = useState('')
-  const [suggestions, setSuggestions] = useState<UserSuggestion[]>([])
-  const [showSuggestions, setShowSuggestions] = useState(false)
-
-  async function searchUsers(q: string) {
-    if (q.length < 2) { setSuggestions([]); return }
-    const { data } = await supabase.rpc('get_users_for_admin')
-    if (!data) return
-    const lower = q.toLowerCase()
-    setSuggestions(
-      (data as { email: string; first_name: string; last_name: string; avatar_url?: string | null }[])
-        .filter(u => u.email?.toLowerCase().includes(lower) || `${u.first_name} ${u.last_name}`.toLowerCase().includes(lower))
-        .slice(0, 6)
-        .map(u => ({ email: u.email, name: `${u.first_name ?? ''} ${u.last_name ?? ''}`.trim(), avatar_url: u.avatar_url }))
-    )
-  }
-
-  async function send() {
-    if (!to.trim() || !subject.trim() || !body.trim()) return
-    setSending(true); setError('')
-    const res = await callSendReply({ to: to.trim(), to_name: toName || undefined, subject, body })
-    setSending(false)
-    if (res.ok) { setSent(true); onSent(); setTimeout(onClose, 1200) }
-    else setError(await res.text())
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 space-y-4 animate-fade-up">
-        <div className="flex items-center justify-between">
-          <h3 className="font-display font-bold text-[#101B46] text-base flex items-center gap-2">
-            <PenSquare size={16} className="text-[#08A9E0]" /> New Message
-          </h3>
-          <button onClick={onClose} className="p-1.5 rounded-full hover:bg-gray-100 text-[#667085]"><X size={16} /></button>
-        </div>
-
-        {/* To field with user search */}
-        <div className="relative">
-          <div className="flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-2 focus-within:ring-2 focus-within:ring-[#08A9E0]">
-            <Search size={13} className="text-[#667085] shrink-0" />
-            <input
-              value={to}
-              onChange={e => { setTo(e.target.value); searchUsers(e.target.value); setShowSuggestions(true) }}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-              placeholder="To: email or search user…"
-              className="flex-1 text-sm text-[#172033] outline-none"
-            />
-          </div>
-          {showSuggestions && suggestions.length > 0 && (
-            <div className="absolute z-10 top-full mt-1 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-              {suggestions.map(s => (
-                <button key={s.email} onMouseDown={() => { setTo(s.email); setToName(s.name); setSuggestions([]); setShowSuggestions(false) }}
-                  className="w-full text-left px-4 py-2.5 hover:bg-[#EAF8FD] text-sm flex items-center gap-2.5">
-                  <Avatar avatarUrl={s.avatar_url ?? undefined} firstName={s.name.split(' ')[0]} lastName={s.name.split(' ')[1]} size={28} />
-                  <span className="font-medium text-[#172033]">{s.name}</span>
-                  <span className="text-[#667085] ml-1">{s.email}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <input value={subject} onChange={e => setSubject(e.target.value)} placeholder="Subject"
-          className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm text-[#172033] focus:outline-none focus:ring-2 focus:ring-[#08A9E0]" />
-
-        <textarea rows={7} value={body} onChange={e => setBody(e.target.value)} placeholder="Write your message…"
-          className="w-full rounded-xl border border-gray-200 p-3 text-sm text-[#172033] resize-none focus:outline-none focus:ring-2 focus:ring-[#08A9E0]" />
-
-        {error && <p className="text-xs text-red-500">{error}</p>}
-        <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="px-4 py-2 rounded-full text-sm text-[#667085] hover:bg-gray-100">Cancel</button>
-          <button onClick={send} disabled={sending || sent || !to.trim() || !subject.trim() || !body.trim()}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#08A9E0] text-white text-sm font-semibold hover:bg-[#0798C8] disabled:opacity-50">
-            <Send size={13} />
-            {sent ? 'Sent!' : sending ? 'Sending…' : 'Send'}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
 }
 
 function ReplyModal({ message, onClose, onSent }: { message: InboxMessage; onClose: () => void; onSent: () => void }) {

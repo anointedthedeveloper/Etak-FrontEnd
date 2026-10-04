@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import {
-  LayoutDashboard, FileText, Bookmark, Users, Map, BarChart2,
+  LayoutDashboard, FileText, Bookmark, History, Map, BarChart2,
   Settings, LogOut, Plane, Bell, Search, Menu, X, ChevronDown,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
@@ -13,7 +13,7 @@ const navItems = [
   { to: '/dashboard',           label: 'Dashboard',        icon: LayoutDashboard, end: true },
   { to: '/dashboard/inquiries', label: 'Inquiries',        icon: FileText },
   { to: '/dashboard/bookings',  label: 'Bookings',         icon: Bookmark },
-  { to: '/dashboard/clients',   label: 'Clients',          icon: Users },
+  { to: '/dashboard/clients',   label: 'Travel History',   icon: History },
   { to: '/dashboard/tours',     label: 'Tours & Packages', icon: Map },
   { to: '/dashboard/reports',   label: 'Reports',          icon: BarChart2 },
   { to: '/dashboard/settings',       label: 'Settings',         icon: Settings },

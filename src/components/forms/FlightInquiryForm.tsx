@@ -1,9 +1,8 @@
-import { useState, useRef, useEffect } from 'react'
-import { AlertCircle, Plane, MapPin } from 'lucide-react'
+import { useState } from 'react'
+import { AlertCircle, Plane } from 'lucide-react'
 import { Button } from '../ui/Button'
-import { DatePicker, TravellerSelector, type Travellers } from './FormWidgets'
+import { LocationInput, DatePicker, TravellerSelector, type Travellers } from './FormWidgets'
 import { apiService } from '../../services/api'
-import { searchAirports as searchLocal } from '../../data/airports'
 import SubmitSuccess from './SubmitSuccess'
 import { useAuth } from '../../context/AuthContext'
 import { Input } from '../ui/FormFields'
@@ -12,102 +11,17 @@ interface Props { compact?: boolean }
 
 type Step = 'search' | 'contact'
 
-// ── Airport autocomplete ──────────────────────────────────────────────────────
-function AirportInput({
-  label, value, iataCode, onChange, placeholder, required, error,
-}: {
-  label: string; value: string; iataCode: string
-  onChange: (display: string, iata: string) => void
-  placeholder?: string; required?: boolean; error?: boolean
-}) {
-  const [query, setQuery] = useState(value)
-  const [results, setResults] = useState<{ code: string; name: string; city: string; country: string; state?: string }[]>([])
-  const [open, setOpen] = useState(false)
-  const wrapRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => { setQuery(value) }, [value])
-  useEffect(() => {
-    const h = (e: MouseEvent) => { if (!wrapRef.current?.contains(e.target as Node)) setOpen(false) }
-    document.addEventListener('mousedown', h)
-    return () => document.removeEventListener('mousedown', h)
-  }, [])
-
-  const search = (q: string) => {
-    setQuery(q)
-    onChange(q, '')
-    if (q.length < 2) { setResults([]); setOpen(false); return }
-
-    const local = searchLocal(q)
-    if (local.length > 0) { setResults(local); setOpen(true) }
-  }
-
-  const select = (r: { code: string; city: string; country: string; name: string }) => {
-    const display = `${r.city} (${r.code})`
-    setQuery(display)
-    onChange(display, r.code)
-    setOpen(false)
-    setResults([])
-  }
-
-  return (
-    <div ref={wrapRef} className="relative">
-      <label className="block text-xs font-semibold text-[#101B46] mb-1">
-        {label}{required && <span className="text-red-400 ml-0.5">*</span>}
-      </label>
-      <div className="relative">
-        <MapPin size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#667085] pointer-events-none" />
-        <input
-          type="text"
-          value={query}
-          onChange={e => search(e.target.value)}
-          onFocus={() => results.length > 0 && setOpen(true)}
-          placeholder={placeholder}
-          className={`w-full pl-8 pr-10 py-2.5 text-sm rounded-control border focus:outline-none focus:ring-2 bg-white text-[#172033] placeholder-[#9CA3AF] ${
-            error && !iataCode ? 'border-red-400 focus:ring-red-300' : 'border-gray-200 focus:ring-[#08A9E0]'
-          }`}
-        />
-        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-          {iataCode && <span className="text-[10px] font-bold text-[#08A9E0] bg-[#EAF8FD] px-1.5 py-0.5 rounded">{iataCode}</span>}
-        </div>
-      </div>
-      {error && !iataCode && query.length > 0 && (
-        <p className="text-[10px] text-red-500 mt-0.5">Select an airport from the list</p>
-      )}
-      {open && results.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full bg-white rounded-card shadow-float border border-gray-100 overflow-hidden max-h-56 overflow-y-auto">
-          {results.map((r, idx) => (
-            <button
-              key={`${r.code}-${idx}`}
-              type="button"
-              onMouseDown={e => { e.preventDefault(); select(r) }}
-              className="w-full flex items-center gap-2.5 px-3 py-2 text-left hover:bg-[#EAF8FD] transition-colors border-b border-gray-50 last:border-0"
-            >
-              <span className="w-9 text-center text-xs font-bold text-[#08A9E0] bg-[#EAF8FD] rounded-lg py-1 shrink-0">{r.code}</span>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-[#172033] truncate">{r.city}{(r as { state?: string }).state ? `, ${(r as { state?: string }).state}` : ''}</p>
-                <p className="text-[10px] text-[#667085] truncate">{r.name}</p>
-              </div>
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
-
 // ── Main form ─────────────────────────────────────────────────────────────────
 export default function FlightInquiryForm({ compact: _compact }: Props) {
   const { user, isAuthenticated } = useAuth()
   const [step, setStep] = useState<Step>('search')
   const [tripType, setTripType] = useState<'round-trip' | 'one-way' | 'multi-city'>('round-trip')
 
-  const [fromDisplay, setFromDisplay] = useState('')
-  const [fromIata, setFromIata]       = useState('')
-  const [toDisplay, setToDisplay]     = useState('')
-  const [toIata, setToIata]           = useState('')
-  const [departure, setDeparture]     = useState('')
-  const [returnDate, setReturn]       = useState('')
-  const [travellers, setTravellers]   = useState<Travellers>({ adults: 1, children: 0, infants: 0, class: 'economy' })
+  const [from, setFrom] = useState('')
+  const [to, setTo]     = useState('')
+  const [departure, setDeparture]   = useState('')
+  const [returnDate, setReturn]     = useState('')
+  const [travellers, setTravellers] = useState<Travellers>({ adults: 1, children: 0, infants: 0, class: 'economy' })
 
   const [name, setName]   = useState(isAuthenticated ? `${user?.firstName ?? ''} ${user?.lastName ?? ''}`.trim() : '')
   const [email, setEmail] = useState(isAuthenticated ? (user?.email ?? '') : '')
@@ -119,8 +33,10 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [submittedId, setSubmittedId]   = useState<string | null>(null)
 
+  const sameLocation = from.trim().toLowerCase() === to.trim().toLowerCase() && from.trim() !== ''
+
   const handleContinue = () => {
-    if (!fromIata || !toIata || !departure) {
+    if (!from.trim() || !to.trim() || !departure || sameLocation) {
       setFieldError(true)
       return
     }
@@ -144,8 +60,8 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
         name: name || undefined,
         email: email || undefined,
         phone: phone || undefined,
-        details: { tripType, from: fromDisplay, to: toDisplay, fromIata, toIata, departure, returnDate, travellers },
-        message: `Flight inquiry: ${fromDisplay}→${toDisplay}, ${departure}${returnDate ? `–${returnDate}` : ''}, ${travellers.adults}A/${travellers.children}C/${travellers.infants}I, ${travellers.class}`,
+        details: { tripType, from, to, departure, returnDate, travellers },
+        message: `Flight inquiry: ${from}→${to}, ${departure}${returnDate ? `–${returnDate}` : ''}, ${travellers.adults}A/${travellers.children}C/${travellers.infants}I, ${travellers.class}`,
       })
       setSubmittedId(id)
     } catch {
@@ -172,12 +88,10 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <AirportInput label="From" value={fromDisplay} iataCode={fromIata}
-          onChange={(d, c) => { setFromDisplay(d); setFromIata(c); setFieldError(false) }}
-          placeholder="City or airport" required error={fieldError} />
-        <AirportInput label="To" value={toDisplay} iataCode={toIata}
-          onChange={(d, c) => { setToDisplay(d); setToIata(c); setFieldError(false) }}
-          placeholder="City or airport" required error={fieldError} />
+        <LocationInput label="From" value={from} onChange={v => { setFrom(v); setFieldError(false) }}
+          placeholder="City or country" required error={fieldError && !from.trim() ? 'Required' : undefined} />
+        <LocationInput label="To" value={to} onChange={v => { setTo(v); setFieldError(false) }}
+          placeholder="City or country" required error={fieldError && !to.trim() ? 'Required' : sameLocation ? 'Must differ from origin' : undefined} />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -191,8 +105,11 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
 
       <TravellerSelector value={travellers} onChange={setTravellers} showClass />
 
-      {fieldError && (!fromIata || !toIata || !departure) && (
+      {fieldError && (!from.trim() || !to.trim() || !departure) && (
         <p className="text-xs text-red-500">Please fill in origin, destination and departure date.</p>
+      )}
+      {fieldError && sameLocation && (
+        <p className="text-xs text-red-500">Origin and destination cannot be the same.</p>
       )}
 
       <Button type="button" variant="primary" className="w-full" onClick={handleContinue}>
@@ -216,7 +133,7 @@ export default function FlightInquiryForm({ compact: _compact }: Props) {
 
       <div className="p-2.5 bg-[#EAF8FD] rounded-control border border-[#08A9E0]/20 text-xs">
         <p className="font-semibold text-[#101B46]">
-          {fromDisplay} → {toDisplay}
+          {from} → {to}
         </p>
         <p className="text-[#667085]">
           {departure}{returnDate ? ` – ${returnDate}` : ''} · {travellers.adults} adult{travellers.adults > 1 ? 's' : ''}
