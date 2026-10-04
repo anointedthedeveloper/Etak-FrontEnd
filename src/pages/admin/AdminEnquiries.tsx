@@ -7,6 +7,17 @@ import { EmptyState, LoadingState } from '../../components/ui/States'
 import { LoadMore } from '../../components/ui/Pagination'
 import { supabase } from '../../lib/supabase'
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string
+
+async function sendEmailReply(to: string, toName: string, subject: string, body: string) {
+  const { data: { session } } = await supabase.auth.getSession()
+  await fetch(`${SUPABASE_URL}/functions/v1/send-reply`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` },
+    body: JSON.stringify({ to, to_name: toName, subject, body }),
+  })
+}
+
 interface Response {
   id: string
   message: string
@@ -97,8 +108,14 @@ export default function AdminEnquiries() {
       is_admin: true,
     })
     await supabase.from('inquiries').update({ status: 'responded' }).eq('id', selected.id)
+    // Send email notification to the enquirer
+    await sendEmailReply(
+      selected.email,
+      selected.name,
+      `Re: Your enquiry${selected.service ? ` – ${selected.service}` : ''}`,
+      responseText.trim()
+    )
     setResponseText('')
-    // Reload responses
     const { data } = await supabase
       .from('inquiry_responses')
       .select('id, message, created_at, is_admin')
@@ -295,7 +312,7 @@ export default function AdminEnquiries() {
                     </Button>
                   </div>
                   <p className="text-xs text-[#667085] mt-1.5 flex items-center gap-1">
-                    <Reply size={11} /> Press Enter to send, Shift+Enter for new line
+                    <Reply size={11} /> Press Enter to send · <Mail size={11} /> Email will be sent to {selected.email}
                   </p>
                 </div>
               )}
