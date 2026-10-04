@@ -91,6 +91,18 @@ export const authService = {
     if (error) throw new Error(error.message)
     if (!data.user) throw new Error('Sign in failed. Please try again.')
 
+    // Block admin accounts from signing in via the normal login
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', data.user.id)
+      .single()
+
+    if (profile?.role === 'admin') {
+      await supabase.auth.signOut()
+      throw new Error('Invalid email or password.')
+    }
+
     return { user: mapUser(data.user) }
   },
 
