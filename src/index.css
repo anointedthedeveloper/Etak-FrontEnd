@@ -233,7 +233,8 @@ select:-webkit-autofill {
   transform: perspective(900px) rotateX(8deg) translateY(16px);
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.2,.7,.3,1);
 }
-.reveal-flip.visible { opacity: 1; transform: perspective(900px) rotateX(0deg) translateY(0); }
+.reveal-flip.visible,
+.reveal-flip[data-visible="true"] { opacity: 1; transform: perspective(900px) rotateX(0deg) translateY(0); }
 
 /* Shimmer skeleton — loading placeholder for images/blocks */
 @keyframes skeleton-sweep {
@@ -308,13 +309,17 @@ select:-webkit-autofill {
 
 /* Scroll-triggered reveal — set by useInView hook */
 .reveal            { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
-.reveal.visible    { opacity: 1; transform: translateY(0); }
+.reveal.visible,
+.reveal[data-visible="true"] { opacity: 1; transform: translateY(0); }
 .reveal-left       { opacity: 0; transform: translateX(-32px); transition: opacity 0.65s ease, transform 0.65s ease; }
-.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-left.visible,
+.reveal-left[data-visible="true"] { opacity: 1; transform: translateX(0); }
 .reveal-right      { opacity: 0; transform: translateX(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
-.reveal-right.visible { opacity: 1; transform: translateX(0); }
+.reveal-right.visible,
+.reveal-right[data-visible="true"] { opacity: 1; transform: translateX(0); }
 .reveal-scale      { opacity: 0; transform: scale(0.93); transition: opacity 0.6s ease, transform 0.6s ease; }
-.reveal-scale.visible { opacity: 1; transform: scale(1); }
+.reveal-scale.visible,
+.reveal-scale[data-visible="true"] { opacity: 1; transform: scale(1); }
 
 /* Stagger delays for child elements */
 .stagger-1  { transition-delay: 0.05s; }

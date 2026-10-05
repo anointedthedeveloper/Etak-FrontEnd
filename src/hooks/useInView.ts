@@ -43,7 +43,7 @@ export function useInView<T extends HTMLElement = HTMLDivElement>(
 
 /**
  * Attach to a container — all direct children with class `reveal`
- * get `.visible` added with staggered delays when the container enters view.
+ * get `.visible` / `data-visible` added with staggered delays when the container enters view.
  */
 export function useRevealChildren<T extends HTMLElement = HTMLDivElement>(
   options: UseInViewOptions = {}
@@ -60,7 +60,12 @@ export function useRevealChildren<T extends HTMLElement = HTMLDivElement>(
         if (entry.isIntersecting) {
           const children = Array.from(el.querySelectorAll<HTMLElement>('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-flip'))
           children.forEach((child, i) => {
-            setTimeout(() => child.classList.add('visible'), i * 70)
+            setTimeout(() => {
+              // data attribute (not just a class): React rewrites className on re-render,
+              // which would drop `.visible` and make the element vanish again.
+              child.classList.add('visible')
+              child.dataset.visible = 'true'
+            }, i * 70)
           })
           observer.disconnect()
         }
