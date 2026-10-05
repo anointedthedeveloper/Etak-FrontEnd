@@ -9,20 +9,24 @@ import { useRevealChildren } from '../hooks/useInView'
 
 // Airline partner logos — stored locally in public/partners/
 const AIRLINE_PARTNERS = [
+  { name: 'British Airways',     logo: '/partners/britishairways.svg' },
   { name: 'Air France',          logo: '/partners/airfrance.svg' },
-  { name: 'Qatar Airways',       logo: '/partners/qatar.svg' },
+  { name: 'KLM',                 logo: '/partners/klm.svg' },
   { name: 'Lufthansa',           logo: '/partners/lufthansa.svg' },
-  { name: 'Royal Air Maroc',     logo: '/partners/royalairmaroc.svg' },
-  { name: 'Virgin Atlantic',     logo: '/partners/virgin.svg' },
-  { name: 'Saudia',              logo: '/partners/saudia.svg' },
-  { name: 'Air India',           logo: '/partners/airindia.svg' },
   { name: 'Emirates',            logo: '/partners/emirates.svg' },
+  { name: 'Etihad Airways',      logo: '/partners/etihad.svg' },
+  { name: 'Turkish Airlines',    logo: '/partners/turkish.svg' },
+  { name: 'Ethiopian Airlines',  logo: '/partners/ethiopian.svg' },
+  { name: 'EgyptAir',            logo: '/partners/egyptair.svg' },
+  { name: 'Saudia',              logo: '/partners/saudia.svg' },
+  { name: 'Royal Air Maroc',     logo: '/partners/royalairmaroc.svg' },
+  { name: 'Qatar Airways',       logo: '/partners/qatar.svg' },
+  { name: 'Virgin Atlantic',     logo: '/partners/virgin.svg' },
+  { name: 'Air India',           logo: '/partners/airindia.svg' },
   { name: 'South African Airways', logo: '/partners/saa.svg' },
   { name: 'Afriqiyah',           logo: '/partners/afriqiyah.svg' },
   { name: 'Arik Air',            logo: '/partners/arik.svg' },
   { name: 'Delta',               logo: '/partners/delta.svg' },
-  { name: 'EgyptAir',            logo: '/partners/egyptair.svg' },
-  { name: 'Ethiopian Airlines',  logo: '/partners/ethiopian.svg' },
   { name: 'Aero',                logo: null },
 ]
 
@@ -309,24 +313,27 @@ export default function About() {
       <section className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="site-gutter w-full">
           <SectionHeader eyebrow="Our People" title="Meet the Team" centered />
-          <div ref={teamRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+          <div ref={teamRef} className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
             {[
-              { name: 'Kate Aina Tabu',       role: 'Managing Director',        photo: '/team/kate-aina-tabu.jpg' },
-              { name: 'Victor Ernest',         role: 'Business Development',     photo: '/team/victor-ernest.jpg' },
-              { name: 'Fautina Ugwu',          role: 'Ticketing & Reservations', photo: null },
-              { name: 'Glory Lisa Uche',       role: 'Accounts',                 photo: null },
-              { name: 'Charity Azebeokha',     role: 'Marketing Executive',      photo: null },
+              { name: 'Kate Aina Tabu',    role: 'Managing Director',    photo: '/team/kate-aina-tabu.jpg' },
+              { name: 'Victor Ernest',     role: 'Business Development', photo: '/team/victor-ernest.jpg' },
+              { name: 'Charity Azebeokha', role: 'Marketing Executive',  photo: null },
             ].map(({ name, role, photo }, i) => (
-              <div key={name} className={`reveal stagger-${i + 1} group bg-[#F8FAFC] rounded-card border border-gray-100 p-4 text-center transition-all duration-200 hover:border-[#08A9E0]/30 hover:-translate-y-0.5 hover:shadow-card`}>
-                {photo ? (
-                  <img src={photo} alt={`${name}, ${role}`} loading="lazy" className="w-20 h-20 rounded-full object-cover object-top mx-auto mb-3 ring-4 ring-white shadow-sm transition-transform duration-200 group-hover:scale-105" />
-                ) : (
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#101B46] to-[#087EAF] flex items-center justify-center mx-auto mb-3 ring-4 ring-white shadow-sm transition-transform duration-200 group-hover:scale-105">
-                    <span className="text-white font-bold text-lg">{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
-                  </div>
-                )}
-                <p className="font-semibold text-[#101B46] text-sm leading-snug">{name}</p>
-                <p className="text-[#667085] text-xs mt-1">{role}</p>
+              <div key={name} className={`reveal stagger-${i + 1} group relative bg-white rounded-card border border-gray-100 shadow-card overflow-hidden px-6 pt-8 pb-6 text-center transition-all duration-300 hover:border-[#08A9E0]/40 hover:-translate-y-1 hover:shadow-panel`}>
+                {/* Accent band behind the portrait */}
+                <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-br from-[#101B46] to-[#087EAF]" />
+                <div className="absolute inset-x-0 top-0 h-24 opacity-20 dot-grid" />
+                <div className="relative">
+                  {photo ? (
+                    <img src={photo} alt={`${name}, ${role}`} loading="lazy" className="w-28 h-28 rounded-full object-cover object-top mx-auto ring-4 ring-white shadow-md transition-transform duration-300 group-hover:scale-105" />
+                  ) : (
+                    <div className="w-28 h-28 rounded-full bg-gradient-to-br from-[#08A9E0] to-[#087EAF] flex items-center justify-center mx-auto ring-4 ring-white shadow-md transition-transform duration-300 group-hover:scale-105">
+                      <span className="text-white font-display font-bold text-3xl">{name.split(' ').map(n => n[0]).slice(0, 2).join('')}</span>
+                    </div>
+                  )}
+                  <p className="font-display font-bold text-[#101B46] text-lg leading-snug mt-4">{name}</p>
+                  <span className="inline-block mt-2 px-3 py-1 rounded-full bg-[#EAF8FD] text-[#087EAF] text-xs font-semibold">{role}</span>
+                </div>
               </div>
             ))}
           </div>
